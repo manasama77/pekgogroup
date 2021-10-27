@@ -30,21 +30,22 @@ class Customer_model extends CI_Model
         if ($field != null && $status != null) {
             $this->db->select($this->select);
             $this->db->from('customers');
+            $this->db->where('customers.status', $status);
             $this->db->where('customers.deleted_at', null);
 
             if ($field == 'all') {
-                $this->db->like('customers.whatsapp', $keyword);
-                $this->db->or_like('customers.name', $keyword);
-                $this->db->or_like('customers.id_tokped', $keyword);
-                $this->db->or_like('customers.id_shopee', $keyword);
-                $this->db->or_like('customers.id_instagram', $keyword);
-                $this->db->or_like('customers.order_total', $keyword);
+                $this->db
+                    ->group_start()
+                    ->like('customers.whatsapp', $keyword)
+                    ->or_like('customers.name', $keyword)
+                    ->or_like('customers.id_tokped', $keyword)
+                    ->or_like('customers.id_shopee', $keyword)
+                    ->or_like('customers.id_instagram', $keyword)
+                    ->or_like('customers.order_total', $keyword)
+                    ->group_end();
             } else {
                 $this->db->like('customers.' . $field, $keyword);
             }
-
-            $this->db->where('customers.status', $status);
-
 
             $this->db->order_by('customers.id', 'asc');
             $exec = $this->db->get();

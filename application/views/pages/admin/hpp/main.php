@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Warna</h1>
+                <h1 class="m-0">HPP</h1>
             </div>
         </div>
         <div class="row">
@@ -45,7 +45,8 @@
             <div class="col-lg-8">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Warna List</h3>
+                        <h3 class="card-title">HPP List</h3>
+
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -60,7 +61,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th>NAMA WARNA</th>
+                                    <th>NAMA HPP</th>
+                                    <th>HPP</th>
+                                    <th>SATUAN</th>
                                     <th class="text-center"><i class="fas fa-cogs"></i></th>
                                 </tr>
                             </thead>
@@ -70,11 +73,13 @@
                                 foreach ($list->result() as $key) {
                                 ?>
                                     <tr>
-                                        <td class="text-center"><?= $itteration++; ?></td>
+                                        <td><?= $itteration++; ?></td>
                                         <td><?= $key->name; ?></td>
+                                        <td>Rp.<?= number_format($key->cost, 0); ?></td>
+                                        <td><?= $key->unit_name; ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('setup/parameter/warna/' . $key->id); ?>" class="btn btn-info">EDIT</a>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
+                                            <button type="button" class="btn btn-info">EDIT</button>
+                                            <button type="button" class="btn btn-danger">DELETE</button>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -85,10 +90,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <form action="<?= base_url('setup/parameter/warna'); ?>" method="post">
+                <form action="<?= base_url('hpp/index'); ?>" method="post">
                     <div class="card card-dark">
                         <div class="card-header">
-                            <h3 class="card-title">Tambah Warna</h3>
+                            <h3 class="card-title">Tambah HPP</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -98,12 +103,27 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">NAMA WARNA</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA WARNA" minlength="3" maxlength="20" value="<?= set_value('name'); ?>" required>
+                                <label for="name">NAMA HPP</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA HPP" minlength="3" maxlength="20" value="<?= set_value('name'); ?>" required>
                                 <?= form_error('name'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="cost">HPP</label>
+                                <input type="number" class="form-control" id="cost" name="cost" placeholder="HPP" min="0" max="1000000000" value="<?= set_value('cost'); ?>" required>
+                                <?= form_error('cost'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="unit_id">SATUAN</label>
+                                <select class="form-control" id="unit_id" name="unit_id" required>
+                                    <?php foreach ($units->result() as $unit) { ?>
+                                        <option value="<?= $unit->id; ?>"><?= $unit->name; ?></option>
+                                    <?php } ?>
+                                </select>
+                                <?= form_error('cost'); ?>
                             </div>
                         </div>
                         <div class="card-footer">
+                            <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
                         </div>
                     </div>

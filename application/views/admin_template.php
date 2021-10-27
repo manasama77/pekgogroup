@@ -30,7 +30,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-4 sidebar-dark-purple">
             <!-- Brand Logo -->
-            <a href="dashboard" class="brand-link navbar-purple">
+            <a href="<?= base_url('dashboard'); ?>" class="brand-link navbar-purple">
                 <img src="<?= $theme_logo; ?>" alt="<?= $theme_name; ?>" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light"><?= $theme_name; ?></span>
             </a>
@@ -93,6 +93,7 @@
     <script src="<?= base_url(); ?>assets/js/jquery.blockUI.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url(); ?>assets/js/adminlte.min.js"></script>
+    <script src="<?= base_url(); ?>assets/js/adam_helper.js"></script>
 </body>
 
 </html>

@@ -58,11 +58,33 @@ $route['logout'] = 'login/logout';
 
 $route['dashboard'] = 'dashboard/index';
 
-$route['customer/index'] = 'customer/index';
-$route['customer/add']   = 'customer/add';
+$route['customer/index']                    = 'customer/index';
+$route['customer/add']                      = 'customer/add';
+$route['customer/destroy/(:num)']['delete'] = 'customer/destroy/$1';
+$route['customer/edit/(:num)']['post']      = 'customer/edit/$1';
+$route['customer/edit/(:num)']['get']       = 'customer/edit/$1';
+$route['customer/status/(:any)/(:num)']     = 'customer/status/$1/$2';
+$route['customer/blokir']                   = 'customer/blokir';
+
+$route['admin/index']                    = 'admin/index';
+$route['admin/add']                      = 'admin/add';
+$route['admin/destroy/(:num)']['delete'] = 'admin/destroy/$1';
+$route['admin/edit/(:num)']['post']      = 'admin/edit/$1';
+$route['admin/edit/(:num)']['get']       = 'admin/edit/$1';
+$route['admin/blokir']                   = 'admin/blokir';
+
+$route['produk/index']                    = 'produk/index';
+$route['produk/add']                      = 'produk/add';
+$route['produk/destroy/(:num)']['delete'] = 'produk/destroy/$1';
+$route['produk/edit/(:num)']['post']      = 'produk/edit/$1';
+$route['produk/edit/(:num)']['get']       = 'produk/edit/$1';
+$route['produk/status/(:any)/(:num)']     = 'produk/status/$1/$2';
+$route['produk/blokir']                   = 'produk/blokir';
 
 // setup
-$route['setup/project'] = 'project/index';
+$route['setup/project']  = 'project/index';
+$route['setup/karyawan'] = 'karyawan/index';
+$route['setup/hpp']      = 'hpp/index';
 
 $route['setup/parameter/satuan']                  = 'satuan/index';
 $route['setup/parameter/satuan/(:num)']['delete'] = 'satuan/destroy/$1';

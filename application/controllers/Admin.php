@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Customer extends CI_Controller
+class Admin extends CI_Controller
 {
     private $cur_datetime;
 
@@ -12,58 +12,34 @@ class Customer extends CI_Controller
         $this->load->library('Admin_auth', null, 'auth');
         $this->load->library('Admin_template', null, 'theme');
         $this->auth->check_session();
-        $this->load->model('Customer_model');
+        $this->load->model('Admin_model');
         $this->cur_datetime = new DateTime('now');
+        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
+            redirect('logout', 'location');
+        }
     }
 
     public function index()
     {
-        $field   = ($this->input->get('field')) ? $this->input->get('field') : null;
-        $status  = ($this->input->get('status')) ? $this->input->get('status') : null;
-        $keyword = ($this->input->get('keyword')) ? trim($this->input->get('keyword')) : '';
-
-        $list = $this->Customer_model->get_all_data($field, $status, $keyword);
-
-        $field_show = '';
-        $status_show = '';
-
-        if ($field != null) {
-            if ($field == 'all') {
-                $field_show = "SEMUA";
-            } elseif ($field == 'id_tokped') {
-                $field_show = "ID TOKPED";
-            } elseif ($field == 'id_shopee') {
-                $field_show = "ID SHOPEE";
-            } elseif ($field == 'id_instagram') {
-                $field_show = "ID INSTAGRAM";
-            } else {
-                $field_show = strtoupper($field);
-            }
-        }
-
-        if ($status != null) {
-            $status_show = strtoupper($status);
-        }
+        $list = $this->Admin_model->get_all_data();
 
         $data = array(
-            'title'        => 'Customer',
-            'page'         => 'customer/main',
-            'vitamin'      => 'customer/main_vitamin',
-            'field_show'   => $field_show,
-            'status_show'  => $status_show,
-            'keyword_show' => $keyword,
-            'list'         => $list,
-            'error'        => null,
+            'title'   => 'Admin',
+            'page'    => 'admin/main',
+            'vitamin' => 'admin/main_vitamin',
+            'list'    => $list,
+            'error'   => null,
         );
         $this->theme->render($data);
     }
 
     public function add()
     {
-        $this->form_validation->set_rules('whatsapp', 'WHATSAPP', 'required|is_unique[customers.whatsapp]');
+        $this->form_validation->set_rules('whatsapp', 'NO WHATSAPP', 'required|is_unique[admins.whatsapp]');
         $this->form_validation->set_rules('password', 'PASSWORD', 'required');
         $this->form_validation->set_rules('password_verifikasi', 'PASSWORD VERIFIKASI', 'required|matches[password]');
         $this->form_validation->set_rules('name', 'NAMA', 'required');
+        $this->form_validation->set_rules('role', 'ROLE', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
@@ -71,8 +47,9 @@ class Customer extends CI_Controller
                 'hash' => $this->security->get_csrf_hash()
             );
             $data = array(
-                'title'   => 'Customer',
-                'page'    => 'customer/form',
+                'title'   => 'Admin',
+                'page'    => 'admin/form',
+                'vitamin' => 'admin/form_vitamin',
                 'csrf'    => $csrf,
                 'error'   => null,
             );
@@ -84,34 +61,30 @@ class Customer extends CI_Controller
 
     protected function store()
     {
-        $whatsapp     = $this->input->post('whatsapp');
-        $password     = PASSWORD_HASH($this->input->post('password') . HASH_SLING_SLICER, PASSWORD_BCRYPT);
-        $name         = $this->input->post('name');
-        $id_tokped    = $this->input->post('id_tokped');
-        $id_shopee    = $this->input->post('id_shopee');
-        $id_instagram = $this->input->post('id_instagram');
+        $whatsapp = $this->input->post('whatsapp');
+        $password = PASSWORD_HASH($this->input->post('password') . HASH_SLING_SLICER, PASSWORD_BCRYPT);
+        $name     = $this->input->post('name');
+        $role     = $this->input->post('role');
 
         $data = array(
-            'whatsapp'     => $whatsapp,
-            'password'     => $password,
-            'name'         => $name,
-            'id_tokped'    => $id_tokped,
-            'id_shopee'    => $id_shopee,
-            'id_instagram' => $id_instagram,
-            'created_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'   => $this->session->userdata('id'),
-            'updated_by'   => $this->session->userdata('id'),
+            'whatsapp'   => $whatsapp,
+            'password'   => $password,
+            'name'       => $name,
+            'role'       => $role,
+            'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id'),
+            'updated_by' => $this->session->userdata('id'),
         );
-        $exec = $this->Customer_model->store($data);
+        $exec = $this->Admin_model->store($data);
 
         if (!$exec) {
-            echo "Tambah Customer gagal, silahkan coba kembali!";
+            echo "Tambah Admin gagal, silahkan coba kembali!";
         }
 
-        $this->session->set_flashdata('success', 'Tambah Customer Berhasil');
+        $this->session->set_flashdata('success', 'Tambah Admin Berhasil');
         session_write_close();
-        redirect(base_url() . 'customer/index', 'location');
+        redirect(base_url() . 'admin/index', 'location');
     }
 
     public function edit($id)
@@ -124,10 +97,10 @@ class Customer extends CI_Controller
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
-            $list = $this->Customer_model->get_single_data('id', $id);
+            $list = $this->Admin_model->get_single_data('id', $id);
             $data = array(
-                'title' => 'Customer Edit',
-                'page'  => 'customer/form_edit',
+                'title' => 'Admin Edit',
+                'page'  => 'admin/form_edit',
                 'csrf'  => $csrf,
                 'list'  => $list,
                 'error' => null,
@@ -149,17 +122,17 @@ class Customer extends CI_Controller
             'updated_by'   => $this->session->userdata('id'),
         );
         $where = array('id' => $id);
-        $exec  = $this->Customer_model->update($data, $where);
+        $exec  = $this->Admin_model->update($data, $where);
 
         if (!$exec) {
-            $this->session->set_flashdata('error', 'Edit Customer Gagal');
+            $this->session->set_flashdata('error', 'Edit Admin Gagal');
             session_write_close();
-            redirect(base_url() . 'customer/index', 'location');
+            redirect(base_url() . 'admin/index', 'location');
         }
 
-        $this->session->set_flashdata('success', 'Edit Customer Berhasil');
+        $this->session->set_flashdata('success', 'Edit Admin Berhasil');
         session_write_close();
-        redirect(base_url() . 'customer/index', 'location');
+        redirect(base_url() . 'admin/index', 'location');
     }
 
     public function destroy($id)
@@ -169,7 +142,7 @@ class Customer extends CI_Controller
             'deleted_by' => $this->session->userdata('id'),
         );
         $where = array('id' => $id);
-        $exec  = $this->Customer_model->destroy($data, $where);
+        $exec  = $this->Admin_model->destroy($data, $where);
 
         if (!$exec) {
             $return = ['code' => 500];
@@ -188,16 +161,16 @@ class Customer extends CI_Controller
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by' => $this->session->userdata('id'),
         );
-        $where = array('customers.id' => $id);
-        $exec  = $this->Customer_model->update($data, $where);
+        $where = array('admins.id' => $id);
+        $exec  = $this->Admin_model->update($data, $where);
 
         if (!$exec) {
-            $this->session->set_flashdata('error', 'Update status customer Gagal');
+            $this->session->set_flashdata('error', 'Update status admin Gagal');
             session_write_close();
             redirect($_SERVER['HTTP_REFERER'], 'location');
         }
 
-        $this->session->set_flashdata('success', 'Update status customer Berhasil');
+        $this->session->set_flashdata('success', 'Update status admin Berhasil');
         session_write_close();
         redirect($_SERVER['HTTP_REFERER'], 'location');
     }
@@ -215,7 +188,7 @@ class Customer extends CI_Controller
         );
 
         $where = array('id' => $id);
-        $exec  = $this->Customer_model->update($data, $where);
+        $exec  = $this->Admin_model->update($data, $where);
 
         if (!$exec) {
             $return = ['code' => 500];
@@ -227,4 +200,4 @@ class Customer extends CI_Controller
     }
 }
         
-    /* End of file  Customer.php */
+    /* End of file  Admin.php */

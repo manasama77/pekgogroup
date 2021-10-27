@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Warna</h1>
+                <h1 class="m-0">Karyawan</h1>
             </div>
         </div>
         <div class="row">
@@ -45,7 +45,8 @@
             <div class="col-lg-8">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Warna List</h3>
+                        <h3 class="card-title">Karyawan List</h3>
+
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -59,22 +60,23 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="text-center">#</th>
-                                    <th>NAMA WARNA</th>
+                                    <th class="text-center">PHOTO</th>
+                                    <th>NAMA KARYAWAN</th>
+                                    <th>ROLE</th>
                                     <th class="text-center"><i class="fas fa-cogs"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $itteration = 1;
-                                foreach ($list->result() as $key) {
-                                ?>
+                                <?php for ($i = 0; $i < count($list); $i++) { ?>
                                     <tr>
-                                        <td class="text-center"><?= $itteration++; ?></td>
-                                        <td><?= $key->name; ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('setup/parameter/warna/' . $key->id); ?>" class="btn btn-info">EDIT</a>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
+                                            <img class="img-thumbnail" src="<?= $list[$i]['path_photo']; ?>" alt="Logo" style="width: 80px;">
+                                        </td>
+                                        <td><?= $list[$i]['name']; ?></td>
+                                        <td>PETUGAS <?= strtoupper($list[$i]['role']); ?></td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-info">EDIT</button>
+                                            <button type="button" class="btn btn-danger">DELETE</button>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -85,10 +87,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <form action="<?= base_url('setup/parameter/warna'); ?>" method="post">
+                <form action="<?= base_url('karyawan/index'); ?>" method="post" enctype="multipart/form-data">
                     <div class="card card-dark">
                         <div class="card-header">
-                            <h3 class="card-title">Tambah Warna</h3>
+                            <h3 class="card-title">Tambah Karyawan</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -98,12 +100,46 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">NAMA WARNA</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA WARNA" minlength="3" maxlength="20" value="<?= set_value('name'); ?>" required>
+                                <label for="name">NAMA KARYAWAN</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA KARYAWAN" minlength="4" maxlength="16" value="<?= set_value('name'); ?>" required>
                                 <?= form_error('name'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label>ROLE</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="role_potong_kain" value="potong kain" <?= set_radio('role', 'potong kain', true); ?>>
+                                    <label class="form-check-label" for="role_potong_kain">
+                                        Petugas Potong Kain
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="role_penjahit" value="penjahit" <?= set_radio('role', 'penjahit', false); ?>>
+                                    <label class="form-check-label" for="role_penjahit">
+                                        Petugas Penjahit
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="role_qc" value="qc" <?= set_radio('role', 'qc', false); ?>>
+                                    <label class="form-check-label" for="role_qc">
+                                        Petugas QC
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="role_aksesoris" value="aksesoris" <?= set_radio('role', 'aksesoris', false); ?>>
+                                    <label class="form-check-label" for="role_aksesoris">
+                                        Petugas Aksesoris
+                                    </label>
+                                </div>
+                                <?= form_error('role'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="path_photo">PHOTO</label>
+                                <input type="file" class="form-control" id="path_photo" name="path_photo" placeholder="PHOTO" accept=".jpg, .png, .jpeg" capture files required>
+                                <?= form_error('path_photo'); ?>
                             </div>
                         </div>
                         <div class="card-footer">
+                            <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
                         </div>
                     </div>

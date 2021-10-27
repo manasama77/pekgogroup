@@ -95,11 +95,13 @@
         </div>
         <div class="row">
             <div class="col-sm-12 col-lg-3">
-                <blockquote>
-                    <p>Total Data: <?= number_format($list->num_rows(), 0); ?> Data</p>
-                    <p>Cari Berdasarkan: <?= strtoupper($field_show); ?></p>
-                    <p>Status Member: <?= strtoupper($status_show); ?></p>
-                    <p>Keyword: <?= strtoupper($keyword_show); ?></p>
+                <blockquote class="elevation-2">
+                    <p>
+                        Total Data: <?= number_format($list->num_rows(), 0); ?> Data<br />
+                        Cari Berdasarkan: <?= strtoupper($field_show); ?><br />
+                        Status Member: <?= strtoupper($status_show); ?><br />
+                        Keyword: <?= strtoupper($keyword_show); ?>
+                    </p>
                 </blockquote>
             </div>
         </div>
@@ -130,8 +132,14 @@
                                     <td><?= $key->id_instagram; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>STATUS</td>
-                                    <td><?= strtoupper($key->status); ?></td>
+                                    <td style="vertical-align: top;">STATUS</td>
+                                    <td>
+                                        <?= strtoupper($key->status); ?>
+                                        <?php if ($key->status == 'tidak aktif') { ?>
+                                            <br />
+                                            <?= $key->reason_inactive; ?>
+                                        <?php } ?>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>JUMLAH ORDER</td>
@@ -139,7 +147,7 @@
                                 </tr>
                                 <tr>
                                     <td>GRAND TOTAL ORDER</td>
-                                    <td><?= number_format($key->order_total, 0); ?></td>
+                                    <td>Rp.<?= number_format($key->order_total, 0); ?></td>
                                 </tr>
                                 <tr>
                                     <td>PEMBATALAN ORDER</td>
@@ -152,15 +160,19 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-info btn-block btn-xs btn-flat">UBAH</a>
+                                        <a href="<?= base_url('customer/edit/' . $key->id); ?>" class="btn btn-info btn-block btn-xs btn-flat">EDIT</a>
                                     </td>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-danger btn-block btn-xs btn-flat">HAPUS</a>
+                                        <button type="button" class="btn btn-danger btn-block btn-xs btn-flat" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">HAPUS</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-success  btn-block btn-xs btn-flat">AKTIFKAN</a>
+                                        <?php if ($key->status == "aktif") { ?>
+                                            <button type="button" class="btn btn-danger btn-block btn-xs btn-flat" onclick="modalBlokir(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">BLOKIR</button>
+                                        <?php } else { ?>
+                                            <a href="<?= base_url('customer/status/aktifkan/' . $key->id); ?>" class="btn btn-success btn-block btn-xs btn-flat">AKTIFKAN</a>
+                                        <?php } ?>
                                     </td>
                                     <td class="p-0">
                                         <a href="#" class="btn btn-secondary  btn-block btn-xs btn-flat">RESET PASSWORD</a>
@@ -175,4 +187,36 @@
         </div>
     <?php } ?>
 </div>
-</div>
+
+<!-- Modal -->
+<form id="form_blokir">
+    <div class="modal fade" id="modal_blokir" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Blokir Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="whatsapp_blokir">WHATSAPP</label>
+                            <input type="text" class="form-control" id="whatsapp_blokir" name="whatsapp_blokir" placeholder="WHATSAPP" readonly required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason_inactive">ALASAN BLOKIR</label>
+                            <textarea class="form-control" id="reason_inactive" name="reason_inactive" minlength="3" placeholder="Masukan Alsan Blokir" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="id_blokir" name="id_blokir">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Blokir Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
