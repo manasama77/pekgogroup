@@ -30,24 +30,16 @@ class Hpp_model extends CI_Model
         return $exec;
     }
 
-    public function get_single_data($keyword)
+    public function get_single_data($field, $keyword)
     {
         $this->db->select($this->select);
         $this->db->from('hpps');
-        $this->db->where('hpps.cost', $keyword);
+        $this->db->join('units', 'units.id = hpps.unit_id', 'left');
+        $this->db->where($field, $keyword);
         $this->db->where('hpps.deleted_at', null);
         $this->db->order_by('hpps.id', 'asc');
         $exec = $this->db->get();
-
-        if ($exec->num_rows() == 0) {
-            $result['name'] = 'Pekgo Group';
-            $result['logo'] = base_url() . 'assets/img/AdminLTELogo.png';
-        } else {
-            $result['name'] = $exec->row()->name;
-            $result['logo'] = base_url() . 'assets/img/hpps/' . $exec->row()->unit_id;
-        }
-
-        return $result;
+        return $exec;
     }
 
 

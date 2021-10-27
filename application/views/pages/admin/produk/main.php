@@ -60,40 +60,48 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>NAMA</th>
-                                        <th>NO WA</th>
-                                        <th>ROLE</th>
-                                        <th>STATUS</th>
-                                        <th class="text-center" style="width: 340px;"><i class="fas fa-cogs"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $itteration = 1;
-                                    foreach ($list->result() as $key) {
-                                    ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="width: 100%;">
+                                    <thead>
                                         <tr>
-                                            <td class="text-center"><?= $itteration++; ?></td>
-                                            <td><?= $key->name; ?></td>
-                                            <td><?= $key->whatsapp; ?></td>
-                                            <td><?= strtoupper($key->role); ?></td>
-                                            <td><?= strtoupper($key->status); ?></td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a href="<?= base_url('produk/edit/' . $key->id); ?>" class="btn btn-info btn-sm">EDIT</a>
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">DELETE</button>
-                                                    <button type="button" class="btn btn-success btn-sm" onclick="X(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">AKTIFKAN</button>
-                                                    <button type="button" class="btn btn-dark btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">RESET PASSWORD</button>
-                                                </div>
-                                            </td>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">GAMBAR</th>
+                                            <th>KODE PRODUK</th>
+                                            <th>NAMA PRODUK</th>
+                                            <th>WARNA</th>
+                                            <th>UKURAN</th>
+                                            <th>REQUEST</th>
+                                            <th>HPP</th>
+                                            <th class="text-center" style="width: 100px;"><i class="fas fa-cogs"></i></th>
                                         </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $itteration = 1;
+                                        for ($i = 0; $i < count($list); $i++) {
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= $itteration++; ?></td>
+                                                <td class="text-center">
+                                                    <img class="img-thumbnail" src="<?= base_url('assets/img/products/' . $list[$i]['path_image']); ?>" alt="<?= $list[$i]['path_image']; ?>" style="width: 100px;">
+                                                </td>
+                                                <td><?= $list[$i]['code']; ?></td>
+                                                <td><?= $list[$i]['name']; ?></td>
+                                                <td><?= $list[$i]['colors']; ?></td>
+                                                <td><?= $list[$i]['sizes']; ?></td>
+                                                <td><?= $list[$i]['requests']; ?></td>
+                                                <td><?= $list[$i]['hpps']; ?></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <a href="<?= base_url('produk/edit/' . $list[$i]['id']); ?>" class="btn btn-info btn-sm">EDIT</a>
+                                                        <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $list[$i]['id']; ?>, '<?= $list[$i]['name']; ?>');">DELETE</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

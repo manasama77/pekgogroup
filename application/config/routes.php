@@ -73,13 +73,14 @@ $route['admin/edit/(:num)']['post']      = 'admin/edit/$1';
 $route['admin/edit/(:num)']['get']       = 'admin/edit/$1';
 $route['admin/blokir']                   = 'admin/blokir';
 
-$route['produk/index']                    = 'produk/index';
-$route['produk/add']                      = 'produk/add';
-$route['produk/destroy/(:num)']['delete'] = 'produk/destroy/$1';
-$route['produk/edit/(:num)']['post']      = 'produk/edit/$1';
-$route['produk/edit/(:num)']['get']       = 'produk/edit/$1';
-$route['produk/status/(:any)/(:num)']     = 'produk/status/$1/$2';
-$route['produk/blokir']                   = 'produk/blokir';
+$route['produk/index']                        = 'produk/index';
+$route['produk/add']                          = 'produk/add';
+$route['produk/hpp/render']['get']            = 'produk/render_hpp';
+$route['produk/hpp/store']['post']            = 'produk/store_hpp';
+$route['produk/destroy_hpp/(:num)']['delete'] = 'produk/destroy_hpp/$1';
+$route['produk/destroy/(:num)']['delete']     = 'produk/destroy/$1';
+$route['produk/edit/(:num)']['post']          = 'produk/edit/$1';
+$route['produk/edit/(:num)']['get']           = 'produk/edit/$1';
 
 // setup
 $route['setup/project']  = 'project/index';

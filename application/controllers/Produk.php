@@ -16,6 +16,7 @@ class Produk extends CI_Controller
         $this->load->model('Warna_model');
         $this->load->model('Ukuran_model');
         $this->load->model('Request_model');
+        $this->load->model('Hpp_model');
         $this->cur_datetime = new DateTime('now');
         if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
@@ -38,7 +39,7 @@ class Produk extends CI_Controller
 
     public function add()
     {
-        $this->form_validation->set_rules('code', 'KODE PRODUK', 'required|is_unique[produks.code]');
+        $this->form_validation->set_rules('code', 'KODE PRODUK', 'required');
         $this->form_validation->set_rules('name', 'NAMA PRODUK', 'required');
         $this->form_validation->set_rules('color_id[]', 'WARNA', 'required');
         $this->form_validation->set_rules('size_id[]', 'UKURAN', 'required');
@@ -50,19 +51,29 @@ class Produk extends CI_Controller
                 'hash' => $this->security->get_csrf_hash()
             );
 
-            $colors   = $this->Warna_model->get_all_data();
-            $sizes    = $this->Ukuran_model->get_all_data();
-            $requests = $this->Request_model->get_all_data();
+            $this->Produk_model->clear_temp();
+            $this->Produk_model->clear_hpp();
+
+            $exec_code  = $this->Produk_model->generate_code();
+            $id_product = $exec_code['id_product'];
+            $code       = $exec_code['code'];
+            $colors     = $this->Warna_model->get_all_data();
+            $sizes      = $this->Ukuran_model->get_all_data();
+            $requests   = $this->Request_model->get_all_data();
+            $hpps       = $this->Hpp_model->get_all_data();
 
             $data = array(
-                'title'    => 'Produk',
-                'page'     => 'produk/form',
-                'vitamin'  => 'produk/form_vitamin',
-                'colors'   => $colors,
-                'sizes'    => $sizes,
-                'requests' => $requests,
-                'csrf'     => $csrf,
-                'error'    => null,
+                'title'      => 'Produk',
+                'page'       => 'produk/form',
+                'vitamin'    => 'produk/form_vitamin',
+                'id_product' => $id_product,
+                'code'       => $code,
+                'colors'     => $colors,
+                'sizes'      => $sizes,
+                'requests'   => $requests,
+                'hpps'       => $hpps,
+                'csrf'       => $csrf,
+                'error'      => null,
             );
             $this->theme->render($data);
         } else {
@@ -72,30 +83,107 @@ class Produk extends CI_Controller
 
     protected function store()
     {
-        $whatsapp = $this->input->post('whatsapp');
-        $password = PASSWORD_HASH($this->input->post('password') . HASH_SLING_SLICER, PASSWORD_BCRYPT);
-        $name     = $this->input->post('name');
-        $role     = $this->input->post('role');
+        // echo '<pre>' . print_r($this->input->post(), 1) . '</pre>';
+        // exit;
+        $id_product = $this->input->post('id_product');
+        $code       = $this->input->post('code');
+        $name       = $this->input->post('name');
+        $color_id   = $this->input->post('color_id');
+        $size_id    = $this->input->post('size_id');
+        $request_id = $this->input->post('request_id');
 
-        $data = array(
-            'whatsapp'   => $whatsapp,
-            'password'   => $password,
-            'name'       => $name,
-            'role'       => $role,
-            'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id'),
-            'updated_by' => $this->session->userdata('id'),
-        );
-        $exec = $this->Produk_model->store($data);
+        $config['upload_path']   = './assets/img/products/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $config['max_size']      = 2048;
+        $config['max_width']     = 0;
+        $config['max_height']    = 0;
+        $config['encrypt_name']  = true;
+        $config['remove_spaces'] = true;
+        $this->load->library('upload', $config);
 
-        if (!$exec) {
-            echo "Tambah Produk gagal, silahkan coba kembali!";
+        if (!$this->upload->do_upload('path_image')) {
+            $error = $this->upload->display_errors();
+            $this->session->set_flashdata('error', $error);
+            session_write_close();
+            redirect(base_url() . 'produk/add', 'location');
+        } else {
+            $image_data = $this->upload->data();
+            $path_image = $image_data['file_name'];
+
+            $data = array(
+                'name'       => $name,
+                'path_image' => $path_image,
+                'status'     => 'active',
+                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by' => $this->session->userdata('id'),
+            );
+            $where = array('id', $id_product);
+            $exec  = $this->Produk_model->update('products', $data, $where);
+
+            if (!$exec) {
+                echo "Tambah Produk gagal, silahkan coba kembali!";
+            }
+
+            $data = array(
+                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by' => $this->session->userdata('id'),
+            );
+            $where = array('product_id', $id_product);
+            $exec  = $this->Produk_model->update('product_hpp_params', $data, $where);
+
+            if (!$exec) {
+                echo "Tambah HPP Produk gagal, silahkan coba kembali!";
+            }
+
+            for ($i = 0; $i < count($color_id); $i++) {
+                $data = array(
+                    'product_id' => $id_product,
+                    'color_id'   => $color_id[$i],
+                    'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'created_by' => $this->session->userdata('id'),
+                    'updated_by' => $this->session->userdata('id'),
+                );
+                $exec  = $this->Produk_model->store('product_color_params', $data);
+                if (!$exec) {
+                    echo "Tambah Warna Produk gagal, silahkan coba kembali!";
+                }
+            }
+
+            for ($i = 0; $i < count($size_id); $i++) {
+                $data = array(
+                    'product_id' => $id_product,
+                    'size_id'   => $size_id[$i],
+                    'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'created_by' => $this->session->userdata('id'),
+                    'updated_by' => $this->session->userdata('id'),
+                );
+                $exec  = $this->Produk_model->store('product_size_params', $data);
+                if (!$exec) {
+                    echo "Tambah Ukuran Produk gagal, silahkan coba kembali!";
+                }
+            }
+
+            for ($i = 0; $i < count($request_id); $i++) {
+                $data = array(
+                    'product_id' => $id_product,
+                    'request_id'   => $request_id[$i],
+                    'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'created_by' => $this->session->userdata('id'),
+                    'updated_by' => $this->session->userdata('id'),
+                );
+                $exec  = $this->Produk_model->store('product_request_params', $data);
+                if (!$exec) {
+                    echo "Tambah Request Produk gagal, silahkan coba kembali!";
+                }
+            }
+
+            $this->session->set_flashdata('success', 'Tambah Produk Berhasil');
+            session_write_close();
+            redirect(base_url() . 'produk/index', 'location');
         }
-
-        $this->session->set_flashdata('success', 'Tambah Produk Berhasil');
-        session_write_close();
-        redirect(base_url() . 'produk/index', 'location');
     }
 
     public function edit($id)
@@ -164,26 +252,59 @@ class Produk extends CI_Controller
         echo json_encode($return);
     }
 
-    public function status($status, $id)
+    public function render_hpp()
     {
-        $new_status = ($status == 'aktifkan') ? 'aktif' : 'tidak aktif';
+        $product_id = $this->input->get('product_id');
+        $exec       = $this->Produk_model->get_temp_hpp($product_id);
+
+        echo json_encode([
+            'code'  => 200,
+            'count' => $exec->num_rows(),
+            'data'  => $exec->result(),
+        ]);
+    }
+
+    public function store_hpp()
+    {
+        $product_id = $this->input->post('product_id');
+        $hpp_id     = $this->input->post('hpp_id');
+        $qty        = $this->input->post('qty_hpp');
+
+        $basic_price = $this->Hpp_model->get_single_data('hpps.id', $hpp_id)->row()->cost;
+        $total_price = $basic_price * $qty;
+
         $data  = array(
-            'status'     => $new_status,
-            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata('id'),
+            'product_id'  => $product_id,
+            'hpp_id'      => $hpp_id,
+            'qty'         => $qty,
+            'basic_price' => $basic_price,
+            'total_price' => $total_price,
+            'created_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'created_by'  => $this->session->userdata('id'),
         );
-        $where = array('produks.id' => $id);
-        $exec  = $this->Produk_model->update($data, $where);
+        $exec  = $this->Produk_model->store_hpp($data);
 
         if (!$exec) {
-            $this->session->set_flashdata('error', 'Update status produk Gagal');
-            session_write_close();
-            redirect($_SERVER['HTTP_REFERER'], 'location');
+            $return = ['code' => 500];
         }
 
-        $this->session->set_flashdata('success', 'Update status produk Berhasil');
-        session_write_close();
-        redirect($_SERVER['HTTP_REFERER'], 'location');
+        $return = ['code' => 200];
+
+        echo json_encode($return);
+    }
+
+    public function destroy_hpp($id)
+    {
+        $where = array('id' => $id);
+        $exec  = $this->Produk_model->destroy_hpp($where);
+
+        if (!$exec) {
+            $return = ['code' => 500];
+        }
+
+        $return = ['code' => 200];
+
+        echo json_encode($return);
     }
 
     public function blokir()

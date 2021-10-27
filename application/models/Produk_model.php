@@ -15,6 +15,7 @@ class Produk_model extends CI_Model
             'products.id',
             'products.code',
             'products.name',
+            'products.path_image',
         );
     }
 
@@ -22,98 +23,226 @@ class Produk_model extends CI_Model
     {
         $this->db->select($this->select);
         $this->db->from('products');
+        $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
         $this->db->order_by('products.id', 'asc');
         $exec = $this->db->get();
-        return $exec;
+
+        if ($exec->num_rows() == 0) {
+            return array(
+                'num_rows' => 0,
+                'data'     => array(),
+            );
+        } else {
+            $return = array();
+            $itteraion = 0;
+            foreach ($exec->result() as $key) {
+                $id         = $key->id;
+                $code       = $key->code;
+                $name       = $key->name;
+                $path_image = $key->path_image;
+
+                $return[$itteraion]['id'] = $id;
+                $return[$itteraion]['code'] = $code;
+                $return[$itteraion]['name'] = $name;
+                $return[$itteraion]['path_image'] = $path_image;
+
+                $this->db->select('colors.name');
+                $this->db->from('product_color_params');
+                $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+                $this->db->where('product_color_params.product_id', $id);
+                $this->db->where('product_color_params.deleted_at', null);
+                $this->db->order_by('product_color_params.id', 'asc');
+                $exec_color = $this->db->get();
+                if ($exec_color->num_rows() == 0) {
+                    $return[$itteraion]['colors'] = '-';
+                } else {
+                    $return[$itteraion]['colors'] = "<ul>";
+                    foreach ($exec_color->result() as $color) {
+                        $return[$itteraion]['colors'] .= "<li>" . $color->name . "</li>";
+                    }
+                    $return[$itteraion]['colors'] .= "</ul>";
+                }
+
+                $this->db->select('sizes.name');
+                $this->db->from('product_size_params');
+                $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+                $this->db->where('product_size_params.product_id', $id);
+                $this->db->where('product_size_params.deleted_at', null);
+                $this->db->order_by('product_size_params.id', 'asc');
+                $exec_size = $this->db->get();
+                if ($exec_size->num_rows() == 0) {
+                    $return[$itteraion]['sizes'] = '-';
+                } else {
+                    $return[$itteraion]['sizes'] = "<ul>";
+                    foreach ($exec_size->result() as $size) {
+                        $return[$itteraion]['sizes'] .= "<li>" . $size->name . "</li>";
+                    }
+                    $return[$itteraion]['sizes'] .= "</ul>";
+                }
+
+                $this->db->select('requests.name');
+                $this->db->from('product_request_params');
+                $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+                $this->db->where('product_request_params.product_id', $id);
+                $this->db->where('product_request_params.deleted_at', null);
+                $this->db->order_by('product_request_params.id', 'asc');
+                $exec_request = $this->db->get();
+                if ($exec_request->num_rows() == 0) {
+                    $return[$itteraion]['requests'] = '-';
+                } else {
+                    $return[$itteraion]['requests'] = "<ul>";
+                    foreach ($exec_request->result() as $request) {
+                        $return[$itteraion]['requests'] .= "<li>" . $request->name . "</li>";
+                    }
+                    $return[$itteraion]['requests'] .= "</ul>";
+                }
+
+                $this->db->select('hpps.name');
+                $this->db->from('product_hpp_params');
+                $this->db->join('hpps', 'hpps.id = product_hpp_params.hpp_id', 'left');
+                $this->db->where('product_hpp_params.product_id', $id);
+                $this->db->where('product_hpp_params.deleted_at', null);
+                $this->db->order_by('product_hpp_params.id', 'asc');
+                $exec_hpp = $this->db->get();
+                if ($exec_hpp->num_rows() == 0) {
+                    $return[$itteraion]['hpps'] = '-';
+                } else {
+                    $return[$itteraion]['hpps'] = "<ul>";
+                    foreach ($exec_hpp->result() as $hpp) {
+                        $return[$itteraion]['hpps'] .= "<li>" . $hpp->name . "</li>";
+                    }
+                    $return[$itteraion]['hpps'] .= "</ul>";
+                }
+
+                $itteraion++;
+            }
+            return $return;
+        }
     }
 
     public function get_single_data($whatsapp)
     {
         $this->db->where('whatsapp', $whatsapp);
-        $this->db->where('products.status', 'aktif');
+        $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
         $exec = $this->db->get('produks', 1);
 
         return $exec;
     }
 
-    public function store($data)
+    public function store($table, $data)
     {
-        return $this->db->insert('produks', $data);
+        return $this->db->insert($table, $data);
     }
 
-    public function update_log($id, $whatsapp)
+    public function store_hpp($data)
     {
-        $data = array(
-            'products.updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'products.updated_by' => $id,
-        );
-        $this->db->set($data);
-        $this->db->where('products.whatsapp', $whatsapp);
-        $this->db->update('produks');
+        return $this->db->insert('product_hpp_params', $data);
     }
 
-    public function init_produk()
+    public function generate_code()
     {
-        $password      = 'adam';
-        $password_hash = password_hash($password . HASH_SLING_SLICER, PASSWORD_BCRYPT);
+        $this->db->from('sequence_products');
+        $this->db->where('sequence_products.created_at', $this->cur_datetime->format('Y-m-d'));
+        $exec_seq = $this->db->get();
 
-        $data = array(
-            'whatsapp'   => '082114578976',
-            'password'   => $password_hash,
-            'name'       => 'Adam',
-            'role'       => 'developer',
-            'status'     => 'aktif',
+        if ($exec_seq->num_rows() == 0) {
+            $sequence      = 1;
+            $code_sequence = $this->generate_sequence($sequence);
+            $code          = "P." . $this->cur_datetime->format('d') . "." . $this->cur_datetime->format('m') . "." . $this->cur_datetime->format('y') . $code_sequence;
+
+            $data_sequence = array(
+                'sequence'   => $sequence,
+                'created_at' => $this->cur_datetime->format('Y-m-d'),
+            );
+            $this->db->insert('sequence_products', $data_sequence);
+        } else {
+            $sequence      = $exec_seq->row()->sequence + 1;
+            $code_sequence = $this->generate_sequence($sequence);
+            $code          = "P." . $this->cur_datetime->format('d') . "." . $this->cur_datetime->format('m') . "." . $this->cur_datetime->format('y') . $code_sequence;
+
+            $data_sequence = array(
+                'sequence'   => $sequence,
+                'created_at' => $this->cur_datetime->format('Y-m-d'),
+            );
+            $where_sequence = array('id' => $exec_seq->row()->id);
+            $this->db->update('sequence_products', $data_sequence, $where_sequence);
+        }
+
+        $data_product_temp = array(
+            'code'       => $code,
+            'name'       => '',
+            'path_image' => null,
+            'status'     => 'temp',
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id'),
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_at' => null,
-            'created_by' => 1,
-            'updated_by' => 1,
-            'deleted_by' => null,
+            'updated_by' => $this->session->userdata('id'),
         );
+        $this->store('products', $data_product_temp);
+        $id_product = $this->db->insert_id();
 
-        $this->db->truncate('produks');
-        $exec = $this->db->insert('produks', $data);
+        return array(
+            'id_product' => $id_product,
+            'code'       => $code,
+        );
+    }
+
+    public function generate_sequence($sequence)
+    {
+        if ($sequence < 10) {
+            return "00" . $sequence;
+        } elseif ($sequence < 100) {
+            return "0" . $sequence;
+        } else {
+            return $sequence;
+        }
+    }
+
+    public function get_temp_hpp($product_id)
+    {
+        $this->db->select(array(
+            'product_hpp_params.id',
+            'product_hpp_params.qty',
+            'product_hpp_params.basic_price',
+            'product_hpp_params.total_price',
+            'hpps.name',
+            'units.name as unit_name',
+        ));
+        $this->db->from('product_hpp_params');
+        $this->db->join('hpps', 'hpps.id = product_hpp_params.hpp_id', 'left');
+        $this->db->join('units', 'units.id = hpps.unit_id', 'left');
+        $this->db->where('product_hpp_params.product_id', $product_id);
+        $this->db->where('product_hpp_params.created_by', $this->session->userdata('id'));
+        $exec = $this->db->get();
+
         return $exec;
     }
 
-    public function whatsapp_check($whatsapp)
+    public function clear_temp()
     {
-        $this->db->where('products.whatsapp', $whatsapp);
-        $this->db->where('products.status', 'aktif');
-        $this->db->where('products.deleted_at', null);
-        $result = $this->db->count_all_results('produks');
-
-        if ($result == 0) {
-            return false;
-        } elseif ($result > 1) {
-            return false;
-        }
-
-        return true;
+        $this->db->where('status', 'temp');
+        $this->db->where('created_by', $this->session->userdata('id'));
+        return $this->db->delete('products');
     }
 
-    public function password_check($whatsapp, $password)
+    public function clear_hpp()
     {
-        $this->db->select('products.password');
-        $this->db->from('produks');
-        $this->db->where('products.whatsapp', $whatsapp);
-        $this->db->where('products.status', 'aktif');
-        $this->db->where('products.deleted_at', null);
-        $result = $this->db->get();
+        $this->db->where('created_by', $this->session->userdata('id'));
+        $this->db->where('updated_at', null);
+        $this->db->where('updated_by', null);
+        return $this->db->delete('product_hpp_params');
+    }
 
-        if ($result->num_rows() == 0) {
-            return 404;
-        } elseif ($result->num_rows() > 1) {
-            return 404;
-        } elseif (password_verify($password . HASH_SLING_SLICER, $result->row()->password) === false) {
-            return false;
-        } elseif (password_verify($password . HASH_SLING_SLICER, $result->row()->password) === true) {
-            return true;
-        }
+    public function destroy_hpp($where)
+    {
+        return $this->db->delete('product_hpp_params', $where);
+    }
 
-        return false;
+    public function update($table, $data, $where)
+    {
+        return $this->db->update($table, $data, $where);
     }
 }
                         
