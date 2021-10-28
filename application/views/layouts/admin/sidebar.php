@@ -19,32 +19,32 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-scroll nav-icon"></i>
+                    <a href="<?= base_url('order/index'); ?>" class="nav-link">
+                        <i class="fas fa-scroll nav-icon"></i>
                         <p>List Order</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-cart-plus nav-icon"></i>
+                    <a href="<?= base_url('order/add'); ?>" class="nav-link">
+                        <i class="fas fa-cart-plus nav-icon"></i>
                         <p>Tambah Order</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="far fa-money-bill nav-icon"></i>
+                        <i class="fas fa-money-bill nav-icon"></i>
                         <p>Pembayaran</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="far fa-cut nav-icon"></i>
+                        <i class="fas fa-cut nav-icon"></i>
                         <p>Produksi</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="far fa-truck nav-icon"></i>
+                        <i class="fas fa-truck nav-icon"></i>
                         <p>Pengiriman</p>
                     </a>
                 </li>
@@ -61,13 +61,13 @@
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="<?= base_url('customer/index'); ?>" class="nav-link">
-                        <i class="far fa-scroll nav-icon"></i>
+                        <i class="fas fa-scroll nav-icon"></i>
                         <p>List Customer</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?= base_url('customer/add'); ?>" class="nav-link">
-                        <i class="far fa-user-plus nav-icon"></i>
+                        <i class="fas fa-user-plus nav-icon"></i>
                         <p>Tambah Customer</p>
                     </a>
                 </li>
@@ -158,25 +158,25 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="<?= base_url('setup/parameter/satuan'); ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-circle nav-icon"></i>
                                     <p>Satuan</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?= base_url('setup/parameter/warna'); ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-circle nav-icon"></i>
                                     <p>Warna</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?= base_url('setup/parameter/ukuran'); ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-circle nav-icon"></i>
                                     <p>Ukuran</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?= base_url('setup/parameter/request'); ?>" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-circle nav-icon"></i>
                                     <p>Request</p>
                                 </a>
                             </li>

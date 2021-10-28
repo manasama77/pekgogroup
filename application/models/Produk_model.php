@@ -15,6 +15,7 @@ class Produk_model extends CI_Model
             'products.id',
             'products.code',
             'products.name',
+            'products.price',
             'products.path_image',
         );
     }
@@ -40,11 +41,13 @@ class Produk_model extends CI_Model
                 $id         = $key->id;
                 $code       = $key->code;
                 $name       = $key->name;
+                $price      = $key->price;
                 $path_image = $key->path_image;
 
-                $return[$itteraion]['id'] = $id;
-                $return[$itteraion]['code'] = $code;
-                $return[$itteraion]['name'] = $name;
+                $return[$itteraion]['id']         = $id;
+                $return[$itteraion]['code']       = $code;
+                $return[$itteraion]['name']       = $name;
+                $return[$itteraion]['price']      = $price;
                 $return[$itteraion]['path_image'] = $path_image;
 
                 $this->db->select('colors.name');

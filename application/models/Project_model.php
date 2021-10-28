@@ -31,6 +31,7 @@ class Project_model extends CI_Model
         if ($exec->num_rows() == 0) {
             $result[0] = array(
                 'no'        => 1,
+                'id'        => '',
                 'name'      => '',
                 'abbr'      => '',
                 'path_logo' => base_url() . 'assets/img/default-150x150.png',
@@ -38,9 +39,10 @@ class Project_model extends CI_Model
         } else {
             $itteration = 1;
             foreach ($exec->result() as $key) {
-                $nested['no']        = $itteration++;
-                $nested['name']      = $key->name;
-                $nested['abbr']      = $key->abbr;
+                $nested['no']   = $itteration++;
+                $nested['id']   = $key->id;
+                $nested['name'] = $key->name;
+                $nested['abbr'] = $key->abbr;
                 if ($key->path_logo != null || $key->path_logo != '') {
                     $nested['path_logo'] = base_url() . 'assets/img/projects/' . $key->path_logo;
                 } else {

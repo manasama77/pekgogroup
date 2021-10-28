@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Produk extends CI_Controller
+class Order extends CI_Controller
 {
     private $cur_datetime;
 
@@ -12,38 +12,65 @@ class Produk extends CI_Controller
         $this->load->library('Admin_auth', null, 'auth');
         $this->load->library('Admin_template', null, 'theme');
         $this->auth->check_session();
+        $this->load->model('Order_model');
+        $this->load->model('Project_model');
         $this->load->model('Produk_model');
+        $this->load->model('Customer_model');
         $this->load->model('Warna_model');
         $this->load->model('Ukuran_model');
         $this->load->model('Request_model');
         $this->load->model('Hpp_model');
+        $this->load->model('Admin_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
+        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
             redirect('logout', 'location');
         }
     }
 
     public function index()
     {
-        $list = $this->Produk_model->get_all_data();
+        $list            = $this->Order_model->get_all_data();
+        $products        = $this->Produk_model->get_all_data();
+        $customers       = $this->Customer_model->get_all_data();
+        $admin_orders    = $this->Admin_model->get_admin('order');
+        $admin_produksis = $this->Admin_model->get_admin('produksi');
+        $admin_css       = $this->Admin_model->get_admin('cs');
+        $admin_finances  = $this->Admin_model->get_admin('finance');
 
         $data = array(
-            'title'   => 'Produk',
-            'page'    => 'produk/main',
-            'vitamin' => 'produk/main_vitamin',
-            'list'    => $list,
-            'error'   => null,
+            'title'           => 'Order',
+            'page'            => 'order/main',
+            'vitamin'         => 'order/main_vitamin',
+            'list'            => $list,
+            'products'        => $products,
+            'customers'       => $customers,
+            'admin_orders'    => $admin_orders,
+            'admin_produksis' => $admin_produksis,
+            'admin_css'       => $admin_css,
+            'admin_finances'  => $admin_finances,
+            'error'           => null,
         );
         $this->theme->render($data);
     }
 
     public function add()
     {
-        $this->form_validation->set_rules('code', 'KODE PRODUK', 'required');
-        $this->form_validation->set_rules('name', 'NAMA PRODUK', 'required');
-        $this->form_validation->set_rules('color_id[]', 'WARNA', 'required');
-        $this->form_validation->set_rules('size_id[]', 'UKURAN', 'required');
-        $this->form_validation->set_rules('request_id[]', 'REQUEST', 'required');
+        $this->form_validation->set_rules('admin_order', 'ADMIN ORDER', 'required');
+        $this->form_validation->set_rules('project_id', 'PROJECT', 'required');
+        $this->form_validation->set_rules('order_via', 'ORDER VIA', 'required');
+        $this->form_validation->set_rules('nama_customer', 'NAMA CUSTOMER', 'required');
+        $this->form_validation->set_rules('whatsapp', 'NO WHATSAPP', 'required');
+        $this->form_validation->set_rules('sales_invoice', 'SALES INVOICE', 'required');
+        $this->form_validation->set_rules('created_at', 'TANGGAL & JAM ORDER', 'required');
+        $this->form_validation->set_rules('durasi_batas_transfer', 'DURASI BATAS TRANSFER', 'required');
+        $this->form_validation->set_rules('batas_waktu_transfer', 'BATAS WAKTU TRANSFER', 'required');
+        $this->form_validation->set_rules('product_id', 'PRODUK', 'required');
+        $this->form_validation->set_rules('color_id', 'WARNA', 'required');
+        $this->form_validation->set_rules('size_id', 'UKURAN', 'required');
+        $this->form_validation->set_rules('pilih_jahitan', 'JAHITAN', 'required');
+        $this->form_validation->set_rules('estimasi_selesai', 'ESTIMASI SELESAI', 'required');
+        $this->form_validation->set_rules('jenis_dp', 'JENIS DP', 'required');
+        $this->form_validation->set_rules('catatan', 'CATATAN TAMBAHAN', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
@@ -51,29 +78,33 @@ class Produk extends CI_Controller
                 'hash' => $this->security->get_csrf_hash()
             );
 
-            $this->Produk_model->clear_temp();
-            $this->Produk_model->clear_hpp();
+            $this->Order_model->clear_temp();
+            $this->Order_model->clear_request();
 
-            $exec_code  = $this->Produk_model->generate_code();
-            $id_product = $exec_code['id_product'];
-            $code       = $exec_code['code'];
-            $colors     = $this->Warna_model->get_all_data();
-            $sizes      = $this->Ukuran_model->get_all_data();
-            $requests   = $this->Request_model->get_all_data();
-            $hpps       = $this->Hpp_model->get_all_data();
+            $exec_code     = $this->Order_model->generate_sales_invoice();
+            $id_order      = $exec_code['id_order'];
+            $sales_invoice = $exec_code['sales_invoice'];
+            $created_at    = $exec_code['created_at'];
+            $projects      = $this->Project_model->get_all_data();
+            $products      = $this->Produk_model->get_all_data();
+            $colors        = $this->Warna_model->get_all_data();
+            $sizes         = $this->Ukuran_model->get_all_data();
+            $requests      = $this->Request_model->get_all_data();
 
             $data = array(
-                'title'      => 'Produk',
-                'page'       => 'produk/form',
-                'vitamin'    => 'produk/form_vitamin',
-                'id_product' => $id_product,
-                'code'       => $code,
-                'colors'     => $colors,
-                'sizes'      => $sizes,
-                'requests'   => $requests,
-                'hpps'       => $hpps,
-                'csrf'       => $csrf,
-                'error'      => null,
+                'title'         => 'Order',
+                'page'          => 'order/form',
+                'vitamin'       => 'order/form_vitamin',
+                'id_order'      => $id_order,
+                'sales_invoice' => $sales_invoice,
+                'created_at' => $created_at,
+                'projects'        => $projects,
+                'products'        => $products,
+                'colors'        => $colors,
+                'sizes'         => $sizes,
+                'requests'      => $requests,
+                'csrf'          => $csrf,
+                'error'         => null,
             );
             $this->theme->render($data);
         } else {
@@ -83,10 +114,11 @@ class Produk extends CI_Controller
 
     protected function store()
     {
+        // echo '<pre>' . print_r($this->input->post(), 1) . '</pre>';
+        // exit;
         $id_product = $this->input->post('id_product');
         $code       = $this->input->post('code');
         $name       = $this->input->post('name');
-        $price      = $this->input->post('price');
         $color_id   = $this->input->post('color_id');
         $size_id    = $this->input->post('size_id');
         $request_id = $this->input->post('request_id');
@@ -104,35 +136,34 @@ class Produk extends CI_Controller
             $error = $this->upload->display_errors();
             $this->session->set_flashdata('error', $error);
             session_write_close();
-            redirect(base_url() . 'produk/add', 'location');
+            redirect(base_url() . 'order/add', 'location');
         } else {
             $image_data = $this->upload->data();
             $path_image = $image_data['file_name'];
 
             $data = array(
                 'name'       => $name,
-                'price'      => $price,
                 'path_image' => $path_image,
                 'status'     => 'active',
                 'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_by' => $this->session->userdata('id'),
             );
-            $where = array('id' => $id_product);
-            $exec  = $this->Produk_model->update('products', $data, $where);
+            $where = array('id', $id_product);
+            $exec  = $this->Order_model->update('products', $data, $where);
 
             if (!$exec) {
-                echo "Tambah Produk gagal, silahkan coba kembali!";
+                echo "Tambah Order gagal, silahkan coba kembali!";
             }
 
             $data = array(
                 'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_by' => $this->session->userdata('id'),
             );
-            $where = array('product_id' => $id_product);
-            $exec  = $this->Produk_model->update('product_hpp_params', $data, $where);
+            $where = array('product_id', $id_product);
+            $exec  = $this->Order_model->update('product_hpp_params', $data, $where);
 
             if (!$exec) {
-                echo "Tambah HPP Produk gagal, silahkan coba kembali!";
+                echo "Tambah HPP Order gagal, silahkan coba kembali!";
             }
 
             for ($i = 0; $i < count($color_id); $i++) {
@@ -144,9 +175,9 @@ class Produk extends CI_Controller
                     'created_by' => $this->session->userdata('id'),
                     'updated_by' => $this->session->userdata('id'),
                 );
-                $exec  = $this->Produk_model->store('product_color_params', $data);
+                $exec  = $this->Order_model->store('product_color_params', $data);
                 if (!$exec) {
-                    echo "Tambah Warna Produk gagal, silahkan coba kembali!";
+                    echo "Tambah Warna Order gagal, silahkan coba kembali!";
                 }
             }
 
@@ -159,9 +190,9 @@ class Produk extends CI_Controller
                     'created_by' => $this->session->userdata('id'),
                     'updated_by' => $this->session->userdata('id'),
                 );
-                $exec  = $this->Produk_model->store('product_size_params', $data);
+                $exec  = $this->Order_model->store('product_size_params', $data);
                 if (!$exec) {
-                    echo "Tambah Ukuran Produk gagal, silahkan coba kembali!";
+                    echo "Tambah Ukuran Order gagal, silahkan coba kembali!";
                 }
             }
 
@@ -174,15 +205,15 @@ class Produk extends CI_Controller
                     'created_by' => $this->session->userdata('id'),
                     'updated_by' => $this->session->userdata('id'),
                 );
-                $exec  = $this->Produk_model->store('product_request_params', $data);
+                $exec  = $this->Order_model->store('product_request_params', $data);
                 if (!$exec) {
-                    echo "Tambah Request Produk gagal, silahkan coba kembali!";
+                    echo "Tambah Request Order gagal, silahkan coba kembali!";
                 }
             }
 
-            $this->session->set_flashdata('success', 'Tambah Produk Berhasil');
+            $this->session->set_flashdata('success', 'Tambah Order Berhasil');
             session_write_close();
-            redirect(base_url() . 'produk/index', 'location');
+            redirect(base_url() . 'order/index', 'location');
         }
     }
 
@@ -196,10 +227,10 @@ class Produk extends CI_Controller
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
-            $list = $this->Produk_model->get_single_data('id', $id);
+            $list = $this->Order_model->get_single_data('id', $id);
             $data = array(
-                'title' => 'Produk Edit',
-                'page'  => 'produk/form_edit',
+                'title' => 'Order Edit',
+                'page'  => 'order/form_edit',
                 'csrf'  => $csrf,
                 'list'  => $list,
                 'error' => null,
@@ -221,17 +252,17 @@ class Produk extends CI_Controller
             'updated_by'   => $this->session->userdata('id'),
         );
         $where = array('id' => $id);
-        $exec  = $this->Produk_model->update($data, $where);
+        $exec  = $this->Order_model->update($data, $where);
 
         if (!$exec) {
-            $this->session->set_flashdata('error', 'Edit Produk Gagal');
+            $this->session->set_flashdata('error', 'Edit Order Gagal');
             session_write_close();
-            redirect(base_url() . 'produk/index', 'location');
+            redirect(base_url() . 'order/index', 'location');
         }
 
-        $this->session->set_flashdata('success', 'Edit Produk Berhasil');
+        $this->session->set_flashdata('success', 'Edit Order Berhasil');
         session_write_close();
-        redirect(base_url() . 'produk/index', 'location');
+        redirect(base_url() . 'order/index', 'location');
     }
 
     public function destroy($id)
@@ -241,7 +272,7 @@ class Produk extends CI_Controller
             'deleted_by' => $this->session->userdata('id'),
         );
         $where = array('id' => $id);
-        $exec  = $this->Produk_model->destroy($data, $where);
+        $exec  = $this->Order_model->destroy($data, $where);
 
         if (!$exec) {
             $return = ['code' => 500];
@@ -255,7 +286,7 @@ class Produk extends CI_Controller
     public function render_hpp()
     {
         $product_id = $this->input->get('product_id');
-        $exec       = $this->Produk_model->get_temp_hpp($product_id);
+        $exec       = $this->Order_model->get_temp_hpp($product_id);
 
         echo json_encode([
             'code'  => 200,
@@ -282,7 +313,7 @@ class Produk extends CI_Controller
             'created_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
             'created_by'  => $this->session->userdata('id'),
         );
-        $exec  = $this->Produk_model->store_hpp($data);
+        $exec  = $this->Order_model->store_hpp($data);
 
         if (!$exec) {
             $return = ['code' => 500];
@@ -296,7 +327,7 @@ class Produk extends CI_Controller
     public function destroy_hpp($id)
     {
         $where = array('id' => $id);
-        $exec  = $this->Produk_model->destroy_hpp($where);
+        $exec  = $this->Order_model->destroy_hpp($where);
 
         if (!$exec) {
             $return = ['code' => 500];
@@ -320,7 +351,7 @@ class Produk extends CI_Controller
         );
 
         $where = array('id' => $id);
-        $exec  = $this->Produk_model->update($data, $where);
+        $exec  = $this->Order_model->update($data, $where);
 
         if (!$exec) {
             $return = ['code' => 500];
@@ -332,4 +363,4 @@ class Produk extends CI_Controller
     }
 }
         
-    /* End of file  Produk.php */
+    /* End of file  Order.php */

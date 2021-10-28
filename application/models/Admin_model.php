@@ -117,6 +117,17 @@ class Admin_model extends CI_Model
 
         return false;
     }
+
+    public function get_admin($type)
+    {
+        $this->db->select($this->select);
+        $this->db->from('admins');
+        $this->db->where('admins.deleted_at', null);
+        $this->db->where('admins.role', $type);
+        $this->db->order_by('admins.id', 'asc');
+        $exec = $this->db->get();
+        return $exec;
+    }
 }
                         
 /* End of file Admin_model.php */

@@ -25,7 +25,7 @@ class Customer_model extends CI_Model
         );
     }
 
-    public function get_all_data($field = null, $status = null, $keyword = "")
+    public function get_all_data($field = 'all', $status = 'aktif', $keyword = "")
     {
         if ($field != null && $status != null) {
             $this->db->select($this->select);

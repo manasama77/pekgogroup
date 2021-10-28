@@ -51,6 +51,11 @@
                                 <?= form_error('name'); ?>
                             </div>
                             <div class="form-group">
+                                <label for="price">HARGA</label>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="HARGA" min="1" max="1000000000" value="<?= set_value('price'); ?>" required>
+                                <?= form_error('price'); ?>
+                            </div>
+                            <div class="form-group">
                                 <label>WARNA</label>
                                 <div class="row">
                                     <?php foreach ($colors->result() as $color) { ?>

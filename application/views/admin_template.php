@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Sweetalert2 -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.min.css">
+    <!-- select2 -->
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/select2/css/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/adminlte.min.css">
 </head>
@@ -91,6 +93,8 @@
     <script src="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <!-- BlockUI -->
     <script src="<?= base_url(); ?>assets/js/jquery.blockUI.js"></script>
+    <!-- select2 -->
+    <script src="<?= base_url(); ?>assets/plugins/select2/js/select2.full.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url(); ?>assets/js/adminlte.min.js"></script>
     <script src="<?= base_url(); ?>assets/js/adam_helper.js"></script>

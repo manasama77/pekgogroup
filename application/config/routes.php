@@ -58,6 +58,9 @@ $route['logout'] = 'login/logout';
 
 $route['dashboard'] = 'dashboard/index';
 
+$route['order/index'] = 'order/index';
+$route['order/add']   = 'order/add';
+
 $route['customer/index']                    = 'customer/index';
 $route['customer/add']                      = 'customer/add';
 $route['customer/destroy/(:num)']['delete'] = 'customer/destroy/$1';

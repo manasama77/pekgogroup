@@ -68,6 +68,7 @@
                                             <th class="text-center">GAMBAR</th>
                                             <th>KODE PRODUK</th>
                                             <th>NAMA PRODUK</th>
+                                            <th>HARGA</th>
                                             <th>WARNA</th>
                                             <th>UKURAN</th>
                                             <th>REQUEST</th>
@@ -87,6 +88,7 @@
                                                 </td>
                                                 <td><?= $list[$i]['code']; ?></td>
                                                 <td><?= $list[$i]['name']; ?></td>
+                                                <td>Rp.<?= number_format($list[$i]['price'], 0); ?></td>
                                                 <td><?= $list[$i]['colors']; ?></td>
                                                 <td><?= $list[$i]['sizes']; ?></td>
                                                 <td><?= $list[$i]['requests']; ?></td>
