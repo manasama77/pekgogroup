@@ -368,6 +368,20 @@ class Order extends CI_Controller
 
         echo json_encode($return);
     }
+
+    public function store_request()
+    {
+        $id   = $this->input->post('id');
+        $exec = $this->Produk_model->get_product_request('id', $id);
+
+        if (!$exec) {
+            $return = ['code' => 500];
+        }
+
+        $return = ['code' => 200];
+
+        echo json_encode($return);
+    }
 }
         
     /* End of file  Order.php */

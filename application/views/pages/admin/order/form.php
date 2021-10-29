@@ -105,7 +105,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="jenis_dp">JENIS DP</label>
-                                <select class="form-control form-control-sm" id="jenis_dp" name="jenis_dp" required>
+                                <select class="form-control form-control-sm" id="jenis_dp" name="jenis_dp" onchange="updateDP()" required>
                                     <option value="30">30%</option>
                                     <option value="50">50%</option>
                                     <option value="100">100%</option>
@@ -218,8 +218,8 @@
                         </div>
                         <div class="card-body bg-gradient-orange">
                             <div class="form-group">
-                                <label for="id_request">JENIS REQUEST</label>
-                                <select class="form-control form-control-sm select2" id="id_request" name="id_request" data-placeholder="Pilih Request">
+                                <label for="request_id">JENIS REQUEST</label>
+                                <select class="form-control form-control-sm select2" id="request_id" name="request_id" data-placeholder="Pilih Request">
                                     <option value=""></option>
                                 </select>
                             </div>
@@ -257,11 +257,11 @@
                             </tr>
                             <tr>
                                 <th class="text-right">KODE UNIK</th>
-                                <th class="text-right" id="kode_unik">0</th>
+                                <th class="text-right">Rp <span id="kode_unik"><?= $kode_unik; ?></span></th>
                             </tr>
                             <tr>
                                 <th class="text-right">GRAND TOTAL</th>
-                                <th class="text-right" id="grand_total">0</th>
+                                <th class="text-right bg-danger" id="grand_total">0</th>
                             </tr>
                             <tr>
                                 <th class="text-right">NILAI DP <span id="persen_dp">(0%)</span></th>

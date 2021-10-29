@@ -58,8 +58,9 @@ $route['logout'] = 'login/logout';
 
 $route['dashboard'] = 'dashboard/index';
 
-$route['order/index'] = 'order/index';
-$route['order/add']   = 'order/add';
+$route['order/index']                 = 'order/index';
+$route['order/add']                   = 'order/add';
+$route['order/store_request']['post'] = 'order/store_request';
 
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';

@@ -124,13 +124,12 @@ class Produk_model extends CI_Model
         }
     }
 
-    public function get_single_data($whatsapp)
+    public function get_single_data($field, $key)
     {
-        $this->db->where('whatsapp', $whatsapp);
+        $this->db->where($field, $key);
         $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
         $exec = $this->db->get('produks', 1);
-
         return $exec;
     }
 
@@ -311,6 +310,20 @@ class Produk_model extends CI_Model
     public function update($table, $data, $where)
     {
         return $this->db->update($table, $data, $where);
+    }
+
+    public function get_product_request($field, $key)
+    {
+        $this->db->select(array(
+            'produk_request_params.id',
+            'request.name',
+            'request.cost',
+        ));
+        $this->db->join('requests', 'requests.id = produk_request_params.request_id', 'left');
+        $this->db->where($field, $key);
+        $this->db->where('produk_request_params.deleted_at', null);
+        $exec = $this->db->get('produk_request_params');
+        return $exec;
     }
 }
                         
