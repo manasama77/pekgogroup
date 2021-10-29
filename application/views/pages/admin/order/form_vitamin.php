@@ -1,222 +1,131 @@
 <script>
-    let formProduk = $('#form_produk')
-    let id_product = $('#id_product')
-    let id_hpp = $('#id_hpp')
-    let qty_hpp = $('#qty_hpp')
-    let btn_tambah_hpp = $('#tambah_hpp')
-    let vHPP = $('#v_hpp')
-    let grandTotal = $('#grand_total')
-    let count_hpp = $('#count_hpp')
-    let counter = 0;
+    let formOrder = $('#form_order')
+    let createdAt = $('#created_at')
+    let durasiBatasTransfer = $('#durasi_batas_transfer')
+    let batasWaktuTransfer = $('#batas_waktu_transfer')
+    let pilihJahitan = $('#pilih_jahitan')
+    let estimasiSelesai = $('#estimasi_selesai')
+    let customerId = $('#customer_id')
+    let whatsapp = $('#whatsapp')
+    let id_tokped = $('#id_tokped')
+    let id_shopee = $('#id_shopee')
+    let id_instagram = $('#id_instagram')
+    let productId = $('#product_id')
+    let colorId = $('#color_id')
+    let sizeId = $('#size_id')
+    let modalCariCustomer = $('#modal_cari_customer')
 
     $(document).ready(() => {
         $('.select2').select2()
 
-        renderHppTable()
-
-        btn_tambah_hpp.on('click', e => {
-            console.log(e)
-            e.preventDefault()
-            storeHpp()
-        })
-
-        formProduk.on('submit', e => {
-            e.preventDefault()
-            if (count_hpp.val() == 0) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: 'HPP Produk tidak boleh kosong',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    toast: true
-                })
-            } else if ($('input[name="color_id[]"]:checked').length == 0) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: 'Warna Produk minimal terpilih satu',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    toast: true
-                })
-            } else if ($('input[name="size_id[]"]:checked').length == 0) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: 'Ukuran Produk minimal terpilih satu',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    toast: true
-                })
-            } else if ($('input[name="request_id[]"]:checked').length == 0) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'warning',
-                    title: 'Request Produk minimal terpilih satu',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    toast: true
-                })
-            } else {
-                e.currentTarget.submit();
-            }
-        })
+        durasiBatasTransfer.on('change', () => gantiBatasTransfer())
+        pilihJahitan.on('change', () => gantiEstimasi())
+        customerId.on('change', () => getDetailCustomer())
+        productId.on('change', () => getDetailProduk())
     })
 </script>
 
 <script>
-    function storeHpp() {
-        $.ajax({
-            url: `<?= base_url(); ?>produk/hpp/store`,
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'product_id': id_product.val(),
-                'hpp_id': id_hpp.val(),
-                'qty_hpp': qty_hpp.val(),
-            },
-            beforeSend: () => $.blockUI()
-        }).always(() => $.unblockUI()).fail(e => Swal.fire({
-            icon: 'warning',
-            html: e.responseText,
-        })).done(e => {
-            if (e.code == 500) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: 'Tambah HPP gagal',
-                    showConfirmButton: false,
-                    timer: 1500,
-                    toast: true
-                })
-            } else if (e.code == 200) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Tambah HPP Berhasil',
-                    showConfirmButton: false,
-                    timer: 1500,
-                    toast: true
-                }).then(() => {
-                    resetFormHPP()
-                    renderHppTable()
-                    counter += 1
-                    count_hpp.val(counter)
-                })
-            }
-        })
+    function gantiBatasTransfer() {
+        let x = durasiBatasTransfer.val()
+        let newBatas = new moment(createdAt.val()).add(x, 'h').format('YYYY-MM-DD HH:mm:ss')
+        batasWaktuTransfer.val(newBatas)
     }
 
-    function resetFormHPP() {
-        qty_hpp.val('')
+    function gantiEstimasi() {
+        let x = pilihJahitan.val()
+        let y = 0
+
+        if (x == "standard") {
+            y = 28
+        } else if (x == "express") {
+            y = 14
+        } else if (x == "urgent") {
+            y = 7
+        } else if (x == "super urgent") {
+            y = 3
+        }
+
+        let newEstimasi = new moment(batasWaktuTransfer.val()).add(y, 'd').format('YYYY-MM-DD')
+        console.log(newEstimasi)
+        estimasiSelesai.val(newEstimasi)
     }
 
-    function renderHppTable() {
+    function showModalCari() {
+        modalCariCustomer.modal('show')
+    }
+
+    function getDetailCustomer() {
+        let id_customer = customerId.val()
+
         $.ajax({
-            url: `<?= base_url(); ?>produk/hpp/render`,
+            url: `<?= base_url(); ?>customer/show/${id_customer}`,
             type: 'get',
             dataType: 'json',
-            data: {
-                'product_id': id_product.val()
-            },
             beforeSend: () => $.blockUI()
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,
         })).done(e => {
             console.log(e)
-            let vTotal = 0;
             if (e.code == 500) {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
-                    title: 'Render HPP gagal',
+                    title: 'Get detail product failed',
                     showConfirmButton: false,
                     timer: 1500,
                     toast: true
                 })
             } else if (e.code == 200) {
-                let renderHTML = ``
-
-                if (e.count == 0) {
-                    renderHTML = `
-                    <tr class="bg-warning">
-                        <td class="text-center" colspan="4">Data HPP Kosong</td>
-                    </tr>
-                    `
-                } else {
-                    $.each(e.data, (i, k) => {
-                        console.log(k.total_price)
-                        let totalPrice = parseFloat(k.total_price)
-                        let vTotalPrice = new Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR'
-                        }).format(totalPrice)
-                        renderHTML += `
-                        <tr>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-danger btn-sm" title="Delete" onclick="destroyHPP(${k.id});"><i class="fas fa-trash"></i></button>
-                            </td>
-                            <td>${k.name}</td>
-                            <td class="text-right">${parseInt(k.qty)} ${k.unit_name}</td>
-                            <td class="text-right">${vTotalPrice}</td>
-                        </tr>
-                        `
-                        vTotal += totalPrice
-                    })
-                }
-                vHPP.html(renderHTML)
-                grandTotal.html(currency(vTotal))
+                $.each(e.data, (i, k) => {
+                    let xwhatsapp = k.whatsapp
+                    let xid_tokped = k.id_tokped
+                    let xid_shopee = k.id_shopee
+                    let xid_instagram = k.id_instagram
+                    whatsapp.val(xwhatsapp)
+                    id_tokped.val(xid_tokped)
+                    id_shopee.val(xid_shopee)
+                    id_instagram.val(xid_instagram)
+                })
             }
         })
     }
 
-    function destroyHPP(id) {
-        Swal.fire({
-            icon: 'question',
-            title: `Delete HPP ?`,
-            showDenyButton: false,
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `<?= base_url(); ?>produk/destroy_hpp/${id}`,
-                    type: 'delete',
-                    dataType: 'json',
-                    data: {
-                        '<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>',
-                    },
-                    beforeSend: () => $.blockUI()
-                }).always(() => $.unblockUI()).fail(e => Swal.fire({
-                    icon: 'warning',
-                    html: e.responseText,
-                })).done(e => {
-                    if (e.code == 500) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Delete Data gagal',
-                            showConfirmButton: false,
-                            timer: 1500,
-                            toast: true
-                        })
-                    } else if (e.code == 200) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Delete Data berhasil',
-                            showConfirmButton: false,
-                            timer: 1500,
-                            toast: true
-                        }).then(() => {
-                            renderHppTable()
-                            counter -= 1
-                            count_hpp.val(counter)
-                        })
-                    }
+    function getDetailProduk() {
+        let id_product = productId.val()
+
+        $.ajax({
+            url: `<?= base_url(); ?>produk/show/${id_product}`,
+            type: 'get',
+            dataType: 'json',
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            console.log(e)
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Get detail product failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
                 })
+            } else if (e.code == 200) {
+                let vColors = `<option value=""></option>`
+                $.each(e.data.colors, (i, k) => {
+                    vColors += `<option value="${k.id}">${k.name}</option>`
+                })
+                colorId.html(vColors)
+
+                let vSizes = `<option value=""></option>`
+                $.each(e.data.sizes, (i, k) => {
+                    vSizes += `<option value="${k.id}">${k.name}</option>`
+                })
+                sizeId.html(vSizes)
             }
         })
     }

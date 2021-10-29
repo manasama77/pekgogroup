@@ -64,6 +64,7 @@ class Order extends CI_Controller
         $this->form_validation->set_rules('created_at', 'TANGGAL & JAM ORDER', 'required');
         $this->form_validation->set_rules('durasi_batas_transfer', 'DURASI BATAS TRANSFER', 'required');
         $this->form_validation->set_rules('batas_waktu_transfer', 'BATAS WAKTU TRANSFER', 'required');
+        $this->form_validation->set_rules('customer_id', 'CUSTOMER', 'required');
         $this->form_validation->set_rules('product_id', 'PRODUK', 'required');
         $this->form_validation->set_rules('color_id', 'WARNA', 'required');
         $this->form_validation->set_rules('size_id', 'UKURAN', 'required');
@@ -81,30 +82,36 @@ class Order extends CI_Controller
             $this->Order_model->clear_temp();
             $this->Order_model->clear_request();
 
-            $exec_code     = $this->Order_model->generate_sales_invoice();
-            $id_order      = $exec_code['id_order'];
-            $sales_invoice = $exec_code['sales_invoice'];
-            $created_at    = $exec_code['created_at'];
-            $projects      = $this->Project_model->get_all_data();
-            $products      = $this->Produk_model->get_all_data();
-            $colors        = $this->Warna_model->get_all_data();
-            $sizes         = $this->Ukuran_model->get_all_data();
-            $requests      = $this->Request_model->get_all_data();
+            $exec_code            = $this->Order_model->generate_sales_invoice();
+            $id_order             = $exec_code['id_order'];
+            $sales_invoice        = $exec_code['sales_invoice'];
+            $kode_unik            = $exec_code['kode_unik'];
+            $created_at           = $exec_code['created_at'];
+            $batas_waktu_transfer = $exec_code['batas_waktu_transfer'];
+            $estimasi_selesai     = $exec_code['estimasi_selesai'];
+            $projects             = $this->Project_model->get_all_data();
+            $customers            = $this->Customer_model->get_all_data();
+            $products             = $this->Produk_model->get_all_data();
+            $colors               = $this->Warna_model->get_all_data();
+            $sizes                = $this->Ukuran_model->get_all_data();
 
             $data = array(
-                'title'         => 'Order',
-                'page'          => 'order/form',
-                'vitamin'       => 'order/form_vitamin',
-                'id_order'      => $id_order,
-                'sales_invoice' => $sales_invoice,
-                'created_at' => $created_at,
-                'projects'        => $projects,
-                'products'        => $products,
-                'colors'        => $colors,
-                'sizes'         => $sizes,
-                'requests'      => $requests,
-                'csrf'          => $csrf,
-                'error'         => null,
+                'title'                => 'Order',
+                'page'                 => 'order/form',
+                'vitamin'              => 'order/form_vitamin',
+                'id_order'             => $id_order,
+                'sales_invoice'        => $sales_invoice,
+                'kode_unik'            => $kode_unik,
+                'created_at'           => $created_at,
+                'batas_waktu_transfer' => $batas_waktu_transfer,
+                'estimasi_selesai'     => $estimasi_selesai,
+                'projects'             => $projects,
+                'customers'            => $customers,
+                'products'             => $products,
+                'colors'               => $colors,
+                'sizes'                => $sizes,
+                'csrf'                 => $csrf,
+                'error'                => null,
             );
             $this->theme->render($data);
         } else {

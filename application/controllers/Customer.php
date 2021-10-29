@@ -225,6 +225,25 @@ class Customer extends CI_Controller
 
         echo json_encode($return);
     }
+
+    public function show($id)
+    {
+        $exec = $this->Customer_model->get_single_data('id', $id);
+
+        if (!$exec) {
+            $return = [
+                'code' => 500,
+                'data' => null,
+            ];
+        }
+
+        $return = [
+            'code' => 200,
+            'data' => $exec->result()
+        ];
+
+        echo json_encode($return);
+    }
 }
         
     /* End of file  Customer.php */

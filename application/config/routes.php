@@ -62,6 +62,7 @@ $route['order/index'] = 'order/index';
 $route['order/add']   = 'order/add';
 
 $route['customer/index']                    = 'customer/index';
+$route['customer/show/(:num)']              = 'customer/show/$1';
 $route['customer/add']                      = 'customer/add';
 $route['customer/destroy/(:num)']['delete'] = 'customer/destroy/$1';
 $route['customer/edit/(:num)']['post']      = 'customer/edit/$1';
@@ -77,6 +78,7 @@ $route['admin/edit/(:num)']['get']       = 'admin/edit/$1';
 $route['admin/blokir']                   = 'admin/blokir';
 
 $route['produk/index']                        = 'produk/index';
+$route['produk/show/(:num)']                  = 'produk/show/$1';
 $route['produk/add']                          = 'produk/add';
 $route['produk/hpp/render']['get']            = 'produk/render_hpp';
 $route['produk/hpp/store']['post']            = 'produk/store_hpp';

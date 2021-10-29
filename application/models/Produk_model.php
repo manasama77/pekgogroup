@@ -134,6 +134,71 @@ class Produk_model extends CI_Model
         return $exec;
     }
 
+    public function get_detail_for_order($id)
+    {
+        $return = array(
+            'colors'   => array(),
+            'sizes'    => array(),
+            'requests' => array(),
+        );
+
+        $this->db->select(array(
+            'product_color_params.id',
+            'colors.name',
+        ));
+        $this->db->from('product_color_params');
+        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+        $this->db->where('product_color_params.product_id', $id);
+        $this->db->where('product_color_params.deleted_at', null);
+        $exec = $this->db->get();
+        if ($exec->num_rows() > 0) {
+            $i = 0;
+            foreach ($exec->result() as $k) {
+                $return['colors'][$i]['id']   = $k->id;
+                $return['colors'][$i]['name'] = $k->name;
+                $i++;
+            }
+        }
+
+        $this->db->select(array(
+            'product_size_params.id',
+            'sizes.name',
+        ));
+        $this->db->from('product_size_params');
+        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->where('product_size_params.product_id', $id);
+        $this->db->where('product_size_params.deleted_at', null);
+        $exec = $this->db->get();
+        if ($exec->num_rows() > 0) {
+            $i = 0;
+            foreach ($exec->result() as $k) {
+                $return['sizes'][$i]['id']   = $k->id;
+                $return['sizes'][$i]['name'] = $k->name;
+                $i++;
+            }
+        }
+
+        $this->db->select(array(
+            'product_request_params.id',
+            'requests.name',
+        ));
+        $this->db->from('product_request_params');
+        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->where('product_request_params.product_id', $id);
+        $this->db->where('product_request_params.deleted_at', null);
+        $exec = $this->db->get();
+        if ($exec->num_rows() > 0) {
+            $i = 0;
+            foreach ($exec->result() as $k) {
+                $return['requests'][$i]['id']   = $k->id;
+                $return['requests'][$i]['name'] = $k->name;
+                $i++;
+            }
+        }
+
+        return $return;
+    }
+
     public function store($table, $data)
     {
         return $this->db->insert($table, $data);

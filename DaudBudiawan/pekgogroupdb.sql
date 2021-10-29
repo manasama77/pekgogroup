@@ -11,7 +11,7 @@
  Target Server Version : 100421
  File Encoding         : 65001
 
- Date: 29/10/2021 03:31:49
+ Date: 29/10/2021 09:26:37
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `admins`  (
 -- ----------------------------
 -- Records of admins
 -- ----------------------------
-INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-10-29 03:31:36', NULL, 1, 1, NULL);
+INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-10-29 09:26:22', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (2, '085603355799', '$2y$10$kiMo3KzzWPZEnKcPoFJ2JOoro6I9de6HnxEg6trQmQfzFET5YaTrC', 'Nurul', 'order', 'aktif', '2021-10-25 22:48:17', '2021-10-25 22:48:17', NULL, 1, 1, NULL);
 
 -- ----------------------------
@@ -269,12 +269,12 @@ CREATE TABLE `orders`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 119 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (82, 0, 'PKG.29.10.21081', '', '0000-00-00 00:00:00', NULL, '', 0, 0, 0, '', NULL, 0, '', NULL, NULL, NULL, '', '', 0.0000, 0, 0.00000, '', 0.0000, 0.0000, 0.0000, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 'no', 'no', 'no', 'temp', '2021-10-29 03:31:35', '2021-10-29 03:31:35', NULL, 1, 1, NULL);
+INSERT INTO `orders` VALUES (118, 0, 'PKG.29.10.21117', '', '0000-00-00 00:00:00', NULL, '', 0, 0, 0, '', NULL, 0, '', NULL, NULL, NULL, '', '', 0.0000, 117, 0.00000, '', 0.0000, 0.0000, 0.0000, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 'no', 'no', 'no', 'temp', '2021-10-29 09:26:18', '2021-10-29 09:26:18', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for product_color_params
@@ -481,7 +481,7 @@ CREATE TABLE `sequence_orders`  (
 -- Records of sequence_orders
 -- ----------------------------
 INSERT INTO `sequence_orders` VALUES (1, 1, '2021-10-28');
-INSERT INTO `sequence_orders` VALUES (2, 81, '2021-10-29');
+INSERT INTO `sequence_orders` VALUES (2, 117, '2021-10-29');
 
 -- ----------------------------
 -- Table structure for sequence_products

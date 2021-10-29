@@ -129,7 +129,7 @@ class Order_model extends CI_Model
             'status_order'          => '',
             'status_pembayaran'     => '',
             'sub_total'             => '',
-            'kode_unik'             => '',
+            'kode_unik'             => $sequence,
             'grand_total'           => '',
             'jenis_dp'              => '',
             'dp_value'              => '',
@@ -149,9 +149,12 @@ class Order_model extends CI_Model
         $id_order = $this->db->insert_id();
 
         return array(
-            'id_order'      => $id_order,
-            'sales_invoice' => $sales_invoice,
-            'created_at'    => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'id_order'             => $id_order,
+            'sales_invoice'        => $sales_invoice,
+            'kode_unik'            => $sequence,
+            'created_at'           => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'batas_waktu_transfer' => $this->cur_datetime->modify('+3 hour')->format('Y-m-d H:i:s'),
+            'estimasi_selesai'     => $this->cur_datetime->modify('+30 day')->format('Y-m-d'),
         );
     }
 

@@ -95,6 +95,8 @@
     <script src="<?= base_url(); ?>assets/js/jquery.blockUI.js"></script>
     <!-- select2 -->
     <script src="<?= base_url(); ?>assets/plugins/select2/js/select2.full.min.js"></script>
+    <!-- momentjs -->
+    <script src="<?= base_url(); ?>assets/plugins/moment/moment.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url(); ?>assets/js/adminlte.min.js"></script>
     <script src="<?= base_url(); ?>assets/js/adam_helper.js"></script>

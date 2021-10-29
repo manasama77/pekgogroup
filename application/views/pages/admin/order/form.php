@@ -85,7 +85,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="batas_waktu_transfer">BATAS WAKTU TRANSFER</label>
-                                <input type="text" class="form-control form-control-sm" id="batas_waktu_transfer" name="batas_waktu_transfer" placeholder="BATAS WAKTU TRANSFER" readonly required>
+                                <input type="text" class="form-control form-control-sm" id="batas_waktu_transfer" name="batas_waktu_transfer" placeholder="BATAS WAKTU TRANSFER" value="<?= $batas_waktu_transfer; ?>" readonly required>
                                 <?= form_error('batas_waktu_transfer'); ?>
                             </div>
                             <div class="form-group">
@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="estimasi_selesai">ESTIMASI SELESAI</label>
-                                <input type="text" class="form-control form-control-sm" id="estimasi_selesai" name="estimasi_selesai" placeholder="ESTIMASI SELESAI" readonly required>
+                                <input type="text" class="form-control form-control-sm" id="estimasi_selesai" name="estimasi_selesai" placeholder="ESTIMASI SELESAI" value="<?= $estimasi_selesai; ?>" readonly required>
                                 <?= form_error('estimasi_selesai'); ?>
                             </div>
                             <div class="form-group">
@@ -127,11 +127,15 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="nama_customer">CUSTOMER</label>
+                                <label for="customer_id">CUSTOMER</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm" id="nama_customer" name="nama_customer" placeholder="NAMA CUSTOMER" readonly required />
+                                    <select class="form-control form-control-sm select2" id="customer_id" name="customer_id" data-placeholder="Pilih Customer" required>
+                                        <option value=""></option>
+                                        <?php foreach ($customers->result() as $customer) { ?>
+                                            <option value="<?= $customer->id; ?>"><?= $customer->name; ?></option>
+                                        <?php } ?>
+                                    </select>
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-warning btn-flat btn-sm"><i class="fas fa-search"></i> CARI</button>
                                         <button type="button" class="btn btn-success btn-flat btn-sm"><i class="fas fa-plus"></i> TAMBAH</button>
                                     </div>
                                 </div>
@@ -217,14 +221,11 @@
                                 <label for="id_request">JENIS REQUEST</label>
                                 <select class="form-control form-control-sm select2" id="id_request" name="id_request" data-placeholder="Pilih Request">
                                     <option value=""></option>
-                                    <?php foreach ($requests->result() as $request) { ?>
-                                        <option value="<?= $request->id; ?>"><?= $request->name; ?> - Rp.<?= number_format($request->cost, 0); ?></option>
-                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
                         <div class="card-footer bg-warning">
-                            <button type="button" class="btn bg-orange btn-block btn-sm">Tambah Request</button>
+                            <button type="button" class="btn bg-orange btn-block btn-sm" id="tambah_request">Tambah Request</button>
                         </div>
                     </div>
                 </div>
@@ -240,7 +241,7 @@
                                 <th class="text-right">HARGA</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="v_order">
                             <!-- <tr>
                                 <td></td>
                                 <td class="text-right"></td>
@@ -252,28 +253,28 @@
                         <tfoot class="bg-dark">
                             <tr>
                                 <th class="text-right">SUBTOTAL</th>
-                                <th class="text-right">0</th>
+                                <th class="text-right" id="sub_total">0</th>
                             </tr>
                             <tr>
                                 <th class="text-right">KODE UNIK</th>
-                                <th class="text-right">0</th>
+                                <th class="text-right" id="kode_unik">0</th>
                             </tr>
                             <tr>
                                 <th class="text-right">GRAND TOTAL</th>
-                                <th class="text-right">0</th>
+                                <th class="text-right" id="grand_total">0</th>
                             </tr>
                             <tr>
-                                <th class="text-right">NILAI DP (0%)</th>
-                                <th class="text-right">0</th>
+                                <th class="text-right">NILAI DP <span id="persen_dp">(0%)</span></th>
+                                <th class="text-right" id="nilai_dp">0</th>
                             </tr>
                             <tr>
-                                <th class="text-right">NILAI PELUNASAN (0%)</th>
-                                <th class="text-right">0</th>
+                                <th class="text-right">NILAI PELUNASAN <span id="persen_lunas">(0%)</span> </th>
+                                <th class="text-right" id="nilai_lunas">0</th>
                             </tr>
                             <tr>
                                 <th colspan="2">
                                     CATATAN TAMBAHAN:
-                                    <p>-</p>
+                                    <p id="catatan_tambahan">-</p>
                                 </th>
                             </tr>
                             <tr>
@@ -291,9 +292,38 @@
                 <div class="col-12">
                     <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                     <input type="text" id="id_order" name="id_order" value="<?= $id_order; ?>" />
-                    <button type="submit" class="btn btn-primary btn-block btn-flat font-weight-bold">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat font-weight-bold">Save Order</button>
+                    <a href="<?= base_url('order/index'); ?>" class="btn btn-secondary btn-block btn-flat font-weight-bold">Kembali Ke Order List</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Modal Customer -->
+<form id="form_cari_customer">
+    <div class="modal fade" id="modal_cari_customer" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cari Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="customer_id">Customer</label>
+                            <textarea class="form-control" name="customer_id" id="customer_id"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="pilih_customer">Pilih</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

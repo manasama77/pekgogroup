@@ -330,6 +330,25 @@ class Produk extends CI_Controller
 
         echo json_encode($return);
     }
+
+    public function show($id)
+    {
+        $exec = $this->Produk_model->get_detail_for_order($id);
+
+        if (!$exec) {
+            $return = [
+                'code' => 500,
+                'data' => null,
+            ];
+        }
+
+        $return = [
+            'code' => 200,
+            'data' => $exec,
+        ];
+
+        echo json_encode($return);
+    }
 }
         
     /* End of file  Produk.php */
