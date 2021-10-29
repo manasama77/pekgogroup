@@ -371,9 +371,54 @@ class Order extends CI_Controller
 
     public function store_request()
     {
-        $id   = $this->input->post('id');
-        $exec = $this->Produk_model->get_product_request('id', $id);
+        $order_id   = $this->input->post('order_id');
+        $request_id = $this->input->post('request_id');
+        $exec       = $this->Produk_model->get_product_request('product_request_params.id', $request_id);
+        $cost       = $exec->row()->cost;
 
+        $data = array(
+            'order_id'   => $order_id,
+            'request_id' => $request_id,
+            'cost'       => $cost,
+            'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id'),
+        );
+
+        $exec = $this->Order_model->store('order_requests', $data);
+
+        if (!$exec) {
+            $return = ['code' => 500];
+        }
+
+        $return = [
+            'code' => 200,
+            'cost' => $cost,
+        ];
+
+        echo json_encode($return);
+    }
+
+    public function render_detail()
+    {
+        $order_id   = $this->input->get('order_id');
+        $product_id = $this->input->get('product_id');
+        $color_id   = $this->input->get('color_id');
+        $size_id    = $this->input->get('size_id');
+        $kode_unik  = $this->input->get('kode_unik');
+        $jenis_dp   = $this->input->get('jenis_dp');
+
+        $exec  = $this->Order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp);
+
+        echo json_encode([
+            'code' => 200,
+            'data' => $exec
+        ]);
+    }
+
+    public function remove_request()
+    {
+        $id = $this->input->post('id');
+        $exec = $this->Order_model->remove_request($id);
         if (!$exec) {
             $return = ['code' => 500];
         }

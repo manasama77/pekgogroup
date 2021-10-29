@@ -1,4 +1,5 @@
 <script>
+    let idOrder = $('#id_order')
     let formOrder = $('#form_order')
     let createdAt = $('#created_at')
     let durasiBatasTransfer = $('#durasi_batas_transfer')
@@ -20,6 +21,7 @@
     let catatan = $('#catatan')
     let catatanTambahan = $('#catatan_tambahan')
     let tambahRequest = $('#tambah_request')
+    let vOrder = $('#v_order')
     let modalCariCustomer = $('#modal_cari_customer')
 
     let subTotal = $('#sub_total')
@@ -42,6 +44,8 @@
         pilihJahitan.on('change', () => gantiEstimasi())
         customerId.on('change', () => getDetailCustomer())
         productId.on('change', () => getDetailProduk())
+        colorId.on('change', () => renderDetail())
+        sizeId.on('change', () => renderDetail())
         catatan.on('keyup', e => {
             catatanTambahan.html(catatan.val().replace(/\n/g, '<br />'))
         })
@@ -162,6 +166,8 @@
                     vRequests += `<option value="${k.id}">${k.name}</option>`
                 })
                 requestId.html(vRequests)
+
+                renderDetail()
             }
         })
     }
@@ -185,7 +191,41 @@
     }
 
     function storeRequest(id) {
-
+        console.log(id)
+        $.ajax({
+            url: `<?= base_url(); ?>order/store_request`,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'order_id': idOrder.val(),
+                'request_id': id
+            },
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            console.log(e)
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Store request order failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Store request order success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => renderDetail())
+            }
+        })
     }
 
     function generateDetailHarga() {
@@ -201,5 +241,80 @@
         }
         nilaiDp.text(currency(dDp))
         nilaiLunas.text(currency(dLunas))
+    }
+
+    function renderDetail() {
+        $.ajax({
+            url: `<?= base_url(); ?>order/render_detail`,
+            type: 'get',
+            dataType: 'json',
+            data: {
+                order_id: idOrder.val(),
+                product_id: productId.val(),
+                color_id: colorId.val(),
+                size_id: sizeId.val(),
+                kode_unik: kodeUnik.text(),
+                jenis_dp: jenisDp.text(),
+            },
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            console.log(e)
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Render detail product failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                console.log(e.data)
+                vOrder.html(e.data.html)
+                dSubTotal = e.data.sub_total
+                subTotal.html(currency(e.data.sub_total))
+                generateDetailHarga()
+            }
+        })
+    }
+
+    function removeRequest(id, cost) {
+        console.log(id)
+        $.ajax({
+            url: `<?= base_url(); ?>order/remove_request`,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                id: id,
+            },
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            console.log(e)
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Remove request failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Remove request success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => renderDetail())
+            }
+        })
     }
 </script>

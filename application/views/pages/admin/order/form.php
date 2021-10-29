@@ -231,6 +231,8 @@
                 </div>
                 <div class="col-12">
                     <hr />
+                </div>
+                <div class="col-sm-12 col-md-6 offset-md-3">
                     <table class="table table-bordered table-stripped table-sm">
                         <thead class="bg-dark">
                             <tr>
@@ -241,19 +243,19 @@
                                 <th class="text-right">HARGA</th>
                             </tr>
                         </thead>
-                        <tbody id="v_order">
+                        <tbody id="v_order" class="bg-secondary">
                             <!-- <tr>
                                 <td></td>
                                 <td class="text-right"></td>
                             </tr> -->
                             <tr>
-                                <td class="text-center bg-light font-weight-bold" colspan="2">Tidak ada data</td>
+                                <td class="text-center font-weight-bold" colspan="2">Tidak ada data</td>
                             </tr>
                         </tbody>
                         <tfoot class="bg-dark">
                             <tr>
                                 <th class="text-right">SUBTOTAL</th>
-                                <th class="text-right" id="sub_total">0</th>
+                                <th class="text-right" id="sub_total">Rp 0</th>
                             </tr>
                             <tr>
                                 <th class="text-right">KODE UNIK</th>

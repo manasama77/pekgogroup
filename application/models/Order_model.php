@@ -213,6 +213,109 @@ class Order_model extends CI_Model
     {
         return $this->db->update($table, $data, $where);
     }
+
+    public function render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp)
+    {
+        $data = array(
+            'product_id' => $product_id,
+            'color_id'   => $color_id,
+            'size_id'    => $size_id,
+        );
+        $where = array('id' => $order_id);
+        $this->db->update('orders', $data, $where);
+
+        ////////////////////////////////////////
+        $this->db->select('products.name as nama_produk, products.price as harga_produk');
+        $this->db->from('orders');
+        $this->db->join('products', 'products.id = orders.product_id', 'left');
+        $this->db->where('orders.id', $order_id);
+
+        if ($color_id != null) {
+            $this->db->select('colors.name as nama_warna');
+            $this->db->join('product_color_params', 'product_color_params.product_id = products.id', 'left');
+            $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+            $this->db->where('product_color_params.id', $color_id);
+        }
+
+        if ($size_id != null) {
+            $this->db->select('sizes.name as nama_ukuran, sizes.cost as harga_ukuran');
+            $this->db->join('product_size_params', 'product_size_params.product_id = products.id', 'left');
+            $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+            $this->db->where('product_size_params.id', $size_id);
+        }
+
+        $this->db->limit(1);
+        $exec = $this->db->get();
+
+        // echo $this->db->last_query();
+        // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';
+        // exit;
+
+        $nama_produk  = $exec->row()->nama_produk;
+        $harga_produk = $exec->row()->harga_produk;
+        $harga_ukuran = 0;
+
+        $text_warna = " (Warna: -)";
+        if ($color_id != null) {
+            $nama_warna   = $exec->row()->nama_warna;
+            $text_warna = " (Warna: " . $nama_warna . ")";
+        }
+
+        $html = '<tr>';
+        $html .= '<td>' . $nama_produk . $text_warna . '</td>';
+        $html .= '<td class="text-right">Rp ' . number_format($harga_produk, 2, ",", ".") . '</td>';
+        $html .= '</tr>';
+
+        if ($size_id != null) {
+            $nama_ukuran  = $exec->row()->nama_ukuran;
+            $harga_ukuran = $exec->row()->harga_ukuran;
+
+            $html .= '<tr>';
+            $html .= '<td>Size: ' . $nama_ukuran . '</td>';
+            $html .= '<td class="text-right">' . number_format($harga_ukuran, 2, ",", ".") . '</td>';
+            $html .= '</tr>';
+        }
+
+        $this->db->select(array(
+            'order_requests.id',
+            'requests.name',
+            'requests.cost',
+        ));
+
+        $this->db->from('order_requests');
+        $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
+        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->where('order_requests.order_id', $order_id);
+        $exec = $this->db->get();
+        $harga_request = 0;
+        if ($exec->num_rows() > 0) {
+            foreach ($exec->result() as $key) {
+                $id             = $key->id;
+                $name           = $key->name;
+                $cost           = $key->cost;
+                $harga_request += $cost;
+
+                $html .= '<tr>';
+                $html .= '<td><button type="button" class="btn btn-xs btn-danger" onclick="removeRequest(' . $id . ', \'' . $cost . '\');"><i class="fas fa-times"></i></button> Request: ' . $name . '</td>';
+                $html .= '<td class="text-right">' . number_format($cost, 2, ",", ".") . '</td>';
+                $html .= '</tr>';
+            }
+        }
+
+
+        $sub_total = $harga_produk + $harga_ukuran + $harga_request;
+
+        // echo '<textarea style="width: 500px; height: 500px;">' . $html . '</textarea>';
+        return array(
+            'html' => $html,
+            'sub_total' => $sub_total,
+        );
+    }
+
+    public function remove_request($id)
+    {
+        return $this->db->delete('order_requests', ['id' => $id]);
+    }
 }
                         
 /* End of file Order_model.php */

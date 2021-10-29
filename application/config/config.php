@@ -457,6 +457,8 @@ $config['csrf_regenerate']   = TRUE;
 $config['csrf_exclude_uris'] = array(
     'customer/index',
     'produk/hpp/store',
+    'order/store_request',
+    'order/remove_request',
 );
 
 /*
