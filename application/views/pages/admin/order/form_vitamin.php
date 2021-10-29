@@ -22,6 +22,7 @@
     let catatanTambahan = $('#catatan_tambahan')
     let tambahRequest = $('#tambah_request')
     let vOrder = $('#v_order')
+    let copyDetailOrder = $('#copy_detail_order')
     let modalCariCustomer = $('#modal_cari_customer')
 
     let subTotal = $('#sub_total')
@@ -56,6 +57,8 @@
         updateDP()
         dKodeUnik = parseInt(kodeUnik.text())
         generateDetailHarga()
+
+        copyDetailOrder.on('click', () => generateCopyOrder())
     })
 </script>
 
@@ -314,6 +317,49 @@
                     timer: 1500,
                     toast: true
                 }).then(() => renderDetail())
+            }
+        })
+    }
+
+    function generateCopyOrder() {
+        $.ajax({
+            url: `<?= base_url(); ?>order/copy_order`,
+            type: 'get',
+            dataType: 'json',
+            data: {
+                order_id: idOrder.val(),
+                product_id: productId.val(),
+                color_id: colorId.val(),
+                size_id: sizeId.val(),
+                kode_unik: kodeUnik.text(),
+                jenis_dp: jenisDp.val(),
+                catatan: catatan.val(),
+            },
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            console.log(e)
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Copy Detail Order Failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                copyClipboard(e.data)
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Copy Detail Order Success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
             }
         })
     }

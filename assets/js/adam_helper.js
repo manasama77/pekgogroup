@@ -22,3 +22,8 @@ function currency(cur) {
   }).format(cur)
   return vTotalPrice
 }
+
+function copyClipboard(text) {
+  /* Copy the text inside the text field */
+  navigator.clipboard.writeText(text);
+}

@@ -427,6 +427,24 @@ class Order extends CI_Controller
 
         echo json_encode($return);
     }
+
+    public function copy_order()
+    {
+        $order_id   = $this->input->get('order_id');
+        $product_id = $this->input->get('product_id');
+        $color_id   = $this->input->get('color_id');
+        $size_id    = $this->input->get('size_id');
+        $kode_unik  = $this->input->get('kode_unik');
+        $jenis_dp   = $this->input->get('jenis_dp');
+        $catatan    = $this->input->get('catatan');
+
+        $exec  = $this->Order_model->copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan);
+
+        echo json_encode([
+            'code' => 200,
+            'data' => $exec
+        ]);
+    }
 }
         
     /* End of file  Order.php */

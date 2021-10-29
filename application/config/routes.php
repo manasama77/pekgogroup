@@ -63,6 +63,7 @@ $route['order/add']                   = 'order/add';
 $route['order/store_request']['post'] = 'order/store_request';
 $route['order/render_detail']         = 'order/render_detail';
 $route['order/remove_request']        = 'order/remove_request';
+$route['order/copy_order']            = 'order/copy_order';
 
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';

@@ -316,6 +316,106 @@ class Order_model extends CI_Model
     {
         return $this->db->delete('order_requests', ['id' => $id]);
     }
+
+    public function copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan)
+    {
+        $this->db->select([
+            "orders.sales_invoice",
+            "orders.kode_unik",
+            "products.name as nama_produk",
+            "products.price as harga_produk",
+        ]);
+        $this->db->from("orders");
+        $this->db->join("products", "products.id = orders.product_id", "left");
+        $this->db->where("orders.id", $order_id);
+
+        if ($color_id != null) {
+            $this->db->select("colors.name as nama_warna");
+            $this->db->join("product_color_params", "product_color_params.product_id = products.id", "left");
+            $this->db->join("colors", "colors.id = product_color_params.color_id", "left");
+            $this->db->where("product_color_params.id", $color_id);
+        }
+
+        if ($size_id != null) {
+            $this->db->select("sizes.name as nama_ukuran, sizes.cost as harga_ukuran");
+            $this->db->join("product_size_params", "product_size_params.product_id = products.id", "left");
+            $this->db->join("sizes", "sizes.id = product_size_params.size_id", "left");
+            $this->db->where("product_size_params.id", $size_id);
+        }
+
+        $this->db->limit(1);
+        $exec = $this->db->get();
+
+        // echo $this->db->last_query();
+        // echo "<pre>" . print_r($exec->result(), 1) . "</pre>";
+        // exit;
+
+        $sales_invoice = $exec->row()->sales_invoice;
+        $kode_unik     = $exec->row()->kode_unik;
+        $nama_produk   = $exec->row()->nama_produk;
+        $harga_produk  = $exec->row()->harga_produk;
+        $harga_ukuran  = 0;
+
+        $text_warna = " (Warna: -)";
+        if ($color_id != null) {
+            $nama_warna   = $exec->row()->nama_warna;
+            $text_warna = " (Warna: " . $nama_warna . ")";
+        }
+
+        $html = "DETAIL ORDER \r\n";
+        $html = "Sales Invoice: " . $sales_invoice . "\r\n";
+        $html .= $nama_produk . $text_warna . " Rp" . number_format($harga_produk, 2, ",", ".") . "\r\n";
+
+        if ($size_id != null) {
+            $nama_ukuran  = $exec->row()->nama_ukuran;
+            $harga_ukuran = $exec->row()->harga_ukuran;
+
+            $html .= "Size: " . $nama_ukuran . " Rp " . number_format($harga_ukuran, 2, ",", ".") . "\r\n";
+        }
+
+        $this->db->select(array(
+            "order_requests.id",
+            "requests.name",
+            "requests.cost",
+        ));
+
+        $this->db->from("order_requests");
+        $this->db->join("product_request_params", "product_request_params.id = order_requests.request_id", "left");
+        $this->db->join("requests", "requests.id = product_request_params.request_id", "left");
+        $this->db->where("order_requests.order_id", $order_id);
+        $exec = $this->db->get();
+        $harga_request = 0;
+        if ($exec->num_rows() > 0) {
+            foreach ($exec->result() as $key) {
+                $id             = $key->id;
+                $name           = $key->name;
+                $cost           = $key->cost;
+                $harga_request += $cost;
+
+                $html .= "Request: " . $name . " Rp " . number_format($cost, 2, ",", ".") . "\r\n";
+            }
+        }
+
+        $sub_total   = $harga_produk + $harga_ukuran + $harga_request;
+        $grand_total = $sub_total + $kode_unik;
+
+        $val_dp = ($grand_total * $jenis_dp) / 100;
+        $persen_lunas = 100 - $jenis_dp;
+        $val_lunas = ($grand_total * $persen_lunas) / 100;
+
+        $html .= "Sub total: Rp " . number_format($sub_total, 2, ",", ".") . "\r\n";
+        $html .= "Kode Unik: Rp " . number_format($kode_unik, 0, ",", ".") . "\r\n";
+        $html .= "Grand total: Rp " . number_format($grand_total, 2, ",", ".") . "\r\n";
+        $html .= "DP " . $jenis_dp . "%: Rp " . number_format($val_dp, 2, ",", ".") . "\r\n";
+        $html .= "Pelunasan " . $persen_lunas . "%: Rp " . number_format($val_lunas, 2, ",", ".") . "\r\n";
+        if ($catatan != null) {
+            $html .= "Catatan \r\n" . $catatan . "\r\n";
+        }
+
+        // echo "<textarea style="width: 500px; height: 500px;">" . $html . "</textarea>";
+        // exit;
+        return $html;
+    }
 }
                         
 /* End of file Order_model.php */

@@ -281,7 +281,7 @@
                             </tr>
                             <tr>
                                 <th colspan="2" class="bg-warning">
-                                    <button type="button" class="btn bg-orange btn-sm btn-block font-weight-bold">
+                                    <button type="button" class="btn bg-orange btn-sm btn-block font-weight-bold" id="copy_detail_order">
                                         <i class="fas fa-copy fa-fw"></i> COPY DETAIL ORDER
                                     </button>
                                 </th>
