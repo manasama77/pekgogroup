@@ -239,7 +239,9 @@ class Customer extends CI_Controller
 
         $return = [
             'code' => 200,
-            'data' => $exec->result()
+            'data' => $exec->result(),
+            'id' => $id,
+            'lq' => $this->db->last_query()
         ];
 
         echo json_encode($return);

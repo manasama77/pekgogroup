@@ -30,6 +30,10 @@
     let grandTotal = $('#grand_total')
     let nilaiDp = $('#nilai_dp')
     let nilaiLunas = $('#nilai_lunas')
+    let subTotalOrder = $('#sub_total_order')
+    let grandTotalOrder = $('#grand_total_order')
+    let dpOrder = $('#dp_order')
+    let lunasOrder = $('#lunas_order')
 
     let dSubTotal = 0
     let dKodeUnik = 0
@@ -59,6 +63,49 @@
         generateDetailHarga()
 
         copyDetailOrder.on('click', () => generateCopyOrder())
+
+        // formOrder.on('submit', e => {
+        //     e.preventDefault()
+        //     if (customerId.val() == null) {
+        //         Swal.fire({
+        //             position: 'top-end',
+        //             icon: 'warning',
+        //             title: 'Silahkan pilih customer',
+        //             showConfirmButton: false,
+        //             timer: 3000,
+        //             toast: true
+        //         })
+        //     } else if (productId.val() == null) {
+        //         Swal.fire({
+        //             position: 'top-end',
+        //             icon: 'warning',
+        //             title: 'Silahkan pilih Produk',
+        //             showConfirmButton: false,
+        //             timer: 3000,
+        //             toast: true
+        //         })
+        //     } else if (colorId.val() == null) {
+        //         Swal.fire({
+        //             position: 'top-end',
+        //             icon: 'warning',
+        //             title: 'Silahkan pilih warna produk',
+        //             showConfirmButton: false,
+        //             timer: 3000,
+        //             toast: true
+        //         })
+        //     } else if (sizeId.val() == null) {
+        //         Swal.fire({
+        //             position: 'top-end',
+        //             icon: 'warning',
+        //             title: 'Silahkan pilih ukuran produk',
+        //             showConfirmButton: false,
+        //             timer: 3000,
+        //             toast: true
+        //         })
+        //     } else {
+        //         e.currentTarget.submit();
+        //     }
+        // })
     })
 </script>
 
@@ -99,7 +146,9 @@
             url: `<?= base_url(); ?>customer/show/${id_customer}`,
             type: 'get',
             dataType: 'json',
-            beforeSend: () => $.blockUI()
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,
@@ -136,7 +185,9 @@
             url: `<?= base_url(); ?>produk/show/${id_product}`,
             type: 'get',
             dataType: 'json',
-            beforeSend: () => $.blockUI()
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,
@@ -203,7 +254,9 @@
                 'order_id': idOrder.val(),
                 'request_id': id
             },
-            beforeSend: () => $.blockUI()
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,
@@ -244,6 +297,11 @@
         }
         nilaiDp.text(currency(dDp))
         nilaiLunas.text(currency(dLunas))
+        subTotalOrder.val(dSubTotal)
+        grandTotalOrder.val(dGrandTotal)
+        dpOrder.val(dDp)
+        lunasOrder.val(dLunas)
+        //adam
     }
 
     function renderDetail() {
@@ -259,7 +317,9 @@
                 kode_unik: kodeUnik.text(),
                 jenis_dp: jenisDp.text(),
             },
-            beforeSend: () => $.blockUI()
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,
@@ -293,7 +353,9 @@
             data: {
                 id: id,
             },
-            beforeSend: () => $.blockUI()
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,
@@ -335,7 +397,9 @@
                 jenis_dp: jenisDp.val(),
                 catatan: catatan.val(),
             },
-            beforeSend: () => $.blockUI()
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
         }).always(() => $.unblockUI()).fail(e => Swal.fire({
             icon: 'warning',
             html: e.responseText,

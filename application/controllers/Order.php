@@ -58,7 +58,6 @@ class Order extends CI_Controller
         $this->form_validation->set_rules('admin_order', 'ADMIN ORDER', 'required');
         $this->form_validation->set_rules('project_id', 'PROJECT', 'required');
         $this->form_validation->set_rules('order_via', 'ORDER VIA', 'required');
-        $this->form_validation->set_rules('nama_customer', 'NAMA CUSTOMER', 'required');
         $this->form_validation->set_rules('whatsapp', 'NO WHATSAPP', 'required');
         $this->form_validation->set_rules('sales_invoice', 'SALES INVOICE', 'required');
         $this->form_validation->set_rules('created_at', 'TANGGAL & JAM ORDER', 'required');
@@ -121,107 +120,78 @@ class Order extends CI_Controller
 
     protected function store()
     {
-        // echo '<pre>' . print_r($this->input->post(), 1) . '</pre>';
-        // exit;
-        $id_product = $this->input->post('id_product');
-        $code       = $this->input->post('code');
-        $name       = $this->input->post('name');
-        $color_id   = $this->input->post('color_id');
-        $size_id    = $this->input->post('size_id');
-        $request_id = $this->input->post('request_id');
+        $id_order              = $this->input->post('id_order');
+        $project_id            = $this->input->post('project_id');
+        $durasi_batas_transfer = $this->input->post('durasi_batas_transfer');
+        $batas_waktu_transfer  = $this->input->post('batas_waktu_transfer');
+        $estimasi_selesai      = $this->input->post('estimasi_selesai');
+        $order_via             = $this->input->post('order_via');
+        $product_id            = $this->input->post('product_id');
+        $color_id              = $this->input->post('color_id');
+        $size_id               = $this->input->post('size_id');
+        $pilih_jahitan         = $this->input->post('pilih_jahitan');
+        $catatan               = $this->input->post('catatan');
+        $customer_id           = $this->input->post('customer_id');
+        $whatsapp              = $this->input->post('whatsapp');
+        $id_tokped             = $this->input->post('id_tokped');
+        $id_shopee             = $this->input->post('id_shopee');
+        $id_instagram          = $this->input->post('id_instagram');
+        $jenis_dp              = $this->input->post('jenis_dp');
+        $sub_total             = $this->input->post('sub_total_order');
+        $grand_total           = $this->input->post('grand_total_order');
+        $grand_total           = $this->input->post('grand_total_order');
+        $dp_value              = $this->input->post('dp_order');
+        $dp_value              = $this->input->post('dp_order');
+        $pelunasan_value       = $this->input->post('lunas_order');
 
-        $config['upload_path']   = './assets/img/products/';
-        $config['allowed_types'] = 'jpeg|jpg|png';
-        $config['max_size']      = 2048;
-        $config['max_width']     = 0;
-        $config['max_height']    = 0;
-        $config['encrypt_name']  = true;
-        $config['remove_spaces'] = true;
-        $this->load->library('upload', $config);
 
-        if (!$this->upload->do_upload('path_image')) {
-            $error = $this->upload->display_errors();
-            $this->session->set_flashdata('error', $error);
-            session_write_close();
-            redirect(base_url() . 'order/add', 'location');
-        } else {
-            $image_data = $this->upload->data();
-            $path_image = $image_data['file_name'];
+        $data = array(
+            'project_id'            => $project_id,
+            'durasi_batas_transfer' => $durasi_batas_transfer,
+            'batas_waktu_transfer'  => $batas_waktu_transfer,
+            'estimasi_selesai'      => $estimasi_selesai,
+            'order_via'             => $order_via,
+            'product_id'            => $product_id,
+            'color_id'              => $color_id,
+            'size_id'               => $size_id,
+            'pilih_jahitan'         => $pilih_jahitan,
+            'catatan'               => $catatan,
+            'customer_id'           => $customer_id,
+            'whatsapp'              => $whatsapp,
+            'id_tokped'             => $id_tokped,
+            'id_shopee'             => $id_shopee,
+            'id_instagram'          => $id_instagram,
+            'status_order'          => 'order dibuat',
+            'status_pembayaran'     => 'menunggu pembayaran',
+            'sub_total'             => $sub_total,
+            'grand_total'           => $grand_total,
+            'jenis_dp'              => $jenis_dp,
+            'dp_value'              => $dp_value,
+            'pelunasan_value'       => $pelunasan_value,
+            'admin_order'           => $this->session->userdata('id'),
+            'status'                => 'active',
+        );
+        $where = array('id' => $id_order);
+        $exec  = $this->Order_model->update('orders', $data, $where);
 
-            $data = array(
-                'name'       => $name,
-                'path_image' => $path_image,
-                'status'     => 'active',
-                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by' => $this->session->userdata('id'),
-            );
-            $where = array('id', $id_product);
-            $exec  = $this->Order_model->update('products', $data, $where);
-
-            if (!$exec) {
-                echo "Tambah Order gagal, silahkan coba kembali!";
-            }
-
-            $data = array(
-                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by' => $this->session->userdata('id'),
-            );
-            $where = array('product_id', $id_product);
-            $exec  = $this->Order_model->update('product_hpp_params', $data, $where);
-
-            if (!$exec) {
-                echo "Tambah HPP Order gagal, silahkan coba kembali!";
-            }
-
-            for ($i = 0; $i < count($color_id); $i++) {
-                $data = array(
-                    'product_id' => $id_product,
-                    'color_id'   => $color_id[$i],
-                    'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'created_by' => $this->session->userdata('id'),
-                    'updated_by' => $this->session->userdata('id'),
-                );
-                $exec  = $this->Order_model->store('product_color_params', $data);
-                if (!$exec) {
-                    echo "Tambah Warna Order gagal, silahkan coba kembali!";
-                }
-            }
-
-            for ($i = 0; $i < count($size_id); $i++) {
-                $data = array(
-                    'product_id' => $id_product,
-                    'size_id'   => $size_id[$i],
-                    'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'created_by' => $this->session->userdata('id'),
-                    'updated_by' => $this->session->userdata('id'),
-                );
-                $exec  = $this->Order_model->store('product_size_params', $data);
-                if (!$exec) {
-                    echo "Tambah Ukuran Order gagal, silahkan coba kembali!";
-                }
-            }
-
-            for ($i = 0; $i < count($request_id); $i++) {
-                $data = array(
-                    'product_id' => $id_product,
-                    'request_id'   => $request_id[$i],
-                    'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'created_by' => $this->session->userdata('id'),
-                    'updated_by' => $this->session->userdata('id'),
-                );
-                $exec  = $this->Order_model->store('product_request_params', $data);
-                if (!$exec) {
-                    echo "Tambah Request Order gagal, silahkan coba kembali!";
-                }
-            }
-
-            $this->session->set_flashdata('success', 'Tambah Order Berhasil');
-            session_write_close();
-            redirect(base_url() . 'order/index', 'location');
+        if (!$exec) {
+            echo "Tambah Order gagal, silahkan coba kembali!";
         }
+
+        $data = array(
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by' => $this->session->userdata('id'),
+        );
+        $where = array('order_id' => $id_order);
+        $exec  = $this->Order_model->update('order_requests', $data, $where);
+
+        if (!$exec) {
+            echo "Tambah request gagal, silahkan coba kembali!";
+        }
+
+        $this->session->set_flashdata('success', 'Tambah Order Berhasil');
+        session_write_close();
+        redirect(base_url() . 'order/add', 'location');
     }
 
     public function edit($id)

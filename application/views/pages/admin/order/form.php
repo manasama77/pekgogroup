@@ -7,6 +7,20 @@
         </div>
         <div class="row">
             <div class="col-12">
+                <?php if ($this->session->flashdata('success')) { ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <strong>
+                            <?= $this->session->flashdata('success'); ?>
+                            <!-- repair bug php 8 -->
+                            <?php $this->session->unset_userdata('success'); ?>
+                        </strong>
+                    </div>
+                <?php } ?>
+
                 <?php if ($this->session->flashdata('error')) { ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -27,7 +41,7 @@
 
 <div class="content">
     <div class="container-fluid small">
-        <form id="form_order" action="<?= base_url('order/add'); ?>" method="post" enctype="multipart/form-data">
+        <form id="form_order" action="<?= base_url('order/add'); ?>" method="post">
             <div class="row">
                 <div class="col-sm-12 col-md-4">
                     <div class="card card-primary">
@@ -136,7 +150,7 @@
                                         <?php } ?>
                                     </select>
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-success btn-flat btn-sm"><i class="fas fa-plus"></i> TAMBAH</button>
+                                        <button type="button" class="btn btn-success btn-flat btn-sm" disabled><i class="fas fa-plus"></i> TAMBAH</button>
                                     </div>
                                 </div>
                                 <?= form_error('nama_customer'); ?>
@@ -294,6 +308,11 @@
                 <div class="col-12">
                     <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                     <input type="text" id="id_order" name="id_order" value="<?= $id_order; ?>" />
+                    <input type="text" id="sub_total_order" name="sub_total_order" value="0" />
+                    <input type="text" id="kode_unik_order" name="kode_unik_order" value="<?= $kode_unik; ?>" />
+                    <input type="text" id="grand_total_order" name="grand_total_order" value="0" />
+                    <input type="text" id="dp_order" name="dp_order" value="0" />
+                    <input type="text" id="lunas_order" name="lunas_order" value="0" />
                     <button type="submit" class="btn btn-primary btn-block btn-flat font-weight-bold">Save Order</button>
                     <a href="<?= base_url('order/index'); ?>" class="btn btn-secondary btn-block btn-flat font-weight-bold">Kembali Ke Order List</a>
                 </div>
