@@ -52,8 +52,10 @@ class Order_model extends CI_Model
             'orders.status',
             'orders.created_at',
             'products.name as nama_produk',
+            'products.price as harga_produk',
             'colors.name as nama_warna',
             'sizes.name as nama_ukuran',
+            'sizes.cost as harga_ukuran',
             'customers.name as nama_customer',
             'admin_order.name as nama_admin_order',
             'admin_produksi.name as nama_admin_produksi',
@@ -232,7 +234,7 @@ class Order_model extends CI_Model
         return $this->db->update($table, $data, $where);
     }
 
-    public function render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp)
+    public function render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan)
     {
         $data = array(
             'product_id' => $product_id,
@@ -265,10 +267,6 @@ class Order_model extends CI_Model
         $this->db->limit(1);
         $exec = $this->db->get();
 
-        // echo $this->db->last_query();
-        // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';
-        // exit;
-
         $nama_produk  = $exec->row()->nama_produk;
         $harga_produk = $exec->row()->harga_produk;
         $harga_ukuran = 0;
@@ -294,17 +292,32 @@ class Order_model extends CI_Model
             $html .= '</tr>';
         }
 
+        if ($pilih_jahitan == "standard") {
+            $harga_jahitan = 0;
+        } elseif ($pilih_jahitan == "express") {
+            $harga_jahitan = 50000;
+        } elseif ($pilih_jahitan == "urgent") {
+            $harga_jahitan = 100000;
+        } elseif ($pilih_jahitan == "super urgent") {
+            $harga_jahitan = 150000;
+        }
+        $nama_jahitan = ucwords($pilih_jahitan);
+        $html .= '<tr>';
+        $html .= '<td>Jahitan: ' . $nama_jahitan . '</td>';
+        $html .= '<td class="text-right">' . number_format($harga_jahitan, 2, ",", ".") . '</td>';
+        $html .= '</tr>';
+
         $this->db->select(array(
             'order_requests.id',
             'requests.name',
             'requests.cost',
         ));
-
         $this->db->from('order_requests');
         $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
         $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
         $this->db->where('order_requests.order_id', $order_id);
         $exec = $this->db->get();
+
         $harga_request = 0;
         if ($exec->num_rows() > 0) {
             foreach ($exec->result() as $key) {
@@ -321,11 +334,10 @@ class Order_model extends CI_Model
         }
 
 
-        $sub_total = $harga_produk + $harga_ukuran + $harga_request;
+        $sub_total = $harga_produk + $harga_ukuran + $harga_jahitan + $harga_request;
 
-        // echo '<textarea style="width: 500px; height: 500px;">' . $html . '</textarea>';
         return array(
-            'html' => $html,
+            'html'      => $html,
             'sub_total' => $sub_total,
         );
     }
@@ -335,7 +347,7 @@ class Order_model extends CI_Model
         return $this->db->delete('order_requests', ['id' => $id]);
     }
 
-    public function copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan)
+    public function copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan, $pilih_jahitan)
     {
         $this->db->select([
             "orders.sales_invoice",
@@ -364,10 +376,6 @@ class Order_model extends CI_Model
         $this->db->limit(1);
         $exec = $this->db->get();
 
-        // echo $this->db->last_query();
-        // echo "<pre>" . print_r($exec->result(), 1) . "</pre>";
-        // exit;
-
         $sales_invoice = $exec->row()->sales_invoice;
         $kode_unik     = $exec->row()->kode_unik;
         $nama_produk   = $exec->row()->nama_produk;
@@ -390,6 +398,18 @@ class Order_model extends CI_Model
 
             $html .= "Size: " . $nama_ukuran . " Rp " . number_format($harga_ukuran, 2, ",", ".") . "\r\n";
         }
+
+        if ($pilih_jahitan == "standard") {
+            $harga_jahitan = 0;
+        } elseif ($pilih_jahitan == "express") {
+            $harga_jahitan = 50000;
+        } elseif ($pilih_jahitan == "urgent") {
+            $harga_jahitan = 100000;
+        } elseif ($pilih_jahitan == "super urgent") {
+            $harga_jahitan = 150000;
+        }
+        $nama_jahitan = ucwords($pilih_jahitan);
+        $html .= "Jahitan: " . $nama_jahitan . " Rp " . number_format($harga_jahitan, 2, ",", ".") . "\r\n";
 
         $this->db->select(array(
             "order_requests.id",
@@ -414,7 +434,7 @@ class Order_model extends CI_Model
             }
         }
 
-        $sub_total   = $harga_produk + $harga_ukuran + $harga_request;
+        $sub_total   = $harga_produk + $harga_ukuran + $harga_jahitan + $harga_request;
         $grand_total = $sub_total + $kode_unik;
 
         $val_dp = ($grand_total * $jenis_dp) / 100;
@@ -430,8 +450,6 @@ class Order_model extends CI_Model
             $html .= "Catatan \r\n" . $catatan . "\r\n";
         }
 
-        // echo "<textarea style="width: 500px; height: 500px;">" . $html . "</textarea>";
-        // exit;
         return $html;
     }
 
@@ -448,6 +466,51 @@ class Order_model extends CI_Model
         $this->db->where('order_requests.order_id', $id);
         $exec = $this->db->get();
         return $exec;
+    }
+
+    public function generate_invoice($id)
+    {
+        $this->db->select('path_logo');
+        $this->db->from('projects');
+        $this->db->where('id', 1);
+        $exec = $this->db->get();
+        $path_logo = base_url() . 'assets/img/projects/' . $exec->row()->path_logo;
+
+        $this->db->select($this->select);
+        $this->db->from('orders');
+        $this->db->join('products', 'products.id = orders.product_id', 'left');
+        $this->db->join('product_color_params', 'product_color_params.id = orders.color_id', 'left');
+        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+        $this->db->join('product_size_params', 'product_size_params.id = orders.size_id', 'left');
+        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->join('customers', 'customers.id = orders.customer_id', 'left');
+        $this->db->join('admins as admin_order', 'admin_order.id = orders.admin_order', 'left');
+        $this->db->join('admins as admin_produksi', 'admin_produksi.id = orders.admin_produksi', 'left');
+        $this->db->join('admins as admin_cs', 'admin_cs.id = orders.admin_cs', 'left');
+        $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_cs', 'left');
+        $this->db->where('orders.id', $id);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.deleted_at', null);
+        $this->db->order_by('orders.id', 'desc');
+        $exec_order = $this->db->get();
+
+        $this->db->select(array(
+            'requests.name',
+            'requests.cost',
+        ));
+        $this->db->from('order_requests');
+        $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
+        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->where('order_requests.order_id', $id);
+        $exec_request = $this->db->get();
+
+        $return = array(
+            'path_logo'     => $path_logo,
+            'data_orders'   => $exec_order->result(),
+            'data_requests' => $exec_request->result(),
+        );
+
+        return $return;
     }
 }
                         

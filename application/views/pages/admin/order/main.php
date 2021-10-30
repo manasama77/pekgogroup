@@ -336,10 +336,10 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="copyOrder(<?= $key->id; ?>);">COPY DETAIL ORDER</button>
+                                        <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="copyOrder(<?= $key->id; ?>, <?= $key->product_id; ?>, <?= $key->color_id; ?>, <?= $key->size_id; ?>, <?= $key->kode_unik; ?>, <?= $key->jenis_dp; ?>, '<?= $key->catatan; ?>', '<?= $key->pilih_jahitan; ?>');">COPY DETAIL ORDER</button>
                                     </td>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-dark btn-block btn-xs btn-flat">PRINT INVOICE</a>
+                                        <a href="<?= base_url('order/invoice/' . $key->id); ?>" class="btn btn-dark btn-block btn-xs btn-flat" target="_blank">PRINT INVOICE</a>
                                     </td>
                                 </tr>
                                 <tr>

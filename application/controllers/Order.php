@@ -370,14 +370,15 @@ class Order extends CI_Controller
 
     public function render_detail()
     {
-        $order_id   = $this->input->get('order_id');
-        $product_id = $this->input->get('product_id');
-        $color_id   = $this->input->get('color_id');
-        $size_id    = $this->input->get('size_id');
-        $kode_unik  = $this->input->get('kode_unik');
-        $jenis_dp   = $this->input->get('jenis_dp');
+        $order_id      = $this->input->get('order_id');
+        $product_id    = $this->input->get('product_id');
+        $color_id      = $this->input->get('color_id');
+        $size_id       = $this->input->get('size_id');
+        $kode_unik     = $this->input->get('kode_unik');
+        $jenis_dp      = $this->input->get('jenis_dp');
+        $pilih_jahitan = $this->input->get('pilih_jahitan');
 
-        $exec  = $this->Order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp);
+        $exec  = $this->Order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan);
 
         echo json_encode([
             'code' => 200,
@@ -400,15 +401,16 @@ class Order extends CI_Controller
 
     public function copy_order()
     {
-        $order_id   = $this->input->get('order_id');
-        $product_id = $this->input->get('product_id');
-        $color_id   = $this->input->get('color_id');
-        $size_id    = $this->input->get('size_id');
-        $kode_unik  = $this->input->get('kode_unik');
-        $jenis_dp   = $this->input->get('jenis_dp');
-        $catatan    = $this->input->get('catatan');
+        $order_id      = $this->input->get('order_id');
+        $product_id    = $this->input->get('product_id');
+        $color_id      = $this->input->get('color_id');
+        $size_id       = $this->input->get('size_id');
+        $kode_unik     = $this->input->get('kode_unik');
+        $jenis_dp      = $this->input->get('jenis_dp');
+        $catatan       = $this->input->get('catatan');
+        $pilih_jahitan = $this->input->get('pilih_jahitan');
 
-        $exec  = $this->Order_model->copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan);
+        $exec  = $this->Order_model->copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan, $pilih_jahitan);
 
         echo json_encode([
             'code' => 200,
@@ -426,6 +428,12 @@ class Order extends CI_Controller
             'code' => 200,
             'data' => $exec->result(),
         ]);
+    }
+
+    public function invoice($id)
+    {
+        $exec = $this->Order_model->generate_invoice($id);
+        $this->load->view('invoice', $exec, FALSE);
     }
 }
         

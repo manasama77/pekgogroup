@@ -63,49 +63,6 @@
         generateDetailHarga()
 
         copyDetailOrder.on('click', () => generateCopyOrder())
-
-        // formOrder.on('submit', e => {
-        //     e.preventDefault()
-        //     if (customerId.val() == null) {
-        //         Swal.fire({
-        //             position: 'top-end',
-        //             icon: 'warning',
-        //             title: 'Silahkan pilih customer',
-        //             showConfirmButton: false,
-        //             timer: 3000,
-        //             toast: true
-        //         })
-        //     } else if (productId.val() == null) {
-        //         Swal.fire({
-        //             position: 'top-end',
-        //             icon: 'warning',
-        //             title: 'Silahkan pilih Produk',
-        //             showConfirmButton: false,
-        //             timer: 3000,
-        //             toast: true
-        //         })
-        //     } else if (colorId.val() == null) {
-        //         Swal.fire({
-        //             position: 'top-end',
-        //             icon: 'warning',
-        //             title: 'Silahkan pilih warna produk',
-        //             showConfirmButton: false,
-        //             timer: 3000,
-        //             toast: true
-        //         })
-        //     } else if (sizeId.val() == null) {
-        //         Swal.fire({
-        //             position: 'top-end',
-        //             icon: 'warning',
-        //             title: 'Silahkan pilih ukuran produk',
-        //             showConfirmButton: false,
-        //             timer: 3000,
-        //             toast: true
-        //         })
-        //     } else {
-        //         e.currentTarget.submit();
-        //     }
-        // })
     })
 </script>
 
@@ -133,6 +90,7 @@
         let newEstimasi = new moment(batasWaktuTransfer.val()).add(y, 'd').format('YYYY-MM-DD')
         console.log(newEstimasi)
         estimasiSelesai.val(newEstimasi)
+        renderDetail()
     }
 
     function showModalCari() {
@@ -316,6 +274,7 @@
                 size_id: sizeId.val(),
                 kode_unik: kodeUnik.text(),
                 jenis_dp: jenisDp.text(),
+                pilih_jahitan: pilihJahitan.val(),
             },
             beforeSend: () => $.blockUI({
                 message: `<i class="fas fa-spinner fa-spin"></i>`
@@ -396,6 +355,7 @@
                 kode_unik: kodeUnik.text(),
                 jenis_dp: jenisDp.val(),
                 catatan: catatan.val(),
+                pilih_jahitan: pilihJahitan.val(),
             },
             beforeSend: () => $.blockUI({
                 message: `<i class="fas fa-spinner fa-spin"></i>`
