@@ -80,6 +80,11 @@ class Project_model extends CI_Model
     {
         return $this->db->insert('projects', $data);
     }
+
+    public function update($data, $where)
+    {
+        return $this->db->update('projects', $data, $where);
+    }
 }
                         
 /* End of file Project_model.php */

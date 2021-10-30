@@ -190,10 +190,7 @@
             <div class="col-sm-12 col-lg-3">
                 <blockquote class="elevation-2">
                     <p>
-                        Total Data: <?= number_format($list->num_rows(), 0); ?> Data<br />
-                        Cari Berdasarkan: <?= strtoupper($field_show); ?><br />
-                        Status Member: <?= strtoupper($status_show); ?><br />
-                        Keyword: <?= strtoupper($keyword_show); ?>
+                        Total Data: <?= number_format($list->num_rows(), 0); ?> Data
                     </p>
                 </blockquote>
             </div>
@@ -205,11 +202,59 @@
                         <div class="card-body p-0">
                             <table class="table table-bordered table-striped table-valign-middle table-sm small">
                                 <tr>
-                                    <td>NAMA</td>
-                                    <td><?= $key->name; ?></td>
+                                    <td>SALES INVOICE</td>
+                                    <td><?= $key->sales_invoice; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>NO WHATSAPP</td>
+                                    <td>TANGGAL & JAM ORDER</td>
+                                    <td><?= $key->created_at; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>BATAS WAKTU TRANSFER</td>
+                                    <td><?= $key->batas_waktu_transfer; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ESTIMASI SELESAI</td>
+                                    <td><?= $key->estimasi_selesai; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ORDER VIA</td>
+                                    <td><?= strtoupper($key->order_via); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PRODUK</td>
+                                    <td><?= $key->nama_produk; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>WARNA</td>
+                                    <td><?= $key->nama_warna; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>UKURAN</td>
+                                    <td><?= $key->nama_ukuran; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>JAHITAN</td>
+                                    <td><?= strtoupper($key->pilih_jahitan); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>REQUEST</td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-info" onclick="showRequest(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')">Show</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CATATAN</td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-info" onclick="showCatatan('<?= $key->catatan; ?>', '<?= $key->sales_invoice; ?>')">Show</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>CUSTOMER</td>
+                                    <td><?= $key->nama_customer; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>WHATSAPP</td>
                                     <td><?= $key->whatsapp; ?></td>
                                 </tr>
                                 <tr>
@@ -225,26 +270,56 @@
                                     <td><?= $key->id_instagram; ?></td>
                                 </tr>
                                 <tr>
-                                    <td style="vertical-align: top;">STATUS</td>
-                                    <td>
-                                        <?= strtoupper($key->status); ?>
-                                        <?php if ($key->status == 'tidak aktif') { ?>
-                                            <br />
-                                            <?= $key->reason_inactive; ?>
-                                        <?php } ?>
-                                    </td>
+                                    <td>STATUS ORDER</td>
+                                    <td><?= strtoupper($key->status_order); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>JUMLAH ORDER</td>
-                                    <td><?= number_format($key->order_created, 0); ?></td>
+                                    <td>STATUS PEMBAYARAN</td>
+                                    <td><?= strtoupper($key->status_pembayaran); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>GRAND TOTAL ORDER</td>
-                                    <td>Rp.<?= number_format($key->order_total, 0); ?></td>
+                                    <td>GRAND TOTAL</td>
+                                    <td>Rp <?= number_format($key->grand_total, 2); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>PEMBATALAN ORDER</td>
-                                    <td><?= number_format($key->order_canceled, 0); ?></td>
+                                    <td>DP (<?= $key->jenis_dp; ?>%)</td>
+                                    <td>Rp <?= number_format($key->dp_value, 2); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PELUNASAN</td>
+                                    <td>Rp <?= number_format($key->pelunasan_value, 2); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>TANGGAL PENGIRIMAN</td>
+                                    <td><?= $key->tanggal_pengiriman; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>EKSPEDISI</td>
+                                    <td><?= $key->ekspedisi; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>NO RESI</td>
+                                    <td><?= $key->no_resi; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ALAMAT PENGIRIMAN</td>
+                                    <td><?= $key->alamat_pengiriman; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ADMIN ORDER</td>
+                                    <td><?= $key->nama_admin_order; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ADMIN PRODUKSI</td>
+                                    <td><?= $key->nama_admin_produksi; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ADMIN CS</td>
+                                    <td><?= $key->nama_admin_cs; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>ADMIN FINANCE</td>
+                                    <td><?= $key->nama_admin_finance; ?></td>
                                 </tr>
                                 <tr class="bg-dark">
                                     <td colspan="2" class="text-center pb-1 pt-1">
@@ -261,14 +336,26 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <?php if ($key->status == "aktif") { ?>
-                                            <button type="button" class="btn btn-danger btn-block btn-xs btn-flat" onclick="modalBlokir(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">BLOKIR</button>
-                                        <?php } else { ?>
-                                            <a href="<?= base_url('order/status/aktifkan/' . $key->id); ?>" class="btn btn-success btn-block btn-xs btn-flat">AKTIFKAN</a>
-                                        <?php } ?>
+                                        <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="copyOrder(<?= $key->id; ?>);">COPY DETAIL ORDER</button>
                                     </td>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-secondary  btn-block btn-xs btn-flat">RESET PASSWORD</a>
+                                        <a href="#" class="btn btn-dark btn-block btn-xs btn-flat">PRINT INVOICE</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0">
+                                        <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PEMBAYARAN</a>
+                                    </td>
+                                    <td class="p-0">
+                                        <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PRODUKSI</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0">
+                                        <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGIRIMAN</a>
+                                    </td>
+                                    <td class="p-0">
+                                        <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGADUAN</a>
                                     </td>
                                 </tr>
                             </table>

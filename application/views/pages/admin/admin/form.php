@@ -65,6 +65,12 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="role_finance" value="finance" <?= set_radio('role', 'finance', false); ?>>
+                                    <label class="form-check-label" for="role_finance">
+                                        Admin Finance
+                                    </label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="radio" name="role" id="role_owner" value="owner" <?= set_radio('role', 'owner', false); ?>>
                                     <label class="form-check-label" for="role_owner">
                                         Owner

@@ -415,6 +415,18 @@ class Order extends CI_Controller
             'data' => $exec
         ]);
     }
+
+    public function show_request()
+    {
+        $id = $this->input->get('id');
+
+        $exec = $this->Order_model->show_request($id);
+
+        echo json_encode([
+            'code' => 200,
+            'data' => $exec->result(),
+        ]);
+    }
 }
         
     /* End of file  Order.php */

@@ -64,6 +64,7 @@ $route['order/store_request']['post'] = 'order/store_request';
 $route['order/render_detail']         = 'order/render_detail';
 $route['order/remove_request']        = 'order/remove_request';
 $route['order/copy_order']            = 'order/copy_order';
+$route['order/show_request']          = 'order/show_request';
 
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';
@@ -95,6 +96,7 @@ $route['produk/edit/(:num)']['get']           = 'produk/edit/$1';
 $route['setup/project']  = 'project/index';
 $route['setup/karyawan'] = 'karyawan/index';
 $route['setup/hpp']      = 'hpp/index';
+$route['project/update'] = 'project/update';
 
 $route['setup/parameter/satuan']                  = 'satuan/index';
 $route['setup/parameter/satuan/(:num)']['delete'] = 'satuan/destroy/$1';

@@ -113,7 +113,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/index'); ?>" class="nav-link">
+                        <a href="<?= base_url('admin/add'); ?>" class="nav-link">
                             <i class="fas fa-plus-circle nav-icon"></i>
                             <p>Tambah Admin</p>
                         </a>

@@ -31,11 +31,12 @@ class Project extends CI_Controller
             );
             $list = $this->Project_model->get_all_data();
             $data = array(
-                'title' => 'Project',
-                'page'  => 'project/main',
-                'csrf'  => $csrf,
-                'list'  => $list,
-                'error' => null,
+                'title'   => 'Project',
+                'page'    => 'project/main',
+                'vitamin' => 'project/main_vitamin',
+                'csrf'    => $csrf,
+                'list'    => $list,
+                'error'   => null,
             );
             $this->theme->render($data);
         } else {
@@ -58,7 +59,7 @@ class Project extends CI_Controller
             $error = $this->upload->display_errors();
             $this->session->set_flashdata('error', $error);
             session_write_close();
-            redirect(base_url() . 'setup/project', 'refresh');
+            redirect(base_url() . 'setup/project', 'location');
         } else {
             $image_data = $this->upload->data();
             $path_logo = $image_data['file_name'];
@@ -83,7 +84,51 @@ class Project extends CI_Controller
 
             $this->session->set_flashdata('success', 'Tambah Project Berhasil');
             session_write_close();
-            redirect(base_url() . 'setup/project', 'refresh');
+            redirect(base_url() . 'setup/project', 'location');
+        }
+    }
+
+    public function update()
+    {
+        $config['upload_path']   = './assets/img/projects/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $config['max_size']      = 2048;
+        $config['max_width']     = 512;
+        $config['max_height']    = 512;
+        $config['encrypt_name']  = true;
+        $config['remove_spaces'] = true;
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('xpath_logo')) {
+            $error = $this->upload->display_errors();
+            $this->session->set_flashdata('error', $error);
+            session_write_close();
+            redirect(base_url() . 'setup/project', 'location');
+        } else {
+            $image_data = $this->upload->data();
+            $path_logo = $image_data['file_name'];
+
+            $id   = $this->input->post('xid');
+            $name = $this->input->post('xname');
+            $abbr = $this->input->post('xabbr');
+
+            $data = array(
+                'name'       => $name,
+                'abbr'       => $abbr,
+                'path_logo'  => $path_logo,
+                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by' => $this->session->userdata('id'),
+            );
+            $where = array('id' => $id);
+            $exec = $this->Project_model->update($data, $where);
+
+            if (!$exec) {
+                echo "Update data gagal, silahkan coba kembali!";
+            }
+
+            $this->session->set_flashdata('success', 'Update Project Berhasil');
+            session_write_close();
+            redirect(base_url() . 'setup/project', 'location');
         }
     }
 }

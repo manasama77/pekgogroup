@@ -51,6 +51,14 @@ class Order_model extends CI_Model
             'orders.is_paid_off',
             'orders.status',
             'orders.created_at',
+            'products.name as nama_produk',
+            'colors.name as nama_warna',
+            'sizes.name as nama_ukuran',
+            'customers.name as nama_customer',
+            'admin_order.name as nama_admin_order',
+            'admin_produksi.name as nama_admin_produksi',
+            'admin_cs.name as nama_admin_cs',
+            'admin_finance.name as nama_admin_finance',
         );
     }
 
@@ -58,6 +66,16 @@ class Order_model extends CI_Model
     {
         $this->db->select($this->select);
         $this->db->from('orders');
+        $this->db->join('products', 'products.id = orders.product_id', 'left');
+        $this->db->join('product_color_params', 'product_color_params.id = orders.color_id', 'left');
+        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+        $this->db->join('product_size_params', 'product_size_params.id = orders.size_id', 'left');
+        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->join('customers', 'customers.id = orders.customer_id', 'left');
+        $this->db->join('admins as admin_order', 'admin_order.id = orders.admin_order', 'left');
+        $this->db->join('admins as admin_produksi', 'admin_produksi.id = orders.admin_produksi', 'left');
+        $this->db->join('admins as admin_cs', 'admin_cs.id = orders.admin_cs', 'left');
+        $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_cs', 'left');
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
         $this->db->order_by('orders.id', 'desc');
@@ -415,6 +433,21 @@ class Order_model extends CI_Model
         // echo "<textarea style="width: 500px; height: 500px;">" . $html . "</textarea>";
         // exit;
         return $html;
+    }
+
+    public function show_request($id)
+    {
+        $this->db->select(array(
+            'requests.name as nama_request',
+            'order_requests.cost as harga_request',
+        ));
+
+        $this->db->from('order_requests');
+        $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
+        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->where('order_requests.order_id', $id);
+        $exec = $this->db->get();
+        return $exec;
     }
 }
                         
