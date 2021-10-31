@@ -344,7 +344,7 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PEMBAYARAN</a>
+                                        <a href="<?= base_url('pembayaran/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PEMBAYARAN</a>
                                     </td>
                                     <td class="p-0">
                                         <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PRODUKSI</a>

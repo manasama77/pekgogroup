@@ -208,18 +208,26 @@
                                 <tr>
                                     <td class="p-0">
                                         <?php $disabled = ($key->status_pembayaran == "menunggu pembayaran") ? "" : "disabled"; ?>
-                                        <button type="button" class="btn btn-info btn-block btn-xs btn-flat" onclick="verifikasiDP(<?= $key->id; ?>)" <?= $disabled; ?>>Verifikasi DP</button>
+                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="verifikasiDP(<?= $key->id; ?>)" <?= $disabled; ?>>Verifikasi DP</button>
                                     </td>
                                     <td class="p-0">
-                                        <button type="button" class="btn btn-info btn-block btn-xs btn-flat">Verifikasi Pelunasan</button>
+                                        <?php $disabled2 = ($key->status_pembayaran == "partial") ? "" : "disabled"; ?>
+                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="verifikasiPelunasan(<?= $key->id; ?>)" <?= $disabled2; ?>>Verifikasi Pelunasan</button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="p-0">
-                                        <button type="button" class="btn btn-info btn-block btn-xs btn-flat">Batalkan Order</button>
-                                    </td>
-                                    <td class="p-0">
-                                        <button type="button" class="btn btn-info btn-block btn-xs btn-flat">Tambah Data Pembayaran</button>
+                                    <td colspan="2" class="p-0">
+                                        <?php
+                                        if ($key->status_pembayaran == "menunggu pembayaran") {
+                                        ?>
+                                            <button type="button" class="btn btn-info btn-block btn-xs btn-flat" onclick="checkDP(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->customer_id; ?>', '<?= $key->jenis_dp; ?>', '<?= $key->dp_value; ?>')">Tambah Data Pembayaran DP</button>
+                                        <?php
+                                        } elseif ($key->status_pembayaran == "partial") {
+                                        ?>
+                                            <button type="button" class="btn btn-info btn-block btn-xs btn-flat" onclick="checkPelunasan(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->customer_id; ?>', '<?= $key->jenis_dp; ?>', '<?= $key->dp_value; ?>', '<?= $key->pelunasan_value; ?>')">Tambah Data Pembayaran Pelunasan</button>
+                                        <?php
+                                        }
+                                        ?>
                                     </td>
                                 </tr>
                             </table>
@@ -249,3 +257,100 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_verifikasi_pelunasan" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Verifikasi Pelunasan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="v_pelunasan">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<form id="form_tambah_dp" enctype="multipart/form-data">
+    <div class="modal fade" id="modal_tambah_dp" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pembayaran DP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="sales_invoice_dp">Sales Invoice</label>
+                            <input type="text" class="form-control" id="sales_invoice_dp" name="sales_invoice_dp" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="created_at_dp">Tanggal & Pembayaran</label>
+                            <input type="datetime-local" class="form-control" id="created_at_dp" name="created_at_dp" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="path_image_dp">Bukti Pembayaran</label>
+                            <input type="file" class="form-control" id="path_image_dp" name="path_image_dp" accept=".jpg, .png, .jpeg" capture files required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="id_dp" name="id_dp" />
+                    <input type="hidden" id="id_customer_dp" name="id_customer_dp" />
+                    <input type="hidden" id="jenis_dp_dp" name="jenis_dp_dp" />
+                    <input type="hidden" id="dp_value_dp" name="dp_value_dp" />
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Modal -->
+<form id="form_tambah_pelunasan" enctype="multipart/form-data">
+    <div class="modal fade" id="modal_tambah_pelunasan" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pembayaran DP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="sales_invoice_pelunasan">Sales Invoice</label>
+                            <input type="text" class="form-control" id="sales_invoice_pelunasan" name="sales_invoice_pelunasan" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="created_at_pelunasan">Tanggal & Pembayaran</label>
+                            <input type="datetime-local" class="form-control" id="created_at_pelunasan" name="created_at_pelunasan" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="path_image_pelunasan">Bukti Pembayaran</label>
+                            <input type="file" class="form-control" id="path_image_pelunasan" name="path_image_pelunasan" accept=".jpg, .png, .jpeg" capture files required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="id_pelunasan" name="id_pelunasan" />
+                    <input type="hidden" id="id_customer_pelunasan" name="id_customer_pelunasan" />
+                    <input type="hidden" id="jenis_dp_pelunasan" name="jenis_dp" />
+                    <input type="hidden" id="dp_value_pelunasan" name="dp_value_pelunasan" />
+                    <input type="hidden" id="pelunasan_value_pelunasan" name="pelunasan_value_pelunasan" />
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

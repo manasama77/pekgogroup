@@ -77,7 +77,7 @@ class Order_model extends CI_Model
         $this->db->join('admins as admin_order', 'admin_order.id = orders.admin_order', 'left');
         $this->db->join('admins as admin_produksi', 'admin_produksi.id = orders.admin_produksi', 'left');
         $this->db->join('admins as admin_cs', 'admin_cs.id = orders.admin_cs', 'left');
-        $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_cs', 'left');
+        $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_finance', 'left');
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
         $this->db->order_by('orders.id', 'desc');

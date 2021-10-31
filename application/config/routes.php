@@ -67,9 +67,16 @@ $route['order/copy_order']            = 'order/copy_order';
 $route['order/show_request']          = 'order/show_request';
 $route['order/invoice/(:num)']        = 'order/invoice/$1';
 
-$route['pembayaran/index']         = 'pembayaran/index';
-$route['pembayaran/verifikasi_dp'] = 'pembayaran/verifikasi_dp';
-$route['pembayaran/approve_dp']    = 'pembayaran/approve_dp';
+$route['pembayaran/index']                    = 'pembayaran/index';
+$route['pembayaran/verifikasi_dp']            = 'pembayaran/verifikasi_dp';
+$route['pembayaran/approve_dp']               = 'pembayaran/approve_dp';
+$route['pembayaran/reject_dp']                = 'pembayaran/reject_dp';
+$route['pembayaran/verifikasi_pelunasan']     = 'pembayaran/verifikasi_pelunasan';
+$route['pembayaran/approve_pelunasan']        = 'pembayaran/approve_pelunasan';
+$route['pembayaran/cek_pembayaran_dp']        = 'pembayaran/cek_pembayaran_dp';
+$route['pembayaran/store_tambah_dp']          = 'pembayaran/store_tambah_dp';
+$route['pembayaran/cek_pembayaran_pelunasan'] = 'pembayaran/cek_pembayaran_pelunasan';
+$route['pembayaran/store_tambah_pelunasan']   = 'pembayaran/store_tambah_pelunasan';
 
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';

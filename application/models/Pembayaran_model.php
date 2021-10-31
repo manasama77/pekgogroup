@@ -155,6 +155,107 @@ class Pembayaran_model extends CI_Model
         $where = ['id' => $order_id];
         return $this->db->update('orders', $data, $where);
     }
+
+    public function reject_dp($id, $alasan_penolakan)
+    {
+        $data = [
+            'status_pembayaran' => 'ditolak',
+            'alasan_penolakan'  => $alasan_penolakan,
+            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'        => $this->session->userdata('id'),
+        ];
+        $where = ['id' => $id];
+        return $this->db->update('order_payments', $data, $where);
+    }
+
+    public function get_data_pelunasan($id)
+    {
+        $this->db->from('order_payments');
+        $this->db->where('order_payments.order_id', $id);
+        $this->db->where('order_payments.status_pembayaran', 'menunggu verifikasi');
+        $this->db->where('order_payments.jenis_pembayaran', 'pelunasan');
+        $this->db->where('order_payments.deleted_at', null);
+        return $this->db->get();
+    }
+
+    public function approve_pelunasan($id, $order_id)
+    {
+        $data = [
+            'status_pembayaran' => 'valid',
+            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'        => $this->session->userdata('id'),
+        ];
+        $where = ['id' => $id];
+        $this->db->update('order_payments', $data, $where);
+
+        $this->db->select('orders.grand_total');
+        $this->db->where('orders.id', $order_id);
+        $exec        = $this->db->get('orders');
+        $grand_total = $exec->row()->grand_total;
+
+        $status_pembayaran = 'lunas';
+        $is_paid_off       = 'yes';
+
+        $data = [
+            'status_pembayaran' => $status_pembayaran,
+            'terbayarkan'       => $grand_total,
+            'is_paid_off'       => $is_paid_off,
+            'admin_finance'     => $this->session->userdata('id'),
+            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'        => $this->session->userdata('id'),
+        ];
+        $where = ['id' => $order_id];
+        return $this->db->update('orders', $data, $where);
+    }
+
+    public function cek_pembayaran_dp($id)
+    {
+        $this->db->from('order_payments');
+        $this->db->where('order_payments.order_id', $id);
+        $this->db->where('order_payments.jenis_pembayaran', 'dp');
+        $this->db->where_in('order_payments.status_pembayaran', ['menunggu pembayaran', 'valid']);
+        $exec = $this->db->get();
+
+        if ($exec->num_rows() == 0) {
+            return 200;
+        } elseif ($exec->num_rows() > 0) {
+            return 404;
+        } else {
+            return 500;
+        }
+    }
+
+    public function store_dp($data)
+    {
+        return $this->db->insert('order_payments', $data);
+    }
+
+    public function update_order($data, $where)
+    {
+        return $this->db->update('orders', $data, $where);
+    }
+
+    public function cek_pembayaran_pelunasan($id)
+    {
+        $this->db->from('order_payments');
+        $this->db->where('order_payments.order_id', $id);
+        $this->db->where('order_payments.jenis_pembayaran', 'pelunasan');
+        $this->db->where_in('order_payments.status_pembayaran', ['menunggu pembayaran', 'valid']);
+        $exec = $this->db->get();
+
+        if ($exec->num_rows() == 0) {
+            return 200;
+        } elseif ($exec->num_rows() > 0) {
+            return 404;
+        } else {
+            return 500;
+        }
+    }
+
+    public function store_pelunasan($data)
+    {
+        return $this->db->insert('order_payments', $data);
+    }
 }
                         
 /* End of file Pembayaran_model.php */
