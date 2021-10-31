@@ -67,6 +67,10 @@ $route['order/copy_order']            = 'order/copy_order';
 $route['order/show_request']          = 'order/show_request';
 $route['order/invoice/(:num)']        = 'order/invoice/$1';
 
+$route['pembayaran/index']         = 'pembayaran/index';
+$route['pembayaran/verifikasi_dp'] = 'pembayaran/verifikasi_dp';
+$route['pembayaran/approve_dp']    = 'pembayaran/approve_dp';
+
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';
 $route['customer/add']                      = 'customer/add';

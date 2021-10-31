@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('pembayaran/index'); ?>" class="nav-link">
                         <i class="fas fa-money-bill nav-icon"></i>
                         <p>Pembayaran</p>
                     </a>
