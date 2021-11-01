@@ -64,7 +64,7 @@ class Order_model extends CI_Model
         );
     }
 
-    public function get_all_data()
+    public function get_all_data($filter_product_id)
     {
         $this->db->select($this->select);
         $this->db->from('orders');
@@ -80,8 +80,17 @@ class Order_model extends CI_Model
         $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_finance', 'left');
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
+
+        if ($filter_product_id != 'all') {
+            $this->db->where('orders.product_id', $filter_product_id);
+        }
+
         $this->db->order_by('orders.id', 'desc');
         $exec = $this->db->get();
+
+        // echo $this->db->last_query();
+        // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';
+        // exit;
         return $exec;
     }
 

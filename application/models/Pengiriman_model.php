@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pembayaran_model extends CI_Model
+class Pengiriman_model extends CI_Model
 {
     private $cur_datetime;
 
@@ -30,6 +30,7 @@ class Pembayaran_model extends CI_Model
             'orders.id_instagram',
             'orders.status_order',
             'orders.status_pembayaran',
+            'orders.status_pengiriman',
             'orders.sub_total',
             'orders.kode_unik',
             'orders.grand_total',
@@ -100,30 +101,35 @@ class Pembayaran_model extends CI_Model
             $this->db->like('orders.' . $field, $keyword);
         }
 
-        $array_status_pembayaran = ['menunggu pembayaran', 'partial'];
-        $this->db->where_in('orders.status_pembayaran', $array_status_pembayaran);
+        $this->db->where('orders.status_order', 'pengiriman');
+        $this->db->where('orders.status_pembayaran', 'lunas');
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
         $this->db->order_by('orders.id', 'desc');
         $exec = $this->db->get();
-
         return $exec;
     }
 
-    public function get_data_dp($id)
+    public function get_data_pengiriman($id)
     {
-        $this->db->from('order_payments');
-        $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.status_pembayaran', 'menunggu verifikasi');
-        $this->db->where('order_payments.jenis_pembayaran', 'dp');
-        $this->db->where('order_payments.deleted_at', null);
-        return $this->db->get();
+        $this->db->from('orders');
+        $this->db->where('orders.id', $id);
+        $this->db->where('orders.deleted_at', null);
+        $exec = $this->db->get();
+
+        $tanggal_pengiriman = $exec->row()->tanggal_pengiriman;
+
+        if ($tanggal_pengiriman == null) {
+            return 200;
+        } else {
+            return 404;
+        }
     }
 
     public function approve_dp($id, $order_id)
     {
         $data = [
-            'status_pembayaran' => 'valid',
+            'status_Pengiriman' => 'valid',
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by'        => $this->session->userdata('id'),
         ];
@@ -137,15 +143,15 @@ class Pembayaran_model extends CI_Model
         $dp_value = $exec->row()->dp_value;
 
         if ($jenis_dp == 100) {
-            $status_pembayaran = 'lunas';
+            $status_Pengiriman = 'lunas';
             $is_paid_off       = 'yes';
         } else {
-            $status_pembayaran = 'partial';
+            $status_Pengiriman = 'partial';
             $is_paid_off       = 'no';
         }
 
         $data = [
-            'status_pembayaran' => $status_pembayaran,
+            'status_Pengiriman' => $status_Pengiriman,
             'terbayarkan'       => $dp_value,
             'is_paid_off'       => $is_paid_off,
             'admin_finance'     => $this->session->userdata('id'),
@@ -159,7 +165,7 @@ class Pembayaran_model extends CI_Model
     public function reject_dp($id, $alasan_penolakan)
     {
         $data = [
-            'status_pembayaran' => 'ditolak',
+            'status_Pengiriman' => 'ditolak',
             'alasan_penolakan'  => $alasan_penolakan,
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by'        => $this->session->userdata('id'),
@@ -172,8 +178,8 @@ class Pembayaran_model extends CI_Model
     {
         $this->db->from('order_payments');
         $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.status_pembayaran', 'menunggu verifikasi');
-        $this->db->where('order_payments.jenis_pembayaran', 'pelunasan');
+        $this->db->where('order_payments.status_Pengiriman', 'menunggu verifikasi');
+        $this->db->where('order_payments.jenis_Pengiriman', 'pelunasan');
         $this->db->where('order_payments.deleted_at', null);
         return $this->db->get();
     }
@@ -181,7 +187,7 @@ class Pembayaran_model extends CI_Model
     public function approve_pelunasan($id, $order_id)
     {
         $data = [
-            'status_pembayaran' => 'valid',
+            'status_Pengiriman' => 'valid',
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by'        => $this->session->userdata('id'),
         ];
@@ -193,11 +199,11 @@ class Pembayaran_model extends CI_Model
         $exec        = $this->db->get('orders');
         $grand_total = $exec->row()->grand_total;
 
-        $status_pembayaran = 'lunas';
+        $status_Pengiriman = 'lunas';
         $is_paid_off       = 'yes';
 
         $data = [
-            'status_pembayaran' => $status_pembayaran,
+            'status_Pengiriman' => $status_Pengiriman,
             'terbayarkan'       => $grand_total,
             'is_paid_off'       => $is_paid_off,
             'admin_finance'     => $this->session->userdata('id'),
@@ -223,7 +229,7 @@ class Pembayaran_model extends CI_Model
                     'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
                     'updated_by'   => $this->session->userdata('id'),
                 ];
-                $this->db->where('orders.status_pembayaran', 'lunas');
+                $this->db->where('orders.status_Pengiriman', 'lunas');
                 $this->db->where('orders.id', $order_id);
                 $this->db->update('orders', $data);
             }
@@ -233,12 +239,12 @@ class Pembayaran_model extends CI_Model
         return $exec;
     }
 
-    public function cek_pembayaran_dp($id)
+    public function cek_Pengiriman_dp($id)
     {
         $this->db->from('order_payments');
         $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.jenis_pembayaran', 'dp');
-        $this->db->where_in('order_payments.status_pembayaran', ['menunggu verifikasi', 'valid']);
+        $this->db->where('order_payments.jenis_Pengiriman', 'dp');
+        $this->db->where_in('order_payments.status_Pengiriman', ['menunggu verifikasi', 'valid']);
         $exec = $this->db->get();
 
         if ($exec->num_rows() == 0) {
@@ -260,12 +266,12 @@ class Pembayaran_model extends CI_Model
         return $this->db->update('orders', $data, $where);
     }
 
-    public function cek_pembayaran_pelunasan($id)
+    public function cek_Pengiriman_pelunasan($id)
     {
         $this->db->from('order_payments');
         $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.jenis_pembayaran', 'pelunasan');
-        $this->db->where_in('order_payments.status_pembayaran', ['menunggu verifikasi', 'valid']);
+        $this->db->where('order_payments.jenis_Pengiriman', 'pelunasan');
+        $this->db->where_in('order_payments.status_Pengiriman', ['menunggu verifikasi', 'valid']);
         $exec = $this->db->get();
 
         if ($exec->num_rows() == 0) {
@@ -283,4 +289,4 @@ class Pembayaran_model extends CI_Model
     }
 }
                         
-/* End of file Pembayaran_model.php */
+/* End of file Pengiriman_model.php */

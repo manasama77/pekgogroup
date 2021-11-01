@@ -89,3 +89,5 @@ define('APP_ABBR', 'PKG');
 define('APP_NAME', 'APM.PKGGRP');
 define('APP_VERSION', 'v1.0.0-beta');
 define('APP_YEAR', '2021');
+
+define('RAJAONGKIR_API_KEY', '3132beaaebb0accd7cfa69c55e93125e');

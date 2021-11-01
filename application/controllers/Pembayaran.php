@@ -17,7 +17,8 @@ class Pembayaran extends CI_Controller
         $this->load->model('Produk_model');
         $this->cur_datetime = new DateTime('now');
         if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'finance')) === false) {
-            redirect('logout', 'location');
+            // redirect('logout', 'location');
+            show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
         }
     }
 
@@ -135,7 +136,7 @@ class Pembayaran extends CI_Controller
 
     public function cek_pembayaran_dp()
     {
-        $id = $this->input->post('id');
+        $id = $this->input->get('id');
 
         $exec = $this->Pembayaran_model->cek_pembayaran_dp($id);
         $return = array('code' => $exec);
@@ -217,7 +218,7 @@ class Pembayaran extends CI_Controller
 
     public function cek_pembayaran_pelunasan()
     {
-        $id = $this->input->post('id');
+        $id = $this->input->get('id');
 
         $exec = $this->Pembayaran_model->cek_pembayaran_pelunasan($id);
         $return = array('code' => $exec);

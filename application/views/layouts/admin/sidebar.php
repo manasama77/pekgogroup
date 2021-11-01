@@ -37,13 +37,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('produksi/index'); ?>" class="nav-link">
                         <i class="fas fa-cut nav-icon"></i>
                         <p>Produksi</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('pengiriman/index'); ?>" class="nav-link">
                         <i class="fas fa-truck nav-icon"></i>
                         <p>Pengiriman</p>
                     </a>

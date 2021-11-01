@@ -78,6 +78,13 @@ $route['pembayaran/store_tambah_dp']          = 'pembayaran/store_tambah_dp';
 $route['pembayaran/cek_pembayaran_pelunasan'] = 'pembayaran/cek_pembayaran_pelunasan';
 $route['pembayaran/store_tambah_pelunasan']   = 'pembayaran/store_tambah_pelunasan';
 
+$route['produksi/index']         = 'produksi/index';
+$route['produksi/print/(:num)']  = 'produksi/print/$1';
+$route['produksi/store_history'] = 'produksi/store_history';
+
+$route['pengiriman/index'] = 'pengiriman/index';
+$route['pengiriman/cek_data_pengiriman'] = 'pengiriman/cek_data_pengiriman';
+
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';
 $route['customer/add']                      = 'customer/add';

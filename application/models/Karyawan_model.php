@@ -78,6 +78,16 @@ class Karyawan_model extends CI_Model
     {
         return $this->db->insert('employees', $data);
     }
+
+    public function get_all_petugas($type)
+    {
+        $this->db->from('employees');
+        $this->db->where('employees.role', $type);
+        $this->db->where('employees.deleted_at', null);
+        $this->db->order_by('employees.id', 'desc');
+        $exec = $this->db->get();
+        return $exec;
+    }
 }
                         
 /* End of file Karyawan_model.php */

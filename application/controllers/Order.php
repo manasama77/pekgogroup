@@ -22,14 +22,17 @@ class Order extends CI_Controller
         $this->load->model('Hpp_model');
         $this->load->model('Admin_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
-            redirect('logout', 'location');
+        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order', 'produksi', 'finance', 'cs')) === false) {
+            show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
+            // redirect('logout', 'location');
         }
     }
 
     public function index()
     {
-        $list            = $this->Order_model->get_all_data();
+        $filter_product_id = ($this->input->get('filter_product_id')) ?? null;
+
+        $list            = $this->Order_model->get_all_data($filter_product_id);
         $products        = $this->Produk_model->get_all_data();
         $customers       = $this->Customer_model->get_all_data();
         $admin_orders    = $this->Admin_model->get_admin('order');
@@ -48,6 +51,7 @@ class Order extends CI_Controller
             'admin_produksis' => $admin_produksis,
             'admin_css'       => $admin_css,
             'admin_finances'  => $admin_finances,
+            'filter_product_id'  => $filter_product_id,
             'error'           => null,
         );
         $this->theme->render($data);
@@ -432,8 +436,12 @@ class Order extends CI_Controller
 
     public function invoice($id)
     {
-        $exec = $this->Order_model->generate_invoice($id);
-        $this->load->view('invoice', $exec, FALSE);
+        if (in_array($this->session->userdata('role'), ['owner', 'developer', 'komisaris', 'finance'])) {
+            $exec = $this->Order_model->generate_invoice($id);
+            $this->load->view('invoice', $exec, FALSE);
+        } else {
+            show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
+        }
     }
 }
         

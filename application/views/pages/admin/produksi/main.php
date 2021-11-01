@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Pembayaran List</h1>
+                <h1 class="m-0">Produksi List</h1>
             </div>
         </div>
         <div class="row">
@@ -43,10 +43,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <form action="<?= base_url('pembayaran/index'); ?>" method="get">
+                <form action="<?= base_url('produksi/index'); ?>" method="get">
                     <div class="card card-dark">
                         <div class="card-header">
-                            <h3 class="card-title">Pembayaran Filter</h3>
+                            <h3 class="card-title">Produksi Filter</h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
@@ -58,8 +58,10 @@
                                 <label for="product_id">PRODUK</label>
                                 <select class="form-control select2" id="product_id" name="product_id" required>
                                     <option value="all">SEMUA</option>
-                                    <?php for ($i = 0; $i < count($products); $i++) { ?>
-                                        <option value="<?= $products[$i]['id']; ?>"><?= $products[$i]['name']; ?></option>
+                                    <?php
+                                    for ($i = 0; $i < count($products); $i++) {
+                                        $selected = ($this->input->get('product_id') == $products[$i]['id']) ? "selected" : null; ?>
+                                        <option value="<?= $products[$i]['id']; ?>" <?= $selected; ?>><?= $products[$i]['name']; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -67,22 +69,25 @@
                                 <label for="customer_id">CUSTOMER</label>
                                 <select class="form-control select2" id="customer_id" name="customer_id" required>
                                     <option value="all">SEMUA</option>
-                                    <?php foreach ($customers->result() as $customer) { ?>
-                                        <option value="<?= $customer->id; ?>"><?= $customer->name; ?> - <?= $customer->whatsapp; ?></option>
+                                    <?php
+                                    foreach ($customers->result() as $customer) {
+                                        $selected = ($this->input->get('customer_id') == $customer->id) ? "selected" : null;
+                                    ?>
+                                        <option value="<?= $customer->id; ?>" <?= $selected; ?>><?= $customer->name; ?> - <?= $customer->whatsapp; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="field">CARI BERDASARKAN</label>
                                 <select class="form-control" id="field" name="field" required>
-                                    <option value="all">SEMUA</option>
-                                    <option value="created_at">TANGGAL ORDER</option>
-                                    <option value="sales_invoice">SALES INVOICE</option>
-                                    <option value="whatsapp">NO WA</option>
-                                    <option value="id_tokped">ID TOKPED</option>
-                                    <option value="id_shopee">ID SHOPEE</option>
-                                    <option value="id_instagram">ID INSTAGRAM</option>
-                                    <option value="grand_total">GRAND TOTAL</option>
+                                    <option value="all" <?= ($this->input->get('field') == "all") ? "selected" : null; ?>>SEMUA</option>
+                                    <option value="created_at" <?= ($this->input->get('field') == "created_at") ? "selected" : null; ?>>TANGGAL ORDER</option>
+                                    <option value="sales_invoice" <?= ($this->input->get('field') == "sales_invoice") ? "selected" : null; ?>>SALES INVOICE</option>
+                                    <option value="whatsapp" <?= ($this->input->get('field') == "whatsapp") ? "selected" : null; ?>>NO WA</option>
+                                    <option value="id_tokped" <?= ($this->input->get('field') == "id_tokped") ? "selected" : null; ?>>ID TOKPED</option>
+                                    <option value="id_shopee" <?= ($this->input->get('field') == "id_shopee") ? "selected" : null; ?>>ID SHOPEE</option>
+                                    <option value="id_instagram" <?= ($this->input->get('field') == "id_instagram") ? "selected" : null; ?>>ID INSTAGRAM</option>
+                                    <option value="grand_total" <?= ($this->input->get('field') == "grand_total") ? "selected" : null; ?>>GRAND TOTAL</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -91,8 +96,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fas fa-search"></i> Filter Pembayaran</button>
-                            <a href="<?= base_url('pembayaran/index'); ?>" class="btn btn-secondary btn-block btn-flat">Reset Filter Pembayaran</a>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fas fa-search"></i> Filter Produksi</button>
+                            <a href="<?= base_url('produksi/index'); ?>" class="btn btn-secondary btn-block btn-flat">Reset Filter Produksi</a>
                         </div>
                     </div>
                 </form>
@@ -133,8 +138,8 @@
                                     <td><?= $key->batas_waktu_transfer; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>ORDER VIA</td>
-                                    <td><?= strtoupper($key->order_via); ?></td>
+                                    <td>ESTIMASI SELESAI</td>
+                                    <td><?= $key->estimasi_selesai; ?></td>
                                 </tr>
                                 <tr>
                                     <td>PRODUK</td>
@@ -181,24 +186,32 @@
                                     <td><?= strtoupper($key->status_pembayaran); ?></td>
                                 </tr>
                                 <tr>
-                                    <td>GRAND TOTAL</td>
-                                    <td>Rp <?= number_format($key->grand_total, 2); ?></td>
-                                </tr>
-                                <tr>
-                                    <td>DP (<?= $key->jenis_dp; ?>%)</td>
-                                    <td>Rp <?= number_format($key->dp_value, 2); ?></td>
-                                </tr>
-                                <tr>
-                                    <td>PELUNASAN</td>
-                                    <td>Rp <?= number_format($key->pelunasan_value, 2); ?></td>
-                                </tr>
-                                <tr>
                                     <td>ADMIN ORDER</td>
                                     <td><?= $key->nama_admin_order; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>ADMIN FINANCE</td>
-                                    <td><?= $key->nama_admin_finance; ?></td>
+                                    <td>ADMIN PRODUKSI</td>
+                                    <td><?= $key->nama_admin_produksi; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PETUGAS POTONG KAIN</td>
+                                    <td><?= $key->petugas_potong_kain; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PETUGAS JAHIT</td>
+                                    <td><?= $key->petugas_jahit; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PETUGAS QC 1</td>
+                                    <td><?= $key->petugas_qc_1; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PETUGAS AKSESORIS</td>
+                                    <td><?= $key->petugas_aksesoris; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>PETUGAS QC 2</td>
+                                    <td><?= $key->petugas_qc_2; ?></td>
                                 </tr>
                                 <tr class="bg-dark">
                                     <td colspan="2" class="text-center pb-1 pt-1">
@@ -207,27 +220,10 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <?php $disabled = ($key->status_pembayaran == "menunggu pembayaran") ? "" : "disabled"; ?>
-                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="verifikasiDP(<?= $key->id; ?>)" <?= $disabled; ?>>Verifikasi DP</button>
+                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="printData(<?= $key->id; ?>)">Print Data Produksi</button>
                                     </td>
                                     <td class="p-0">
-                                        <?php $disabled2 = ($key->status_pembayaran == "partial") ? "" : "disabled"; ?>
-                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="verifikasiPelunasan(<?= $key->id; ?>)" <?= $disabled2; ?>>Verifikasi Pelunasan</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="p-0">
-                                        <?php
-                                        if ($key->status_pembayaran == "menunggu pembayaran") {
-                                        ?>
-                                            <button type="button" class="btn btn-info btn-block btn-xs btn-flat" onclick="checkDP(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->customer_id; ?>', '<?= $key->jenis_dp; ?>', '<?= $key->dp_value; ?>')">Tambah Data Pembayaran DP</button>
-                                        <?php
-                                        } elseif ($key->status_pembayaran == "partial") {
-                                        ?>
-                                            <button type="button" class="btn btn-info btn-block btn-xs btn-flat" onclick="checkPelunasan(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->customer_id; ?>', '<?= $key->jenis_dp; ?>', '<?= $key->dp_value; ?>', '<?= $key->pelunasan_value; ?>')">Tambah Data Pembayaran Pelunasan</button>
-                                        <?php
-                                        }
-                                        ?>
+                                        <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="inputHistory(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->id_petugas_potong_kain; ?>', '<?= $key->tanggal_potong_kain; ?>', '<?= $key->id_petugas_jahit; ?>', '<?= $key->tanggal_jahit; ?>', '<?= $key->id_petugas_qc_1; ?>', '<?= $key->tanggal_qc_1; ?>', '<?= $key->id_petugas_aksesoris; ?>', '<?= $key->tanggal_aksesoris; ?>', '<?= $key->id_petugas_qc_2; ?>', '<?= $key->tanggal_qc_2; ?>' );">Input History Produksi</button>
                                     </td>
                                 </tr>
                             </table>
@@ -240,48 +236,12 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modal_verifikasi_dp" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Verifikasi DP</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid" id="v_dp">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modal_verifikasi_pelunasan" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Verifikasi Pelunasan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid" id="v_pelunasan">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<form id="form_tambah_dp" enctype="multipart/form-data">
-    <div class="modal fade" id="modal_tambah_dp" tabindex="-1" role="dialog">
+<form id="form_history">
+    <div class="modal fade" id="modal_history" tabindex="-1" role="dialog" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Pembayaran DP</h5>
+                    <h5 class="modal-title">Input History Produksi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -289,64 +249,82 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <label for="sales_invoice_dp">Sales Invoice</label>
-                            <input type="text" class="form-control" id="sales_invoice_dp" name="sales_invoice_dp" readonly required />
+                            <label for="sales_invoice">Sales Invoice</label>
+                            <input type="text" class="form-control" id="sales_invoice" name="sales_invoice" readonly required />
                         </div>
                         <div class="form-group">
-                            <label for="created_at_dp">Tanggal & Pembayaran</label>
-                            <input type="datetime-local" class="form-control" id="created_at_dp" name="created_at_dp" required />
+                            <label for="petugas_potong_kain">Petugas Potong Kain</label>
+                            <select class="form-control" id="petugas_potong_kain" name="petugas_potong_kain">
+                                <option value=""></option>
+                                <?php foreach ($list_petugas_potong_kain->result() as $key) { ?>
+                                    <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="path_image_dp">Bukti Pembayaran</label>
-                            <input type="file" class="form-control" id="path_image_dp" name="path_image_dp" accept=".jpg, .png, .jpeg" capture files required />
+                            <label for="tanggal_potong_kain">Tanggal Potong Kain</label>
+                            <input type="date" class="form-control" id="tanggal_potong_kain" name="tanggal_potong_kain" />
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label for="petugas_jahit">Petugas Jahit</label>
+                            <select class="form-control" id="petugas_jahit" name="petugas_jahit">
+                                <option value=""></option>
+                                <?php foreach ($list_petugas_penjahit->result() as $key) { ?>
+                                    <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_jahit">Tanggal Jahit</label>
+                            <input type="date" class="form-control" id="tanggal_jahit" name="tanggal_jahit" />
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label for="petugas_qc_1">Petugas QC 1</label>
+                            <select class="form-control" id="petugas_qc_1" name="petugas_qc_1">
+                                <option value=""></option>
+                                <?php foreach ($list_petugas_qc_1->result() as $key) { ?>
+                                    <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_qc_1">Tanggal QC 1</label>
+                            <input type="date" class="form-control" id="tanggal_qc_1" name="tanggal_qc_1" />
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label for="petugas_aksesoris">Petugas Aksesoris</label>
+                            <select class="form-control" id="petugas_aksesoris" name="petugas_aksesoris">
+                                <option value=""></option>
+                                <?php foreach ($list_petugas_aksesoris->result() as $key) { ?>
+                                    <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_aksesoris">Tanggal Aksesoris</label>
+                            <input type="date" class="form-control" id="tanggal_aksesoris" name="tanggal_aksesoris" />
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label for="petugas_qc_2">Petugas QC 2</label>
+                            <select class="form-control" id="petugas_qc_2" name="petugas_qc_2">
+                                <option value=""></option>
+                                <?php foreach ($list_petugas_qc_2->result() as $key) { ?>
+                                    <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_qc_2">Tanggal QC 2</label>
+                            <input type="date" class="form-control" id="tanggal_qc_2" name="tanggal_qc_2" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="id_dp" name="id_dp" />
-                    <input type="hidden" id="id_customer_dp" name="id_customer_dp" />
-                    <input type="hidden" id="jenis_dp_dp" name="jenis_dp_dp" />
-                    <input type="hidden" id="dp_value_dp" name="dp_value_dp" />
-                    <button type="submit" class="btn btn-primary btn-block">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-
-<!-- Modal -->
-<form id="form_tambah_pelunasan" enctype="multipart/form-data">
-    <div class="modal fade" id="modal_tambah_pelunasan" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Pembayaran DP</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="form-group">
-                            <label for="sales_invoice_pelunasan">Sales Invoice</label>
-                            <input type="text" class="form-control" id="sales_invoice_pelunasan" name="sales_invoice_pelunasan" readonly required />
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at_pelunasan">Tanggal & Pembayaran</label>
-                            <input type="datetime-local" class="form-control" id="created_at_pelunasan" name="created_at_pelunasan" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="path_image_pelunasan">Bukti Pembayaran</label>
-                            <input type="file" class="form-control" id="path_image_pelunasan" name="path_image_pelunasan" accept=".jpg, .png, .jpeg" capture files required />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" id="id_pelunasan" name="id_pelunasan" />
-                    <input type="hidden" id="id_customer_pelunasan" name="id_customer_pelunasan" />
-                    <input type="hidden" id="jenis_dp_pelunasan" name="jenis_dp" />
-                    <input type="hidden" id="dp_value_pelunasan" name="dp_value_pelunasan" />
-                    <input type="hidden" id="pelunasan_value_pelunasan" name="pelunasan_value_pelunasan" />
+                    <input type="hidden" id="order_id" name="order_id">
                     <button type="submit" class="btn btn-primary btn-block">Save</button>
                 </div>
             </div>
