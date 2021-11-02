@@ -126,166 +126,33 @@ class Pengiriman_model extends CI_Model
         }
     }
 
-    public function approve_dp($id, $order_id)
+    public function store($order_id, $tanggal_pengiriman, $ekspedisi, $no_resi, $alamat_pengiriman)
     {
         $data = [
-            'status_Pengiriman' => 'valid',
-            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'orders.tanggal_pengiriman' => $tanggal_pengiriman,
+            'orders.ekspedisi'          => $ekspedisi,
+            'orders.no_resi'            => $no_resi,
+            'orders.alamat_pengiriman'  => $alamat_pengiriman,
+            'orders.status_pengiriman'  => 'proses pengiriman',
+            'admin_order'               => $this->session->userdata('id'),
+            'updated_at'                => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'                => $this->session->userdata('id'),
         ];
-        $where = ['id' => $id];
-        $this->db->update('order_payments', $data, $where);
-
-        $this->db->select('orders.jenis_dp, orders.dp_value');
         $this->db->where('orders.id', $order_id);
-        $exec     = $this->db->get('orders');
-        $jenis_dp = $exec->row()->jenis_dp;
-        $dp_value = $exec->row()->dp_value;
-
-        if ($jenis_dp == 100) {
-            $status_Pengiriman = 'lunas';
-            $is_paid_off       = 'yes';
-        } else {
-            $status_Pengiriman = 'partial';
-            $is_paid_off       = 'no';
-        }
-
-        $data = [
-            'status_Pengiriman' => $status_Pengiriman,
-            'terbayarkan'       => $dp_value,
-            'is_paid_off'       => $is_paid_off,
-            'admin_finance'     => $this->session->userdata('id'),
-            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
-        ];
-        $where = ['id' => $order_id];
-        return $this->db->update('orders', $data, $where);
+        return $this->db->update('orders', $data);
     }
 
-    public function reject_dp($id, $alasan_penolakan)
+    public function selesai($id)
     {
         $data = [
-            'status_Pengiriman' => 'ditolak',
-            'alasan_penolakan'  => $alasan_penolakan,
+            'status_order'      => 'selesai',
+            'status_pengiriman' => 'terkirim',
+            'admin_order'       => $this->session->userdata('id'),
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by'        => $this->session->userdata('id'),
         ];
         $where = ['id' => $id];
-        return $this->db->update('order_payments', $data, $where);
-    }
-
-    public function get_data_pelunasan($id)
-    {
-        $this->db->from('order_payments');
-        $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.status_Pengiriman', 'menunggu verifikasi');
-        $this->db->where('order_payments.jenis_Pengiriman', 'pelunasan');
-        $this->db->where('order_payments.deleted_at', null);
-        return $this->db->get();
-    }
-
-    public function approve_pelunasan($id, $order_id)
-    {
-        $data = [
-            'status_Pengiriman' => 'valid',
-            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
-        ];
-        $where = ['id' => $id];
-        $this->db->update('order_payments', $data, $where);
-
-        $this->db->select('orders.grand_total');
-        $this->db->where('orders.id', $order_id);
-        $exec        = $this->db->get('orders');
-        $grand_total = $exec->row()->grand_total;
-
-        $status_Pengiriman = 'lunas';
-        $is_paid_off       = 'yes';
-
-        $data = [
-            'status_Pengiriman' => $status_Pengiriman,
-            'terbayarkan'       => $grand_total,
-            'is_paid_off'       => $is_paid_off,
-            'admin_finance'     => $this->session->userdata('id'),
-            'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
-        ];
-        $where = ['id' => $order_id];
-        $exec = $this->db->update('orders', $data, $where);
-
-
-        $this->db->where('order_productions.order_id', $order_id);
-        $exec = $this->db->get('order_productions');
-        if ($exec->num_rows() == 1) {
-            $petugas_potong_kain = ($exec->row()->petugas_potong_kain) ?? null;
-            $petugas_jahit       = ($exec->row()->petugas_jahit) ?? null;
-            $petugas_qc_1        = ($exec->row()->petugas_qc_1) ?? null;
-            $petugas_aksesoris   = ($exec->row()->petugas_aksesoris) ?? null;
-            $petugas_qc_2        = ($exec->row()->petugas_qc_2) ?? null;
-
-            if ($petugas_potong_kain != null && $petugas_jahit != null && $petugas_qc_1 != null && $petugas_aksesoris != null && $petugas_qc_2 != null) {
-                $data = [
-                    'status_order' => 'pengiriman',
-                    'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_by'   => $this->session->userdata('id'),
-                ];
-                $this->db->where('orders.status_Pengiriman', 'lunas');
-                $this->db->where('orders.id', $order_id);
-                $this->db->update('orders', $data);
-            }
-        }
-
-
-        return $exec;
-    }
-
-    public function cek_Pengiriman_dp($id)
-    {
-        $this->db->from('order_payments');
-        $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.jenis_Pengiriman', 'dp');
-        $this->db->where_in('order_payments.status_Pengiriman', ['menunggu verifikasi', 'valid']);
-        $exec = $this->db->get();
-
-        if ($exec->num_rows() == 0) {
-            return 200;
-        } elseif ($exec->num_rows() > 0) {
-            return 404;
-        } else {
-            return 500;
-        }
-    }
-
-    public function store_dp($data)
-    {
-        return $this->db->insert('order_payments', $data);
-    }
-
-    public function update_order($data, $where)
-    {
         return $this->db->update('orders', $data, $where);
-    }
-
-    public function cek_Pengiriman_pelunasan($id)
-    {
-        $this->db->from('order_payments');
-        $this->db->where('order_payments.order_id', $id);
-        $this->db->where('order_payments.jenis_Pengiriman', 'pelunasan');
-        $this->db->where_in('order_payments.status_Pengiriman', ['menunggu verifikasi', 'valid']);
-        $exec = $this->db->get();
-
-        if ($exec->num_rows() == 0) {
-            return 200;
-        } elseif ($exec->num_rows() > 0) {
-            return 404;
-        } else {
-            return 500;
-        }
-    }
-
-    public function store_pelunasan($data)
-    {
-        return $this->db->insert('order_payments', $data);
     }
 }
                         

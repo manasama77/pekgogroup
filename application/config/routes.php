@@ -82,8 +82,11 @@ $route['produksi/index']         = 'produksi/index';
 $route['produksi/print/(:num)']  = 'produksi/print/$1';
 $route['produksi/store_history'] = 'produksi/store_history';
 
-$route['pengiriman/index'] = 'pengiriman/index';
+$route['pengiriman/index']               = 'pengiriman/index';
 $route['pengiriman/cek_data_pengiriman'] = 'pengiriman/cek_data_pengiriman';
+$route['pengiriman/store']               = 'pengiriman/store';
+$route['pengiriman/track']               = 'pengiriman/track';
+$route['pengiriman/selesai']             = 'pengiriman/selesai';
 
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';

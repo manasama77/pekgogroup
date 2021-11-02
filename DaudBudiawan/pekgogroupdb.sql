@@ -11,7 +11,7 @@
  Target Server Version : 100421
  File Encoding         : 65001
 
- Date: 02/11/2021 03:19:51
+ Date: 02/11/2021 09:02:20
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `admins`  (
 -- ----------------------------
 -- Records of admins
 -- ----------------------------
-INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-11-02 03:11:46', NULL, 1, 1, NULL);
+INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-11-02 09:02:10', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (2, '085603355799', '$2y$10$kiMo3KzzWPZEnKcPoFJ2JOoro6I9de6HnxEg6trQmQfzFET5YaTrC', 'Nurul', 'order', 'aktif', '2021-10-25 22:48:17', '2021-10-25 22:48:17', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (3, '081248892735', '$2y$10$8kPtP3F1sNMMIuUN.p7kXOl/nIcKMoFcKTvczlk2lNTVe6Uikodgu', 'Isanda', 'owner', 'aktif', '2021-10-30 05:10:38', '2021-11-01 17:09:21', NULL, 1, 3, NULL);
 INSERT INTO `admins` VALUES (4, '081111111111', '$2y$10$LJM7vcllW5DDMcy8jjxEBe33PrrDduCriHxEJdbVGItKeJiqy2cn2', 'Admin CS', 'cs', 'aktif', '2021-10-30 08:53:16', '2021-10-30 08:53:16', NULL, 3, 3, NULL);
@@ -96,12 +96,11 @@ CREATE TABLE `customers`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of customers
 -- ----------------------------
-INSERT INTO `customers` VALUES (1, '082114578976', '$2y$10$q.w3lEA9LnkxHYkancZofOP5Xwsx/CtBUVIe8KZmtxLfALOuOjgB6', 'Adam', 'adampm77', 'adampm77', 'adampm77', 0, 0, 0.0000, 'aktif', NULL, '2021-10-25 05:41:57', '2021-10-25 20:30:49', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for employees
@@ -145,13 +144,11 @@ CREATE TABLE `hpps`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of hpps
 -- ----------------------------
-INSERT INTO `hpps` VALUES (1, 'KAIN CERUTI', 20000.0000, 3, '2021-10-26 00:52:28', '2021-10-26 00:52:28', NULL, 1, 1, NULL);
-INSERT INTO `hpps` VALUES (2, 'Test', 10000.0000, 1, '2021-11-01 02:35:29', '2021-11-01 02:35:29', NULL, 3, 3, NULL);
 
 -- ----------------------------
 -- Table structure for order_payments
@@ -172,13 +169,11 @@ CREATE TABLE `order_payments`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order_payments
 -- ----------------------------
-INSERT INTO `order_payments` VALUES (1, 233, 1, 'photo1.png', 'valid', NULL, 'dp', '2021-11-02 01:07:20', '2021-11-02 01:28:17', NULL, 1, 1, NULL);
-INSERT INTO `order_payments` VALUES (2, 233, 1, 'photo1.png', 'valid', NULL, 'pelunasan', '2021-11-02 01:07:20', '2021-11-02 01:51:32', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for order_productions
@@ -204,12 +199,11 @@ CREATE TABLE `order_productions`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order_productions
 -- ----------------------------
-INSERT INTO `order_productions` VALUES (1, 233, 1, '2021-11-02', 2, '2021-11-02', 3, '2021-11-02', 4, '2021-11-02', 3, '2021-11-02', '2021-11-02 01:39:40', '2021-11-02 01:50:57', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for order_requests
@@ -227,14 +221,11 @@ CREATE TABLE `order_requests`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of order_requests
 -- ----------------------------
-INSERT INTO `order_requests` VALUES (16, 206, 1, 10000.0000, '2021-10-30 05:02:19', NULL, NULL, 1, NULL, NULL);
-INSERT INTO `order_requests` VALUES (24, 233, 1, 10000.0000, '2021-10-30 07:42:29', '2021-10-30 07:43:04', NULL, 3, 3, NULL);
-INSERT INTO `order_requests` VALUES (27, 239, 7, 10000.0000, '2021-10-31 03:06:56', '2021-10-31 03:07:12', NULL, 3, 3, NULL);
 
 -- ----------------------------
 -- Table structure for orders
@@ -287,15 +278,11 @@ CREATE TABLE `orders`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 241 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (206, 0, 'PKG.30.10.21011', '', '0000-00-00 00:00:00', NULL, '', 1, 1, 3, '', NULL, 0, '', NULL, NULL, NULL, '', '', NULL, 0.0000, 11, 0.00000, '', 0.0000, 0.0000, 0.0000, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 'no', 'no', 'no', 'temp', '2021-10-30 05:01:33', '2021-10-30 05:01:33', NULL, 1, 1, NULL);
-INSERT INTO `orders` VALUES (233, 1, 'PKG.30.10.21038', '3', '2021-10-30 10:41:43', '2021-11-29', 'wa', 1, 1, 3, 'standard', 'test', 1, '082114578976', 'adampm77', 'adampm77', 'adampm77', 'pengiriman', 'lunas', 'antrian', 360000.0000, 38, 360038.00000, '30', 108011.4000, 252026.6000, 360038.0000, NULL, NULL, NULL, NULL, 3, 1, NULL, 1, 'no', 'no', 'yes', 'active', '2021-10-30 07:41:43', '2021-11-02 01:51:32', NULL, 3, 1, NULL);
-INSERT INTO `orders` VALUES (239, 1, 'PKG.31.10.21005', '3', '2021-10-31 06:06:40', '2021-11-14', 'wa', 8, 8, 12, 'express', 'test', 1, '082114578976', 'adampm77', 'adampm77', 'adampm77', 'order dibuat', 'menunggu pembayaran', 'antrian', 610000.0000, 5, 610005.00000, '30', 183001.5000, 427003.5000, 183001.5000, NULL, NULL, NULL, NULL, 3, NULL, NULL, NULL, 'no', 'no', 'no', 'active', '2021-10-31 03:06:40', '2021-11-01 22:30:52', NULL, 3, 1, NULL);
-INSERT INTO `orders` VALUES (240, 0, 'PKG.31.10.21006', '', '0000-00-00 00:00:00', NULL, '', 0, 0, 0, '', NULL, 0, '', NULL, NULL, NULL, '', '', NULL, 0.0000, 6, 0.00000, '', 0.0000, 0.0000, 0.0000, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 'no', 'no', 'no', 'temp', '2021-10-31 03:07:12', '2021-10-31 03:07:12', NULL, 3, 3, NULL);
 
 -- ----------------------------
 -- Table structure for product_color_params
@@ -312,19 +299,11 @@ CREATE TABLE `product_color_params`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product_color_params
 -- ----------------------------
-INSERT INTO `product_color_params` VALUES (1, 1, 1, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (2, 1, 2, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (3, 2, 1, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (4, 2, 2, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (5, 5, 1, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (6, 5, 2, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (7, 8, 1, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
-INSERT INTO `product_color_params` VALUES (8, 8, 2, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for product_hpp_params
@@ -344,14 +323,11 @@ CREATE TABLE `product_hpp_params`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product_hpp_params
 -- ----------------------------
-INSERT INTO `product_hpp_params` VALUES (1, 1, 1, 1.0000, 20000.0000, 20000.0000, '2021-10-28 01:18:45', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_hpp_params` VALUES (6, 8, 1, 1.0000, 20000.0000, 20000.0000, '2021-10-29 03:02:44', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
-INSERT INTO `product_hpp_params` VALUES (7, 1, 2, 1.0000, 20000.0000, 20000.0000, '2021-10-28 01:18:45', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for product_request_params
@@ -368,19 +344,11 @@ CREATE TABLE `product_request_params`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product_request_params
 -- ----------------------------
-INSERT INTO `product_request_params` VALUES (1, 1, 1, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (2, 1, 2, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (3, 2, 1, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (4, 2, 2, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (5, 5, 1, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (6, 5, 2, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (7, 8, 1, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
-INSERT INTO `product_request_params` VALUES (8, 8, 2, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for product_size_params
@@ -397,23 +365,11 @@ CREATE TABLE `product_size_params`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product_size_params
 -- ----------------------------
-INSERT INTO `product_size_params` VALUES (1, 1, 1, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (2, 1, 2, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (3, 1, 3, '2021-10-28 01:18:48', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (4, 2, 1, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (5, 2, 2, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (6, 2, 3, '2021-10-29 02:57:49', '2021-10-29 02:57:49', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (7, 5, 1, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (8, 5, 2, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (9, 5, 3, '2021-10-29 03:00:39', '2021-10-29 03:00:39', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (10, 8, 1, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (11, 8, 2, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
-INSERT INTO `product_size_params` VALUES (12, 8, 3, '2021-10-29 03:02:48', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for products
@@ -433,13 +389,11 @@ CREATE TABLE `products`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of products
 -- ----------------------------
-INSERT INTO `products` VALUES (1, 'P.28.10.21001', 'TEST PRODUK', 300000.0000, '51194d5f49ed80fb7760f6a7b3d43fe8.jpg', 'active', '2021-10-28 01:18:11', '2021-10-28 01:18:48', NULL, 1, 1, NULL);
-INSERT INTO `products` VALUES (8, 'P.29.10.21007', 'BAJU A', 500000.0000, '3e8e952aa0c9476fa590a899d14144ea.jpg', 'active', '2021-10-29 03:02:32', '2021-10-29 03:02:48', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for projects
@@ -479,14 +433,11 @@ CREATE TABLE `requests`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of requests
 -- ----------------------------
-INSERT INTO `requests` VALUES (1, 'REQUEST (-) PB', 10000.0000, '2021-10-24 23:11:16', '2021-10-24 23:11:16', NULL, 1, 1, NULL);
-INSERT INTO `requests` VALUES (2, 'REQUEST (+) PB', 20000.0000, '2021-10-24 23:11:24', '2021-10-24 23:11:24', NULL, 1, 1, NULL);
-INSERT INTO `requests` VALUES (3, 'test', 1.0000, '2021-10-24 23:16:32', '2021-10-24 23:16:32', '2021-10-24 23:16:35', 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for sequence_orders
@@ -497,15 +448,11 @@ CREATE TABLE `sequence_orders`  (
   `sequence` int(10) UNSIGNED NOT NULL,
   `created_at` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sequence_orders
 -- ----------------------------
-INSERT INTO `sequence_orders` VALUES (1, 1, '2021-10-28');
-INSERT INTO `sequence_orders` VALUES (2, 194, '2021-10-29');
-INSERT INTO `sequence_orders` VALUES (3, 39, '2021-10-30');
-INSERT INTO `sequence_orders` VALUES (4, 6, '2021-10-31');
 
 -- ----------------------------
 -- Table structure for sequence_products
@@ -516,13 +463,11 @@ CREATE TABLE `sequence_products`  (
   `sequence` int(10) UNSIGNED NOT NULL,
   `created_at` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sequence_products
 -- ----------------------------
-INSERT INTO `sequence_products` VALUES (1, 1, '2021-10-28');
-INSERT INTO `sequence_products` VALUES (2, 7, '2021-10-29');
 
 -- ----------------------------
 -- Table structure for sizes

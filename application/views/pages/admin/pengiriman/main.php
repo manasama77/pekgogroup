@@ -141,7 +141,7 @@
                                     <td><?= $key->ekspedisi; ?></td>
                                 </tr>
                                 <tr>
-                                    <td>EKSPEDISI</td>
+                                    <td>NO RESI</td>
                                     <td><?= $key->no_resi; ?></td>
                                 </tr>
                                 <tr>
@@ -219,12 +219,18 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0">
-                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="historyPengiriman(<?= $key->id; ?>)">History Pengiriman</button>
+                                        <button type="button" class="btn btn-primary btn-block btn-xs btn-flat" onclick="historyPengiriman('<?= $key->no_resi; ?>', '<?= $key->ekspedisi; ?>')">History Pengiriman</button>
                                     </td>
                                     <td class="p-0">
-                                        <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="inputDataPengiriman(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')" <?php ($key->tanggal_pengiriman != null) ? "disabled" : null; ?>>Input Data Pengiriman</button>
+                                        <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="inputDataPengiriman(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->alamat_pengiriman; ?>')" <?php ($key->tanggal_pengiriman != null) ? "disabled" : null; ?>>Input Data Pengiriman</button>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="p-0" colspan="2">
+                                        <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="selesaikanOrder(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')" <?php ($key->tanggal_pengiriman == null) ? "disabled" : null; ?>>Selesaikan Order</button>
+                                    </td>
+                                </tr>
+
                             </table>
                         </div>
                     </div>
@@ -266,7 +272,7 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <label for="sales_invoicep">Sales Invoice</label>
+                            <label for="sales_invoice">Sales Invoice</label>
                             <input type="text" class="form-control" id="sales_invoice" name="sales_invoice" readonly required />
                         </div>
                         <div class="form-group">
@@ -297,6 +303,10 @@
                         <div class="form-group">
                             <label for="no_resi">No Resi</label>
                             <input type="text" class="form-control" id="no_resi" name="no_resi" minlength="3" maxlength="30" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat_pengiriman">Alamat Pengiriman</label>
+                            <input type="text" class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" minlength="3" required />
                         </div>
                     </div>
                 </div>
