@@ -38,6 +38,11 @@
                 }
             })
         })
+
+        $("#form_reset").on('submit', e => {
+            e.preventDefault()
+            resetPassword()
+        })
     })
 </script>
 
@@ -90,6 +95,46 @@
                         }).then(() => window.location.reload())
                     }
                 })
+            }
+        })
+    }
+
+    function modalReset(id, whatsapp) {
+        $('#id_reset').val(id)
+        $('#whatsapp_reset').val(whatsapp)
+        $('#new_password').val(null)
+        $('#modal_reset').modal('show')
+    }
+
+    function resetPassword() {
+        $.ajax({
+            url: `<?= base_url(); ?>customer/reset`,
+            type: 'post',
+            dataType: 'json',
+            data: $('#form_reset').serialize(),
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Reset Password gagal',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => window.location.reload())
+            } else if (e.code == 200) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Reset Password berhasil',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => $('#modal_reset').modal('hide'))
             }
         })
     }

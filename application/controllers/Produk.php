@@ -26,6 +26,8 @@ class Produk extends CI_Controller
     public function index()
     {
         $list = $this->Produk_model->get_all_data();
+        // echo '<pre>' . print_r($list, 1) . '</pre>';
+        // exit;
 
         $data = array(
             'title'   => 'Produk',

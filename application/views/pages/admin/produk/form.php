@@ -111,8 +111,8 @@
                         </div>
                         <div class="card-footer">
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
-                            <input type="text" id="id_product" name="id_product" value="<?= $id_product; ?>" />
-                            <input type="text" id="count_hpp" name="count_hpp" value="0" />
+                            <input type="hidden" id="id_product" name="id_product" value="<?= $id_product; ?>" />
+                            <input type="hidden" id="count_hpp" name="count_hpp" value="0" />
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
                         </div>
                     </div>

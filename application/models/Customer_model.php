@@ -6,10 +6,12 @@ class Customer_model extends CI_Model
 {
 
     protected $select;
+    private $cur_datetime;
 
     public function __construct()
     {
         parent::__construct();
+        $this->cur_datetime = new DateTime('now');
         $this->select = array(
             'customers.id',
             'customers.whatsapp',
@@ -79,6 +81,60 @@ class Customer_model extends CI_Model
     public function destroy($data, $where)
     {
         return $this->db->update('customers', $data, $where);
+    }
+
+    public function reset($id, $new_password)
+    {
+        return $this->db->update('customers', ['password' => $new_password], ['id' => $id]);
+    }
+
+    public function whatsapp_check($whatsapp)
+    {
+        $this->db->where('customers.whatsapp', $whatsapp);
+        $this->db->where('customers.status', 'aktif');
+        $this->db->where('customers.deleted_at', null);
+        $result = $this->db->count_all_results('customers');
+
+        if ($result == 0) {
+            return false;
+        } elseif ($result > 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function password_check($whatsapp, $password)
+    {
+        $this->db->select('customers.password');
+        $this->db->from('customers');
+        $this->db->where('customers.whatsapp', $whatsapp);
+        $this->db->where('customers.status', 'aktif');
+        $this->db->where('customers.deleted_at', null);
+        $result = $this->db->get();
+
+        if ($result->num_rows() == 0) {
+            return 404;
+        } elseif ($result->num_rows() > 1) {
+            return 404;
+        } elseif (password_verify($password . HASH_SLING_SLICER, $result->row()->password) === false) {
+            return false;
+        } elseif (password_verify($password . HASH_SLING_SLICER, $result->row()->password) === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function update_log($id, $whatsapp)
+    {
+        $data = array(
+            'customers.updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'customers.updated_by' => $id,
+        );
+        $this->db->set($data);
+        $this->db->where('customers.whatsapp', $whatsapp);
+        $this->db->update('customers');
     }
 }
                         

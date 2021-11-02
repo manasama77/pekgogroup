@@ -191,7 +191,8 @@ class Pembayaran extends CI_Controller
             $is_paid_off       = 'no';
             if ($jenis_dp == 100) {
                 $status_pembayaran = 'lunas';
-                $is_paid_off = 'yes';
+                $is_paid_off       = 'yes';
+                $exec              = $this->Pembayaran_model->check_produksi($order_id);
             }
             $terbayarkan = $dp_value;
 
@@ -290,6 +291,8 @@ class Pembayaran extends CI_Controller
                 echo json_encode(['code' => 500, 'error' => 'proses update order gagal']);
                 exit;
             }
+
+            $exec = $this->Pembayaran_model->check_produksi($order_id);
 
             echo json_encode(['code' => 200]);
         }

@@ -2,15 +2,15 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Order extends CI_Controller
+class Corder extends CI_Controller
 {
     private $cur_datetime;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Admin_auth', null, 'auth');
-        $this->load->library('Admin_template', null, 'theme');
+        $this->load->library('Customer_auth', null, 'auth');
+        $this->load->library('Customer_template', null, 'theme');
         $this->auth->check_session();
         $this->load->model('Order_model');
         $this->load->model('Project_model');
@@ -20,54 +20,31 @@ class Order extends CI_Controller
         $this->load->model('Ukuran_model');
         $this->load->model('Request_model');
         $this->load->model('Hpp_model');
-        $this->load->model('Admin_model');
+        $this->load->model('Customer_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order', 'produksi', 'finance', 'cs')) === false) {
-            show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
-            // redirect('logout', 'location');
-        }
     }
 
     public function index()
     {
-        $filter_product_id = ($this->input->get('filter_product_id')) ?? null;
-
-        $list            = $this->Order_model->get_all_data($filter_product_id);
-        $products        = $this->Produk_model->get_all_data();
-        $customers       = $this->Customer_model->get_all_data();
-        $admin_orders    = $this->Admin_model->get_admin('order');
-        $admin_produksis = $this->Admin_model->get_admin('produksi');
-        $admin_css       = $this->Admin_model->get_admin('cs');
-        $admin_finances  = $this->Admin_model->get_admin('finance');
+        $list = $this->Order_model->customer_get_all_data();
 
         $data = array(
-            'title'           => 'Order',
-            'page'            => 'order/main',
-            'vitamin'         => 'order/main_vitamin',
-            'list'            => $list,
-            'products'        => $products,
-            'customers'       => $customers,
-            'admin_orders'    => $admin_orders,
-            'admin_produksis' => $admin_produksis,
-            'admin_css'       => $admin_css,
-            'admin_finances'  => $admin_finances,
-            'filter_product_id'  => $filter_product_id,
-            'error'           => null,
+            'title'   => 'Order',
+            'page'    => 'order/main',
+            'vitamin' => 'order/main_vitamin',
+            'list'    => $list,
+            'error'   => null,
         );
         $this->theme->render($data);
     }
 
     public function add()
     {
-        $this->form_validation->set_rules('admin_order', 'ADMIN ORDER', 'required');
-        $this->form_validation->set_rules('project_id', 'PROJECT', 'required');
-        $this->form_validation->set_rules('order_via', 'ORDER VIA', 'required');
         $this->form_validation->set_rules('whatsapp', 'NO WHATSAPP', 'required');
         $this->form_validation->set_rules('sales_invoice', 'SALES INVOICE', 'required');
         $this->form_validation->set_rules('created_at', 'TANGGAL & JAM ORDER', 'required');
         $this->form_validation->set_rules('durasi_batas_transfer', 'DURASI BATAS TRANSFER', 'required');
         $this->form_validation->set_rules('batas_waktu_transfer', 'BATAS WAKTU TRANSFER', 'required');
-        $this->form_validation->set_rules('customer_id', 'CUSTOMER', 'required');
         $this->form_validation->set_rules('product_id', 'PRODUK', 'required');
         $this->form_validation->set_rules('color_id', 'WARNA', 'required');
         $this->form_validation->set_rules('size_id', 'UKURAN', 'required');
@@ -92,8 +69,6 @@ class Order extends CI_Controller
             $created_at           = $exec_code['created_at'];
             $batas_waktu_transfer = $exec_code['batas_waktu_transfer'];
             $estimasi_selesai     = $exec_code['estimasi_selesai'];
-            $projects             = $this->Project_model->get_all_data();
-            $customers            = $this->Customer_model->get_all_data();
             $products             = $this->Produk_model->get_all_data();
             $colors               = $this->Warna_model->get_all_data();
             $sizes                = $this->Ukuran_model->get_all_data();
@@ -108,8 +83,6 @@ class Order extends CI_Controller
                 'created_at'           => $created_at,
                 'batas_waktu_transfer' => $batas_waktu_transfer,
                 'estimasi_selesai'     => $estimasi_selesai,
-                'projects'             => $projects,
-                'customers'            => $customers,
                 'products'             => $products,
                 'colors'               => $colors,
                 'sizes'                => $sizes,
@@ -446,4 +419,4 @@ class Order extends CI_Controller
     }
 }
         
-    /* End of file  Order.php */
+    /* End of file  Corder.php */

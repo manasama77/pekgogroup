@@ -43,7 +43,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <form action="<?= base_url('Pengiriman/index'); ?>" method="get">
+                <form action="<?= base_url('pengiriman/index'); ?>" method="get">
                     <div class="card card-dark">
                         <div class="card-header">
                             <h3 class="card-title">Pengiriman Filter</h3>
@@ -58,8 +58,11 @@
                                 <label for="product_id">PRODUK</label>
                                 <select class="form-control select2" id="product_id" name="product_id" required>
                                     <option value="all">SEMUA</option>
-                                    <?php for ($i = 0; $i < count($products); $i++) { ?>
-                                        <option value="<?= $products[$i]['id']; ?>"><?= $products[$i]['name']; ?></option>
+                                    <?php
+                                    for ($i = 0; $i < $products['num_rows']; $i++) {
+                                        $selected = ($this->input->get('product_id') == $products['data'][$i]['id']) ? "selected" : null;
+                                    ?>
+                                        <option value="<?= $products['data'][$i]['id']; ?>" <?= $selected; ?>><?= $products['data'][$i]['name']; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -227,7 +230,7 @@
                                 </tr>
                                 <tr>
                                     <td class="p-0" colspan="2">
-                                        <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="selesaikanOrder(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')" <?php ($key->tanggal_pengiriman == null) ? "disabled" : null; ?>>Selesaikan Order</button>
+                                        <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="selesaikanOrder(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->no_resi; ?>')" <?php ($key->tanggal_pengiriman == null) ? "disabled" : null; ?>>Selesaikan Order</button>
                                     </td>
                                 </tr>
 

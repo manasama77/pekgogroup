@@ -60,8 +60,8 @@
                                         <label for="filter_product_id">PRODUK</label>
                                         <select class="form-control select2" id="filter_product_id" name="filter_product_id" required>
                                             <option value="all">SEMUA</option>
-                                            <?php for ($i = 0; $i < count($products); $i++) { ?>
-                                                <option value="<?= $products[$i]['id']; ?>" <?= ($filter_product_id == $products[$i]['id']) ? "selected" : null;; ?>><?= $products[$i]['name']; ?></option>
+                                            <?php for ($i = 0; $i < $products['num_rows']; $i++) { ?>
+                                                <option value="<?= $products['data'][$i]['id']; ?>" <?= ($filter_product_id == $products['data'][$i]['id']) ? "selected" : null; ?>><?= $products['data'][$i]['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -353,10 +353,11 @@
                                     </tr>
                                     <tr>
                                         <td class="p-0">
-                                            <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGIRIMAN</a>
+                                            <a href="<?= base_url('pengiriman/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGIRIMAN</a>
                                         </td>
                                         <td class="p-0">
-                                            <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGADUAN</a>
+                                            <!-- <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGADUAN</a> -->
+                                            <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="comingSoon()">DATA PENGADUAN</button>
                                         </td>
                                     </tr>
                                 </table>

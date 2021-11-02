@@ -41,7 +41,7 @@
                             <hr />
                             <div class="form-group">
                                 <label for="name">NAMA</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA" minlength="2" maxlength="50" value="<?= set_value('name'); ?>" autocomplete="name" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA" minlength="2" maxlength="100" value="<?= set_value('name'); ?>" autocomplete="name" required>
                                 <?= form_error('name'); ?>
                             </div>
                             <div class="form-group">

@@ -27,3 +27,14 @@ function copyClipboard(text) {
   /* Copy the text inside the text field */
   navigator.clipboard.writeText(text);
 }
+
+function comingSoon() {
+  Swal.fire({
+    position: 'top-end',
+    icon: 'info',
+    title: 'Coming Soon',
+    showConfirmButton: false,
+    timer: 1500,
+    toast: true
+  })
+}

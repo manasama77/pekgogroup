@@ -207,7 +207,6 @@ class Pembayaran_model extends CI_Model
         $where = ['id' => $order_id];
         $exec = $this->db->update('orders', $data, $where);
 
-
         $this->db->where('order_productions.order_id', $order_id);
         $exec = $this->db->get('order_productions');
         if ($exec->num_rows() == 1) {
@@ -228,7 +227,6 @@ class Pembayaran_model extends CI_Model
                 $this->db->update('orders', $data);
             }
         }
-
 
         return $exec;
     }
@@ -280,6 +278,30 @@ class Pembayaran_model extends CI_Model
     public function store_pelunasan($data)
     {
         return $this->db->insert('order_payments', $data);
+    }
+
+    public function check_produksi($order_id)
+    {
+        $this->db->where('order_productions.order_id', $order_id);
+        $exec = $this->db->get('order_productions');
+        if ($exec->num_rows() == 1) {
+            $petugas_potong_kain = ($exec->row()->petugas_potong_kain) ?? null;
+            $petugas_jahit       = ($exec->row()->petugas_jahit) ?? null;
+            $petugas_qc_1        = ($exec->row()->petugas_qc_1) ?? null;
+            $petugas_aksesoris   = ($exec->row()->petugas_aksesoris) ?? null;
+            $petugas_qc_2        = ($exec->row()->petugas_qc_2) ?? null;
+
+            if ($petugas_potong_kain != null && $petugas_jahit != null && $petugas_qc_1 != null && $petugas_aksesoris != null && $petugas_qc_2 != null) {
+                $data = [
+                    'status_order' => 'pengiriman',
+                    'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'updated_by'   => $this->session->userdata('id'),
+                ];
+                $this->db->where('orders.status_pembayaran', 'lunas');
+                $this->db->where('orders.id', $order_id);
+                $this->db->update('orders', $data);
+            }
+        }
     }
 }
                         

@@ -521,6 +521,42 @@ class Order_model extends CI_Model
 
         return $return;
     }
+
+    public function update_customer($customer_id, $grand_total)
+    {
+        $this->db->set('customers.order_total', 'customers.order_total + ' . $grand_total, true);
+        $this->db->set('customers.order_created', 'customers.order_created + 1', true);
+        $this->db->where('customers.id', $customer_id);
+        return $this->db->update('customers');
+    }
+
+    //////////
+
+    public function customer_get_all_data()
+    {
+        $this->db->select($this->select);
+        $this->db->from('orders');
+        $this->db->join('products', 'products.id = orders.product_id', 'left');
+        $this->db->join('product_color_params', 'product_color_params.id = orders.color_id', 'left');
+        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+        $this->db->join('product_size_params', 'product_size_params.id = orders.size_id', 'left');
+        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->join('customers', 'customers.id = orders.customer_id', 'left');
+        $this->db->join('admins as admin_order', 'admin_order.id = orders.admin_order', 'left');
+        $this->db->join('admins as admin_produksi', 'admin_produksi.id = orders.admin_produksi', 'left');
+        $this->db->join('admins as admin_cs', 'admin_cs.id = orders.admin_cs', 'left');
+        $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_finance', 'left');
+        $this->db->where('orders.customer_id', $this->session->userdata('id'));
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.deleted_at', null);
+        $this->db->order_by('orders.id', 'desc');
+        $exec = $this->db->get();
+
+        // echo $this->db->last_query();
+        // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';
+        // exit;
+        return $exec;
+    }
 }
                         
 /* End of file Order_model.php */

@@ -35,7 +35,10 @@ class Produk_model extends CI_Model
                 'data'     => array(),
             );
         } else {
-            $return = array();
+            $return = array(
+                'num_rows' => $exec->num_rows(),
+                'data'     => array(),
+            );
             $itteraion = 0;
             foreach ($exec->result() as $key) {
                 $id         = $key->id;
@@ -44,11 +47,11 @@ class Produk_model extends CI_Model
                 $price      = $key->price;
                 $path_image = $key->path_image;
 
-                $return[$itteraion]['id']         = $id;
-                $return[$itteraion]['code']       = $code;
-                $return[$itteraion]['name']       = $name;
-                $return[$itteraion]['price']      = $price;
-                $return[$itteraion]['path_image'] = $path_image;
+                $return['data'][$itteraion]['id']         = $id;
+                $return['data'][$itteraion]['code']       = $code;
+                $return['data'][$itteraion]['name']       = $name;
+                $return['data'][$itteraion]['price']      = $price;
+                $return['data'][$itteraion]['path_image'] = $path_image;
 
                 $this->db->select('colors.name');
                 $this->db->from('product_color_params');
@@ -58,13 +61,13 @@ class Produk_model extends CI_Model
                 $this->db->order_by('product_color_params.id', 'asc');
                 $exec_color = $this->db->get();
                 if ($exec_color->num_rows() == 0) {
-                    $return[$itteraion]['colors'] = '-';
+                    $return['data'][$itteraion]['colors'] = '-';
                 } else {
-                    $return[$itteraion]['colors'] = "<ul>";
+                    $return['data'][$itteraion]['colors'] = "<ul>";
                     foreach ($exec_color->result() as $color) {
-                        $return[$itteraion]['colors'] .= "<li>" . $color->name . "</li>";
+                        $return['data'][$itteraion]['colors'] .= "<li>" . $color->name . "</li>";
                     }
-                    $return[$itteraion]['colors'] .= "</ul>";
+                    $return['data'][$itteraion]['colors'] .= "</ul>";
                 }
 
                 $this->db->select('sizes.name');
@@ -75,13 +78,13 @@ class Produk_model extends CI_Model
                 $this->db->order_by('product_size_params.id', 'asc');
                 $exec_size = $this->db->get();
                 if ($exec_size->num_rows() == 0) {
-                    $return[$itteraion]['sizes'] = '-';
+                    $return['data'][$itteraion]['sizes'] = '-';
                 } else {
-                    $return[$itteraion]['sizes'] = "<ul>";
+                    $return['data'][$itteraion]['sizes'] = "<ul>";
                     foreach ($exec_size->result() as $size) {
-                        $return[$itteraion]['sizes'] .= "<li>" . $size->name . "</li>";
+                        $return['data'][$itteraion]['sizes'] .= "<li>" . $size->name . "</li>";
                     }
-                    $return[$itteraion]['sizes'] .= "</ul>";
+                    $return['data'][$itteraion]['sizes'] .= "</ul>";
                 }
 
                 $this->db->select('requests.name');
@@ -92,13 +95,13 @@ class Produk_model extends CI_Model
                 $this->db->order_by('product_request_params.id', 'asc');
                 $exec_request = $this->db->get();
                 if ($exec_request->num_rows() == 0) {
-                    $return[$itteraion]['requests'] = '-';
+                    $return['data'][$itteraion]['requests'] = '-';
                 } else {
-                    $return[$itteraion]['requests'] = "<ul>";
+                    $return['data'][$itteraion]['requests'] = "<ul>";
                     foreach ($exec_request->result() as $request) {
-                        $return[$itteraion]['requests'] .= "<li>" . $request->name . "</li>";
+                        $return['data'][$itteraion]['requests'] .= "<li>" . $request->name . "</li>";
                     }
-                    $return[$itteraion]['requests'] .= "</ul>";
+                    $return['data'][$itteraion]['requests'] .= "</ul>";
                 }
 
                 $this->db->select('hpps.name');
@@ -109,13 +112,13 @@ class Produk_model extends CI_Model
                 $this->db->order_by('product_hpp_params.id', 'asc');
                 $exec_hpp = $this->db->get();
                 if ($exec_hpp->num_rows() == 0) {
-                    $return[$itteraion]['hpps'] = '-';
+                    $return['data'][$itteraion]['hpps'] = '-';
                 } else {
-                    $return[$itteraion]['hpps'] = "<ul>";
+                    $return['data'][$itteraion]['hpps'] = "<ul>";
                     foreach ($exec_hpp->result() as $hpp) {
-                        $return[$itteraion]['hpps'] .= "<li>" . $hpp->name . "</li>";
+                        $return['data'][$itteraion]['hpps'] .= "<li>" . $hpp->name . "</li>";
                     }
-                    $return[$itteraion]['hpps'] .= "</ul>";
+                    $return['data'][$itteraion]['hpps'] .= "</ul>";
                 }
 
                 $itteraion++;

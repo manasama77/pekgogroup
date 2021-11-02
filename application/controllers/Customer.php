@@ -246,6 +246,19 @@ class Customer extends CI_Controller
 
         echo json_encode($return);
     }
+
+    public function reset()
+    {
+        $id           = $this->input->post('id');
+        $new_password = password_hash($this->input->post('new_password') . HASH_SLING_SLICER, PASSWORD_BCRYPT);
+        $exec         = $this->Customer_model->reset($id, $new_password);
+
+        $code = 200;
+        if (!$exec) {
+            $code = 500;
+        }
+        echo json_encode(['code' => $code]);
+    }
 }
         
     /* End of file  Customer.php */

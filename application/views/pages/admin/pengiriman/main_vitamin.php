@@ -39,56 +39,65 @@
         })
     }
 
-    function selesaikanOrder(id, sales_invoice) {
-        Swal.fire({
-            icon: 'question',
-            title: `Selesaikan Order ${sales_invoice} ?`,
-            showConfirmButton: true,
-            showCancelButton: true,
-        }).then((e) => {
-            if (e.isConfirmed) {
-                $.ajax({
-                    url: `<?= base_url(); ?>pengiriman/selesai`,
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        id: id
-                    },
-                    beforeSend: () => $.blockUI({
-                        message: `<i class="fas fa-spinner fa-spin"></i>`
-                    })
-                }).always(() => $.unblockUI()).fail(e => Swal.fire({
-                    icon: 'warning',
-                    html: e.responseText,
-                })).done(e => {
-                    if (e.code == 500) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: 'Selesaikan Order Failed',
-                            showConfirmButton: false,
-                            timer: 1500,
-                            toast: true
-                        }).then(() => window.location.reload())
-                    } else if (e.code == 200) {
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Selesaikan Order Success',
-                            showConfirmButton: false,
-                            timer: 1500,
-                            toast: true
-                        }).then(() => {
-                            window.location.reload()
+    function selesaikanOrder(id, sales_invoice, no_resi) {
+        if (no_resi) {
+            Swal.fire({
+                icon: 'question',
+                title: `Selesaikan Order ${sales_invoice} ?`,
+                showConfirmButton: true,
+                showCancelButton: true,
+            }).then((e) => {
+                if (e.isConfirmed) {
+                    $.ajax({
+                        url: `<?= base_url(); ?>pengiriman/selesai`,
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            id: id
+                        },
+                        beforeSend: () => $.blockUI({
+                            message: `<i class="fas fa-spinner fa-spin"></i>`
                         })
-                    }
-                })
-            }
-        })
+                    }).always(() => $.unblockUI()).fail(e => Swal.fire({
+                        icon: 'warning',
+                        html: e.responseText,
+                    })).done(e => {
+                        if (e.code == 500) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: 'Selesaikan Order Failed',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true
+                            }).then(() => window.location.reload())
+                        } else if (e.code == 200) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Selesaikan Order Success',
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true
+                            }).then(() => {
+                                window.location.reload()
+                            })
+                        }
+                    })
+                }
+            })
+        } else {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'warning',
+                title: 'No Resi Belum terisi',
+                showConfirmButton: false,
+            })
+        }
     }
 
     function historyPengiriman(no_resi, ekspedisi) {
-        if (no_resi != null) {
+        if (no_resi) {
             $.ajax({
                 url: `<?= base_url(); ?>pengiriman/track`,
                 type: 'get',
@@ -135,5 +144,42 @@
                 showConfirmButton: false,
             })
         }
+    }
+
+    function storeTambahPengiriman() {
+        $.ajax({
+            url: `<?= base_url(); ?>pengiriman/store`,
+            type: 'post',
+            dataType: 'json',
+            data: $('#form_pengiriman').serialize(),
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Store Pengiriman Failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => window.location.reload())
+            } else if (e.code == 200) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Store Pengiriman Success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => {
+                    window.location.reload()
+                })
+            }
+        })
     }
 </script>

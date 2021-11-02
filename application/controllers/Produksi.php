@@ -72,14 +72,14 @@ class Produksi extends CI_Controller
         $order_id            = $this->input->post('order_id');
         $petugas_potong_kain = ($this->input->post('petugas_potong_kain') != null) ? $this->input->post('petugas_potong_kain') : null;
         $tanggal_potong_kain = ($this->input->post('tanggal_potong_kain') != null) ? $this->input->post('tanggal_potong_kain') : null;
-        $petugas_jahit = ($this->input->post('petugas_jahit') != null) ? $this->input->post('petugas_jahit') : null;
-        $tanggal_jahit = ($this->input->post('tanggal_jahit') != null) ? $this->input->post('tanggal_jahit') : null;
-        $petugas_qc_1 = ($this->input->post('petugas_qc_1') != null) ? $this->input->post('petugas_qc_1') : null;
-        $tanggal_qc_1 = ($this->input->post('tanggal_qc_1') != null) ? $this->input->post('tanggal_qc_1') : null;
-        $petugas_aksesoris = ($this->input->post('petugas_aksesoris') != null) ? $this->input->post('petugas_aksesoris') : null;
-        $tanggal_aksesoris = ($this->input->post('tanggal_aksesoris') != null) ? $this->input->post('tanggal_aksesoris') : null;
-        $petugas_qc_2 = ($this->input->post('petugas_qc_2') != null) ? $this->input->post('petugas_qc_2') : null;
-        $tanggal_qc_2 = ($this->input->post('tanggal_qc_2') != null) ? $this->input->post('tanggal_qc_2') : null;
+        $petugas_jahit       = ($this->input->post('petugas_jahit') != null) ? $this->input->post('petugas_jahit') : null;
+        $tanggal_jahit       = ($this->input->post('tanggal_jahit') != null) ? $this->input->post('tanggal_jahit') : null;
+        $petugas_qc_1        = ($this->input->post('petugas_qc_1') != null) ? $this->input->post('petugas_qc_1') : null;
+        $tanggal_qc_1        = ($this->input->post('tanggal_qc_1') != null) ? $this->input->post('tanggal_qc_1') : null;
+        $petugas_aksesoris   = ($this->input->post('petugas_aksesoris') != null) ? $this->input->post('petugas_aksesoris') : null;
+        $tanggal_aksesoris   = ($this->input->post('tanggal_aksesoris') != null) ? $this->input->post('tanggal_aksesoris') : null;
+        $petugas_qc_2        = ($this->input->post('petugas_qc_2') != null) ? $this->input->post('petugas_qc_2') : null;
+        $tanggal_qc_2        = ($this->input->post('tanggal_qc_2') != null) ? $this->input->post('tanggal_qc_2') : null;
 
         $data_1 = [
             'order_id'            => $order_id,

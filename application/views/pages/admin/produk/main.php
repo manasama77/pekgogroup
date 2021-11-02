@@ -79,28 +79,36 @@
                                     <tbody>
                                         <?php
                                         $itteration = 1;
-                                        for ($i = 0; $i < count($list); $i++) {
+                                        if ($list['num_rows'] == 0) {
+                                            echo '<tr>';
+                                            echo '<td class="text-center" colspan="10">Tidak ada data</td>';
+                                            echo '</td>';
+                                        } else {
+                                            for ($i = 0; $i < $list['num_rows']; $i++) {
                                         ?>
-                                            <tr>
-                                                <td class="text-center"><?= $itteration++; ?></td>
-                                                <td class="text-center">
-                                                    <img class="img-thumbnail" src="<?= base_url('assets/img/products/' . $list[$i]['path_image']); ?>" alt="<?= $list[$i]['path_image']; ?>" style="width: 100px;">
-                                                </td>
-                                                <td><?= $list[$i]['code']; ?></td>
-                                                <td><?= $list[$i]['name']; ?></td>
-                                                <td>Rp.<?= number_format($list[$i]['price'], 0); ?></td>
-                                                <td><?= $list[$i]['colors']; ?></td>
-                                                <td><?= $list[$i]['sizes']; ?></td>
-                                                <td><?= $list[$i]['requests']; ?></td>
-                                                <td><?= $list[$i]['hpps']; ?></td>
-                                                <td class="text-center">
-                                                    <div class="btn-group">
-                                                        <a href="<?= base_url('produk/edit/' . $list[$i]['id']); ?>" class="btn btn-info btn-sm">EDIT</a>
-                                                        <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $list[$i]['id']; ?>, '<?= $list[$i]['name']; ?>');">DELETE</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
+                                                <tr>
+                                                    <td class="text-center"><?= $itteration++; ?></td>
+                                                    <td class="text-center">
+                                                        <img class="img-thumbnail" src="<?= base_url('assets/img/products/' . $list['data'][$i]['path_image']); ?>" alt="<?= $list['data'][$i]['path_image']; ?>" style="width: 100px;">
+                                                    </td>
+                                                    <td><?= $list['data'][$i]['code']; ?></td>
+                                                    <td><?= $list['data'][$i]['name']; ?></td>
+                                                    <td>Rp.<?= number_format($list['data'][$i]['price'], 0); ?></td>
+                                                    <td><?= $list['data'][$i]['colors']; ?></td>
+                                                    <td><?= $list['data'][$i]['sizes']; ?></td>
+                                                    <td><?= $list['data'][$i]['requests']; ?></td>
+                                                    <td><?= $list['data'][$i]['hpps']; ?></td>
+                                                    <td class="text-center">
+                                                        <div class="btn-group">
+                                                            <a href="<?= base_url('produk/edit/' . $list['data'][$i]['id']); ?>" class="btn btn-info btn-sm">EDIT</a>
+                                                            <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $list['data'][$i]['id']; ?>, '<?= $list['data'][$i]['name']; ?>');">DELETE</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -175,7 +175,7 @@
                                         <?php } ?>
                                     </td>
                                     <td class="p-0">
-                                        <a href="#" class="btn btn-secondary  btn-block btn-xs btn-flat">RESET PASSWORD</a>
+                                        <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="modalReset(<?= $key->id; ?>, '<?= $key->whatsapp; ?>')">RESET PASSWORD</button>
                                     </td>
                                 </tr>
                             </table>
@@ -215,6 +215,38 @@
                     <input type="hidden" id="id_blokir" name="id_blokir">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Blokir Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form id="form_reset">
+    <div class="modal fade" id="modal_reset" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="whatsapp_reset">WHATSAPP</label>
+                            <input type="text" class="form-control" id="whatsapp_reset" name="whatsapp_reset" placeholder="WHATSAPP" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">PASSWORD BARU</label>
+                            <input type="text" class="form-control" id="new_password" name="new_password" placeholder="NEW PASSWORD" autocomplete="new-password" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="id_reset" name="id_reset">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Reset Password Customer</button>
                 </div>
             </div>
         </div>

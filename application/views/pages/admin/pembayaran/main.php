@@ -58,8 +58,11 @@
                                 <label for="product_id">PRODUK</label>
                                 <select class="form-control select2" id="product_id" name="product_id" required>
                                     <option value="all">SEMUA</option>
-                                    <?php for ($i = 0; $i < count($products); $i++) { ?>
-                                        <option value="<?= $products[$i]['id']; ?>"><?= $products[$i]['name']; ?></option>
+                                    <?php
+                                    for ($i = 0; $i < $products['num_rows']; $i++) {
+                                        $selected = ($this->input->get('product_id') == $products['data'][$i]['id']) ? "selected" : null;
+                                    ?>
+                                        <option value="<?= $products['data'][$i]['id']; ?>" <?= $selected; ?>><?= $products['data'][$i]['name']; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>

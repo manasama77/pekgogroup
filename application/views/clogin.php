@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pekgo Group | Admin Log in</title>
+    <title>Pekgo Group | Customer Log in</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,14 +19,14 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-danger">
+        <div class="card card-outline card-warning">
             <div class="card-header text-center">
                 <a href="<?= base_url(); ?>" class="h1"><b>Pekgo</b>Group</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Admin Area</p>
+                <p class="login-box-msg">Customer Area</p>
 
-                <form action="<?= base_url(); ?>login/index" method="post">
+                <form action="<?= base_url(); ?>clogin/index" method="post">
                     <div class="input-group">
                         <input type="tel" class="form-control" id="whatsapp" name="whatsapp" placeholder="Whatsapp" minlength="4" maxlength="16" autocomplete="mobile" value="<?= set_value('whatsapp'); ?>" required>
                         <div class="input-group-append">
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col-12 mt-3">
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
-                            <button type="submit" class="btn btn-danger btn-block"><i class="fas fa-sign-in-alt"></i> Log In</button>
+                            <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-sign-in-alt"></i> Log In</button>
                         </div>
                         <!-- /.col -->
                     </div>
