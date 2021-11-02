@@ -21,6 +21,7 @@ class Corder extends CI_Controller
         $this->load->model('Request_model');
         $this->load->model('Hpp_model');
         $this->load->model('Customer_model');
+        $this->load->model('Pembayaran_model');
         $this->cur_datetime = new DateTime('now');
     }
 
@@ -40,7 +41,6 @@ class Corder extends CI_Controller
 
     public function add()
     {
-        $this->form_validation->set_rules('whatsapp', 'NO WHATSAPP', 'required');
         $this->form_validation->set_rules('sales_invoice', 'SALES INVOICE', 'required');
         $this->form_validation->set_rules('created_at', 'TANGGAL & JAM ORDER', 'required');
         $this->form_validation->set_rules('durasi_batas_transfer', 'DURASI BATAS TRANSFER', 'required');
@@ -70,8 +70,6 @@ class Corder extends CI_Controller
             $batas_waktu_transfer = $exec_code['batas_waktu_transfer'];
             $estimasi_selesai     = $exec_code['estimasi_selesai'];
             $products             = $this->Produk_model->get_all_data();
-            $colors               = $this->Warna_model->get_all_data();
-            $sizes                = $this->Ukuran_model->get_all_data();
 
             $data = array(
                 'title'                => 'Order',
@@ -84,8 +82,6 @@ class Corder extends CI_Controller
                 'batas_waktu_transfer' => $batas_waktu_transfer,
                 'estimasi_selesai'     => $estimasi_selesai,
                 'products'             => $products,
-                'colors'               => $colors,
-                'sizes'                => $sizes,
                 'csrf'                 => $csrf,
                 'error'                => null,
             );
@@ -97,27 +93,27 @@ class Corder extends CI_Controller
 
     protected function store()
     {
+        $customers = $this->Customer_model->get_single_data('id', $this->session->userdata('id'));
+
         $id_order              = $this->input->post('id_order');
-        $project_id            = $this->input->post('project_id');
+        $project_id            = 1;
         $durasi_batas_transfer = $this->input->post('durasi_batas_transfer');
         $batas_waktu_transfer  = $this->input->post('batas_waktu_transfer');
         $estimasi_selesai      = $this->input->post('estimasi_selesai');
-        $order_via             = $this->input->post('order_via');
+        $order_via             = "web";
         $product_id            = $this->input->post('product_id');
         $color_id              = $this->input->post('color_id');
         $size_id               = $this->input->post('size_id');
         $pilih_jahitan         = $this->input->post('pilih_jahitan');
         $catatan               = $this->input->post('catatan');
-        $customer_id           = $this->input->post('customer_id');
-        $whatsapp              = $this->input->post('whatsapp');
-        $id_tokped             = $this->input->post('id_tokped');
-        $id_shopee             = $this->input->post('id_shopee');
-        $id_instagram          = $this->input->post('id_instagram');
+        $customer_id           = $this->session->userdata('id');
+        $whatsapp              = $this->session->userdata('whatsapp');
+        $id_tokped             = $customers->row()->id_tokped;
+        $id_shopee             = $customers->row()->id_shopee;
+        $id_instagram          = $customers->row()->id_instagram;
         $jenis_dp              = $this->input->post('jenis_dp');
         $sub_total             = $this->input->post('sub_total_order');
         $grand_total           = $this->input->post('grand_total_order');
-        $grand_total           = $this->input->post('grand_total_order');
-        $dp_value              = $this->input->post('dp_order');
         $dp_value              = $this->input->post('dp_order');
         $pelunasan_value       = $this->input->post('lunas_order');
 
@@ -144,7 +140,6 @@ class Corder extends CI_Controller
             'jenis_dp'              => $jenis_dp,
             'dp_value'              => $dp_value,
             'pelunasan_value'       => $pelunasan_value,
-            'admin_order'           => $this->session->userdata('id'),
             'status'                => 'active',
         );
         $where = array('id' => $id_order);
@@ -169,152 +164,7 @@ class Corder extends CI_Controller
 
         $this->session->set_flashdata('success', 'Tambah Order Berhasil');
         session_write_close();
-        redirect(base_url() . 'order/add', 'location');
-    }
-
-    public function edit($id)
-    {
-        $this->form_validation->set_rules('whatsapp', 'WHATSAPP', 'required');
-        $this->form_validation->set_rules('name', 'NAMA', 'required');
-
-        if ($this->form_validation->run() == FALSE) {
-            $csrf = array(
-                'name' => $this->security->get_csrf_token_name(),
-                'hash' => $this->security->get_csrf_hash()
-            );
-            $list = $this->Order_model->get_single_data('id', $id);
-            $data = array(
-                'title' => 'Order Edit',
-                'page'  => 'order/form_edit',
-                'csrf'  => $csrf,
-                'list'  => $list,
-                'error' => null,
-            );
-            $this->theme->render($data);
-        } else {
-            $this->update($id);
-        }
-    }
-
-    protected function update($id)
-    {
-        $data  = array(
-            'name'         => $this->input->post('name'),
-            'id_tokped'    => $this->input->post('id_tokped'),
-            'id_shopee'    => $this->input->post('id_shopee'),
-            'id_instagram' => $this->input->post('id_instagram'),
-            'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'   => $this->session->userdata('id'),
-        );
-        $where = array('id' => $id);
-        $exec  = $this->Order_model->update($data, $where);
-
-        if (!$exec) {
-            $this->session->set_flashdata('error', 'Edit Order Gagal');
-            session_write_close();
-            redirect(base_url() . 'order/index', 'location');
-        }
-
-        $this->session->set_flashdata('success', 'Edit Order Berhasil');
-        session_write_close();
-        redirect(base_url() . 'order/index', 'location');
-    }
-
-    public function destroy($id)
-    {
-        $data  = array(
-            'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_by' => $this->session->userdata('id'),
-        );
-        $where = array('id' => $id);
-        $exec  = $this->Order_model->destroy($data, $where);
-
-        if (!$exec) {
-            $return = ['code' => 500];
-        }
-
-        $return = ['code' => 200];
-
-        echo json_encode($return);
-    }
-
-    public function render_hpp()
-    {
-        $product_id = $this->input->get('product_id');
-        $exec       = $this->Order_model->get_temp_hpp($product_id);
-
-        echo json_encode([
-            'code'  => 200,
-            'count' => $exec->num_rows(),
-            'data'  => $exec->result(),
-        ]);
-    }
-
-    public function store_hpp()
-    {
-        $product_id = $this->input->post('product_id');
-        $hpp_id     = $this->input->post('hpp_id');
-        $qty        = $this->input->post('qty_hpp');
-
-        $basic_price = $this->Hpp_model->get_single_data('hpps.id', $hpp_id)->row()->cost;
-        $total_price = $basic_price * $qty;
-
-        $data  = array(
-            'product_id'  => $product_id,
-            'hpp_id'      => $hpp_id,
-            'qty'         => $qty,
-            'basic_price' => $basic_price,
-            'total_price' => $total_price,
-            'created_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'  => $this->session->userdata('id'),
-        );
-        $exec  = $this->Order_model->store_hpp($data);
-
-        if (!$exec) {
-            $return = ['code' => 500];
-        }
-
-        $return = ['code' => 200];
-
-        echo json_encode($return);
-    }
-
-    public function destroy_hpp($id)
-    {
-        $where = array('id' => $id);
-        $exec  = $this->Order_model->destroy_hpp($where);
-
-        if (!$exec) {
-            $return = ['code' => 500];
-        }
-
-        $return = ['code' => 200];
-
-        echo json_encode($return);
-    }
-
-    public function blokir()
-    {
-        $id              = $this->input->post('id');
-        $reason_inactive = trim($this->input->post('reason_inactive'));
-
-        $data = array(
-            'status'          => 'tidak aktif',
-            'reason_inactive' => $reason_inactive,
-            'updated_at'      => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata('id'),
-        );
-
-        $where = array('id' => $id);
-        $exec  = $this->Order_model->update($data, $where);
-
-        if (!$exec) {
-            $return = ['code' => 500];
-        }
-
-        $return = ['code' => 200];
-
-        echo json_encode($return);
+        redirect(base_url() . 'corder/index', 'location');
     }
 
     public function store_request()
@@ -366,7 +216,7 @@ class Corder extends CI_Controller
 
     public function remove_request()
     {
-        $id = $this->input->post('id');
+        $id   = $this->input->post('id');
         $exec = $this->Order_model->remove_request($id);
         if (!$exec) {
             $return = ['code' => 500];
@@ -415,6 +265,136 @@ class Corder extends CI_Controller
             $this->load->view('invoice', $exec, FALSE);
         } else {
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
+        }
+    }
+
+
+
+
+
+
+
+    public function destroy($id)
+    {
+        $data  = array(
+            'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'deleted_by' => $this->session->userdata('id'),
+        );
+        $where = array('id' => $id);
+        $exec  = $this->Order_model->destroy($data, $where);
+
+        if (!$exec) {
+            $return = ['code' => 500];
+        }
+
+        $return = ['code' => 200];
+
+        echo json_encode($return);
+    }
+
+    public function check_pembayaran_dp()
+    {
+        $order_id = $this->input->get('order_id');
+        $code     = $this->Pembayaran_model->cek_pembayaran_dp($order_id);
+        echo json_encode(['code' => $code]);
+    }
+
+    public function store_dp()
+    {
+        $config['upload_path']   = './assets/img/pembayaran/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $config['max_size']      = 2048;
+        $config['max_width']     = 0;
+        $config['max_height']    = 0;
+        $config['encrypt_name']  = true;
+        $config['remove_spaces'] = true;
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('path_image_dp')) {
+            $error = $this->upload->display_errors();
+            show_error($error, 500, "Terjadi Kesalahan");
+            exit;
+        } else {
+            $order_id = $this->input->post('id_dp');
+
+            $image_data = $this->upload->data();
+            $path_image = $image_data['file_name'];
+
+            $customer_id    = $this->session->userdata('id');
+
+            $data = [
+                'order_id'          => $order_id,
+                'customer_id'       => $customer_id,
+                'path_image'        => $path_image,
+                'status_pembayaran' => 'menunggu verifikasi',
+                'jenis_pembayaran'  => 'dp',
+                'created_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'created_by'        => $this->session->userdata('id'),
+                'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by'        => $this->session->userdata('id'),
+            ];
+            $exec = $this->Pembayaran_model->store_dp($data);
+            if (!$exec) {
+                show_error('Proses Pembayaran Gagal', 500, "Terjadi Kesalahan");
+                exit;
+            }
+
+            $this->session->set_flashdata('success', 'Upload Bukti Pembayaran DP Berhasil');
+            session_write_close();
+            redirect(base_url() . 'corder/index', 'location');
+        }
+    }
+
+    public function check_pembayaran_pelunasan()
+    {
+        $order_id = $this->input->get('order_id');
+        $code     = $this->Pembayaran_model->cek_pembayaran_pelunasan($order_id);
+        echo json_encode(['code' => $code]);
+    }
+
+    public function store_pelunasan()
+    {
+        $config['upload_path']   = './assets/img/pembayaran/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $config['max_size']      = 2048;
+        $config['max_width']     = 0;
+        $config['max_height']    = 0;
+        $config['encrypt_name']  = true;
+        $config['remove_spaces'] = true;
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('path_image_pelunasan')) {
+            $error = $this->upload->display_errors();
+            show_error($error, 500, "Terjadi Kesalahan");
+            exit;
+        } else {
+            $order_id = $this->input->post('id_pelunasan');
+
+            $image_data = $this->upload->data();
+            $path_image = $image_data['file_name'];
+
+            $customer_id    = $this->session->userdata('id');
+
+            $data = [
+                'order_id'          => $order_id,
+                'customer_id'       => $customer_id,
+                'path_image'        => $path_image,
+                'status_pembayaran' => 'menunggu verifikasi',
+                'jenis_pembayaran'  => 'pelunasan',
+                'created_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'created_by'        => $this->session->userdata('id'),
+                'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by'        => $this->session->userdata('id'),
+            ];
+            $exec = $this->Pembayaran_model->store_dp($data);
+            if (!$exec) {
+                show_error('Proses Pembayaran Gagal', 500, "Terjadi Kesalahan");
+                exit;
+            }
+
+            $this->session->set_flashdata('success', 'Upload Bukti Pembayaran Pelunasan Berhasil');
+            session_write_close();
+            redirect(base_url() . 'corder/index', 'location');
         }
     }
 }

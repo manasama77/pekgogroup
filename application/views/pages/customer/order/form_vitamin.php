@@ -160,7 +160,7 @@
     function storeRequest(id) {
         console.log(id)
         $.ajax({
-            url: `<?= base_url(); ?>order/store_request`,
+            url: `<?= base_url(); ?>corder/store_request`,
             type: 'post',
             dataType: 'json',
             data: {
@@ -219,7 +219,7 @@
 
     function renderDetail() {
         $.ajax({
-            url: `<?= base_url(); ?>order/render_detail`,
+            url: `<?= base_url(); ?>corder/render_detail`,
             type: 'get',
             dataType: 'json',
             data: {
@@ -261,7 +261,7 @@
     function removeRequest(id, cost) {
         console.log(id)
         $.ajax({
-            url: `<?= base_url(); ?>order/remove_request`,
+            url: `<?= base_url(); ?>corder/remove_request`,
             type: 'post',
             dataType: 'json',
             data: {
@@ -299,7 +299,7 @@
 
     function generateCopyOrder() {
         $.ajax({
-            url: `<?= base_url(); ?>order/copy_order`,
+            url: `<?= base_url(); ?>corder/copy_order`,
             type: 'get',
             dataType: 'json',
             data: {

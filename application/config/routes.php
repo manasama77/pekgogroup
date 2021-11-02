@@ -59,8 +59,17 @@ $route['clogout'] = 'clogin/logout';
 
 $route['cdashboard'] = 'cdashboard/index';
 
-$route['corder/index'] = 'corder/index';
-$route['corder/add']   = 'corder/add';
+$route['corder/index']                      = 'corder/index';
+$route['corder/add']                        = 'corder/add';
+$route['corder/store_request']['post']      = 'corder/store_request';
+$route['corder/render_detail']              = 'corder/render_detail';
+$route['corder/remove_request']             = 'corder/remove_request';
+$route['corder/copy_order']                 = 'corder/copy_order';
+$route['corder/show_request']               = 'corder/show_request';
+$route['corder/check_pembayaran_dp']        = 'corder/check_pembayaran_dp';
+$route['corder/store_dp']                   = 'corder/store_dp';
+$route['corder/check_pembayaran_pelunasan'] = 'corder/check_pembayaran_pelunasan';
+$route['corder/store_pelunasan']            = 'corder/store_pelunasan';
 
 // admin
 $route['login'] = 'login/index';

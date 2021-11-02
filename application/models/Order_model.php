@@ -479,6 +479,8 @@ class Order_model extends CI_Model
 
     public function generate_invoice($id)
     {
+        $this->db->update('orders', ['admin_order' => $this->session->userdata('id'), 'is_printed' => 'yes'], ['id' => $id]);
+
         $this->db->select('path_logo');
         $this->db->from('projects');
         $this->db->where('id', 1);
@@ -555,6 +557,15 @@ class Order_model extends CI_Model
         // echo $this->db->last_query();
         // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';
         // exit;
+        return $exec;
+    }
+
+    public function show_data($field, $keyword)
+    {
+        $this->db->where($field, $keyword);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.deleted_at', null);
+        $exec = $this->db->get('orders', 1);
         return $exec;
     }
 }

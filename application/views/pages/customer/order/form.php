@@ -239,7 +239,7 @@
                     <input type="hidden" id="dp_order" name="dp_order" value="0" />
                     <input type="hidden" id="lunas_order" name="lunas_order" value="0" />
                     <button type="submit" class="btn btn-primary btn-block btn-flat font-weight-bold">Save Order</button>
-                    <a href="<?= base_url('order/index'); ?>" class="btn btn-secondary btn-block btn-flat font-weight-bold">Kembali Ke Order List</a>
+                    <a href="<?= base_url('corder/index'); ?>" class="btn btn-secondary btn-block btn-flat font-weight-bold">Kembali Ke Order List</a>
                 </div>
             </div>
         </form>

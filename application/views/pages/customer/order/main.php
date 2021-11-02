@@ -192,3 +192,71 @@
         <?php } ?>
     </div>
 </div>
+
+<!-- Modal -->
+<form id="form_dp" action="<?= base_url('corder/store_dp'); ?>" method="post" enctype="multipart/form-data">
+    <div class="modal fade" id="modal_dp" tabindex="-1" role="dialog" data-static="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pembayaran DP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="sales_invoice_dp">Sales Invoice</label>
+                            <input type="text" class="form-control" id="sales_invoice_dp" name="sales_invoice_dp" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="path_image_dp">Bukti Transfer</label>
+                            <input type="file" class="form-control" id="path_image_dp" name="path_image_dp" accept=".jpg, .png, .jpeg" capture files required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="id_dp" name="id_dp" />
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" required />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Modal -->
+<form id="form_pelunasan" action="<?= base_url('corder/store_pelunasan'); ?>" method="post" enctype="multipart/form-data">
+    <div class="modal fade" id="modal_pelunasan" tabindex="-1" role="dialog" data-static="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pembayaran Pelunasan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="sales_invoice_pelunasan">Sales Invoice</label>
+                            <input type="text" class="form-control" id="sales_invoice_pelunasan" name="sales_invoice_pelunasan" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="path_image_pelunasan">Bukti Transfer</label>
+                            <input type="file" class="form-control" id="path_image_pelunasan" name="path_image_pelunasan" accept=".jpg, .png, .jpeg" capture files required />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="id_pelunasan" name="id_pelunasan" />
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>" required />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -244,7 +244,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modal_verifikasi_dp" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Verifikasi DP</h5>
@@ -253,7 +253,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid" id="v_dp">
+                <div class="container-fluid">
+                    <div class="text-center" id="v_dp"></div>
                 </div>
             </div>
         </div>
@@ -262,7 +263,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modal_verifikasi_pelunasan" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Verifikasi Pelunasan</h5>
@@ -271,7 +272,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid" id="v_pelunasan">
+                <div class="container-fluid">
+                    <div class="text-center" id="v_pelunasan"></div>
                 </div>
             </div>
         </div>

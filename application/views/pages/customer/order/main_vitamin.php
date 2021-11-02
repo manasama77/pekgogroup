@@ -7,7 +7,7 @@
 <script>
     function showRequest(id, sales_invoice) {
         $.ajax({
-            url: `<?= base_url(); ?>order/show_request`,
+            url: `<?= base_url(); ?>corder/show_request`,
             type: 'get',
             dataType: 'json',
             data: {
@@ -53,7 +53,7 @@
 
     function copyOrder(order_id, product_id, color_id, size_id, kode_unik, jenis_dp, catatan, pilih_jahitan) {
         $.ajax({
-            url: `<?= base_url(); ?>order/copy_order`,
+            url: `<?= base_url(); ?>corder/copy_order`,
             type: 'get',
             dataType: 'json',
             data: {
@@ -93,6 +93,90 @@
                     timer: 1500,
                     toast: true
                 })
+            }
+        })
+    }
+
+    function pembayaranDP(id, sales_invoice) {
+        $.ajax({
+            url: `<?= base_url(); ?>corder/check_pembayaran_dp`,
+            type: 'get',
+            dataType: 'json',
+            data: {
+                order_id: id,
+            },
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Check Pembayaran Failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 404) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Pembayaran DP sedang dalam proses pemeriksaan',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                $('#sales_invoice_dp').val(sales_invoice)
+                $('#id_dp').val(id)
+                $('#path_image_dp').val()
+                $('#modal_dp').modal('show')
+            }
+        })
+    }
+
+    function pembayaranPelunasan(id, sales_invoice) {
+        $.ajax({
+            url: `<?= base_url(); ?>corder/check_pembayaran_pelunasan`,
+            type: 'get',
+            dataType: 'json',
+            data: {
+                order_id: id,
+            },
+            beforeSend: () => $.blockUI({
+                message: `<i class="fas fa-spinner fa-spin"></i>`
+            })
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Check Pembayaran Failed',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 404) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Pembayaran Pelunasan sedang dalam proses pemeriksaan',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                $('#sales_invoice_pelunasan').val(sales_invoice)
+                $('#id_pelunasan').val(id)
+                $('#path_image_pelunasan').val()
+                $('#modal_pelunasan').modal('show')
             }
         })
     }
