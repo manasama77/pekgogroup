@@ -1,0 +1,2 @@
+php public_html/index.php Cli/check_expired
+php public_html/index.php Cli/check_resi

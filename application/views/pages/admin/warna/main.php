@@ -104,6 +104,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
+                            <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
                         </div>
                     </div>
