@@ -54,7 +54,7 @@
                 })
             } else if (e.code == 200) {
                 // show modal
-                let htmlnya = `<img src="<?= base_url(); ?>assets/img/pembayaran/${e.data[0].path_image}" class="img-fluid" style="max-width: 800px;" />`
+                let htmlnya = `<img src="<?= base_url(); ?>assets/img/pembayaran/${e.data[0].path_image}" class="img-fluid"  />`
                 htmlnya += `<button type="button" class="btn btn-success btn-block btn-flat" onclick="approve_dp(${e.data[0].id}, ${e.data[0].order_id});">Verifikasi Pembayaran DP</button>`
                 htmlnya += `<hr />`
                 htmlnya += `<textarea class="form-control mt-4" id="alasan_penolakan" placeholder="Masukan Alasan Penolanak"></textarea>`
@@ -190,7 +190,7 @@
                 })
             } else if (e.code == 200) {
                 // show modal
-                let htmlnya = `<img src="<?= base_url(); ?>assets/img/pembayaran/${e.data[0].path_image}" class="img-fluid" style="max-width: 800px;" />`
+                let htmlnya = `<img src="<?= base_url(); ?>assets/img/pembayaran/${e.data[0].path_image}" class="img-fluid"  />`
                 htmlnya += `<button type="button" class="btn btn-success btn-block btn-flat" onclick="approve_pelunasan(${e.data[0].id}, ${e.data[0].order_id});">Verifikasi Pembayaran Pelunasan</button>`
                 htmlnya += `<hr />`
                 htmlnya += `<textarea class="form-control mt-4" id="alasan_penolakan" placeholder="Masukan Alasan Penolanak"></textarea>`

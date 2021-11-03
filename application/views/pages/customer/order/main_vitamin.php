@@ -133,13 +133,14 @@
             } else if (e.code == 200) {
                 $('#sales_invoice_dp').val(sales_invoice)
                 $('#id_dp').val(id)
-                $('#path_image_dp').val()
+                $('#alamat_pengiriman_dp').val(null)
+                $('#path_image_dp').val(null)
                 $('#modal_dp').modal('show')
             }
         })
     }
 
-    function pembayaranPelunasan(id, sales_invoice) {
+    function pembayaranPelunasan(id, sales_invoice, alamat_pengiriman) {
         $.ajax({
             url: `<?= base_url(); ?>corder/check_pembayaran_pelunasan`,
             type: 'get',
@@ -174,8 +175,9 @@
                 })
             } else if (e.code == 200) {
                 $('#sales_invoice_pelunasan').val(sales_invoice)
+                $('#alamat_pengiriman_pelunasan').val(alamat_pengiriman)
                 $('#id_pelunasan').val(id)
-                $('#path_image_pelunasan').val()
+                $('#path_image_pelunasan').val("")
                 $('#modal_pelunasan').modal('show')
             }
         })

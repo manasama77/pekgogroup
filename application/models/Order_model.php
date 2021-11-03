@@ -526,8 +526,8 @@ class Order_model extends CI_Model
 
     public function update_customer($customer_id, $grand_total)
     {
-        $this->db->set('customers.order_total', 'customers.order_total + ' . $grand_total, true);
-        $this->db->set('customers.order_created', 'customers.order_created + 1', true);
+        $this->db->set('customers.order_total', 'customers.order_total + ' . $grand_total, false);
+        $this->db->set('customers.order_created', 'customers.order_created + 1', false);
         $this->db->where('customers.id', $customer_id);
         return $this->db->update('customers');
     }

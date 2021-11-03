@@ -267,13 +267,6 @@ class Produksi_model extends CI_Model
     {
         $this->db->where('order_productions.order_id', $order_id);
         $exec = $this->db->get('order_productions');
-
-        $petugas_potong_kain = ($exec->row()->petugas_potong_kain) ?? null;
-        $petugas_jahit       = ($exec->row()->petugas_jahit) ?? null;
-        $petugas_qc_1        = ($exec->row()->petugas_qc_1) ?? null;
-        $petugas_aksesoris   = ($exec->row()->petugas_aksesoris) ?? null;
-        $petugas_qc_2        = ($exec->row()->petugas_qc_2) ?? null;
-
         if ($exec->num_rows() == 0) {
             //insert
             $exec = $this->db->insert('order_productions', $data_1);
@@ -282,6 +275,16 @@ class Produksi_model extends CI_Model
             $where = ['order_id' => $order_id];
             $exec  = $this->db->update('order_productions', $data_2, $where);
         }
+
+
+        $this->db->where('order_productions.order_id', $order_id);
+        $exec = $this->db->get('order_productions');
+
+        $petugas_potong_kain = ($exec->row()->petugas_potong_kain) ?? null;
+        $petugas_jahit       = ($exec->row()->petugas_jahit) ?? null;
+        $petugas_qc_1        = ($exec->row()->petugas_qc_1) ?? null;
+        $petugas_aksesoris   = ($exec->row()->petugas_aksesoris) ?? null;
+        $petugas_qc_2        = ($exec->row()->petugas_qc_2) ?? null;
 
         if ($petugas_potong_kain != null && $petugas_jahit != null && $petugas_qc_1 != null && $petugas_aksesoris != null && $petugas_qc_2 != null) {
             $data = [

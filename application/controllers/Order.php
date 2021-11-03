@@ -74,7 +74,6 @@ class Order extends CI_Controller
         $this->form_validation->set_rules('pilih_jahitan', 'JAHITAN', 'required');
         $this->form_validation->set_rules('estimasi_selesai', 'ESTIMASI SELESAI', 'required');
         $this->form_validation->set_rules('jenis_dp', 'JENIS DP', 'required');
-        $this->form_validation->set_rules('catatan', 'CATATAN TAMBAHAN', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(

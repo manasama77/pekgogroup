@@ -51,7 +51,6 @@ class Corder extends CI_Controller
         $this->form_validation->set_rules('pilih_jahitan', 'JAHITAN', 'required');
         $this->form_validation->set_rules('estimasi_selesai', 'ESTIMASI SELESAI', 'required');
         $this->form_validation->set_rules('jenis_dp', 'JENIS DP', 'required');
-        $this->form_validation->set_rules('catatan', 'CATATAN TAMBAHAN', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
@@ -315,7 +314,8 @@ class Corder extends CI_Controller
             show_error($error, 500, "Terjadi Kesalahan");
             exit;
         } else {
-            $order_id = $this->input->post('id_dp');
+            $order_id          = $this->input->post('id_dp');
+            $alamat_pengiriman = $this->input->post('alamat_pengiriman_dp');
 
             $image_data = $this->upload->data();
             $path_image = $image_data['file_name'];
@@ -333,7 +333,7 @@ class Corder extends CI_Controller
                 'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_by'        => $this->session->userdata('id'),
             ];
-            $exec = $this->Pembayaran_model->store_dp($data);
+            $exec = $this->Pembayaran_model->store_dp($data, $order_id, $alamat_pengiriman);
             if (!$exec) {
                 show_error('Proses Pembayaran Gagal', 500, "Terjadi Kesalahan");
                 exit;
@@ -368,7 +368,8 @@ class Corder extends CI_Controller
             show_error($error, 500, "Terjadi Kesalahan");
             exit;
         } else {
-            $order_id = $this->input->post('id_pelunasan');
+            $order_id          = $this->input->post('id_pelunasan');
+            $alamat_pengiriman = $this->input->post('alamat_pengiriman_pelunasan');
 
             $image_data = $this->upload->data();
             $path_image = $image_data['file_name'];
@@ -386,7 +387,7 @@ class Corder extends CI_Controller
                 'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_by'        => $this->session->userdata('id'),
             ];
-            $exec = $this->Pembayaran_model->store_dp($data);
+            $exec = $this->Pembayaran_model->store_pelunasan($data, $order_id, $alamat_pengiriman);
             if (!$exec) {
                 show_error('Proses Pembayaran Gagal', 500, "Terjadi Kesalahan");
                 exit;

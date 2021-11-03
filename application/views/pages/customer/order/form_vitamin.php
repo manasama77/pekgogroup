@@ -134,6 +134,8 @@
                 })
                 requestId.html(vRequests)
 
+                $('#v_image').html(`<img src="<?= base_url(); ?>assets/img/products/${e.data.image}" class="img-fluid" />`)
+
                 renderDetail()
             }
         })

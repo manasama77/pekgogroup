@@ -250,7 +250,6 @@ class Pembayaran extends CI_Controller
             $customer_id     = $this->input->post('id_customer_pelunasan');
             $created_at_obj  = new DateTime($this->input->post('created_at_pelunasan'));
             $created_at      = $created_at_obj->format('Y-m-d H:i:s');
-            $jenis_dp        = $this->input->post('id_customer_pelunasan');
             $dp_value        = $this->input->post('dp_value_pelunasan');
             $pelunasan_value = $this->input->post('pelunasan_value_pelunasan');
 

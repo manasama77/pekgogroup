@@ -175,11 +175,11 @@
                                     <tr>
                                         <td class="p-0" colspan="2">
                                             <?php
-                                            if ($key->status_pembayaran == "menunggu pembayaran") {
+                                            if ($key->status_pembayaran == "menunggu pembayaran" && in_array($key->status_order, ["order dibuat", "naik produksi"])) {
                                             ?>
                                                 <button type="button" class="btn btn-success btn-block btn-xs btn-flat" onclick="pembayaranDP(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')">Pembayaran DP</button>
-                                            <?php } elseif ($key->status_pembayaran == "partial") { ?>
-                                                <button type="button" class="btn btn-success btn-block btn-xs btn-flat" onclick="pembayaranPelunasan(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')">Pembayaran Pelunasan</button>
+                                            <?php } elseif ($key->status_pembayaran == "partial" && in_array($key->status_order, ["naik produksi"])) { ?>
+                                                <button type="button" class="btn btn-success btn-block btn-xs btn-flat" onclick="pembayaranPelunasan(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>', '<?= $key->alamat_pengiriman; ?>')">Pembayaran Pelunasan</button>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -209,6 +209,10 @@
                         <div class="form-group">
                             <label for="sales_invoice_dp">Sales Invoice</label>
                             <input type="text" class="form-control" id="sales_invoice_dp" name="sales_invoice_dp" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat_pengiriman_dp">Alamat Pengiriman</label>
+                            <input type="text" class="form-control" id="alamat_pengiriman_dp" name="alamat_pengiriman_dp" minlength="10" required />
                         </div>
                         <div class="form-group">
                             <label for="path_image_dp">Bukti Transfer</label>
@@ -243,6 +247,10 @@
                         <div class="form-group">
                             <label for="sales_invoice_pelunasan">Sales Invoice</label>
                             <input type="text" class="form-control" id="sales_invoice_pelunasan" name="sales_invoice_pelunasan" readonly required />
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat_pengiriman_pelunasan">Alamat Pengiriman</label>
+                            <input type="text" class="form-control" id="alamat_pengiriman_pelunasan" name="alamat_pengiriman_pelunasan" minlength="10" required />
                         </div>
                         <div class="form-group">
                             <label for="path_image_pelunasan">Bukti Transfer</label>

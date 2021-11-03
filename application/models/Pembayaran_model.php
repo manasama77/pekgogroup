@@ -100,8 +100,12 @@ class Pembayaran_model extends CI_Model
             $this->db->like('orders.' . $field, $keyword);
         }
 
+        $array_status_order = ['order dibuat', 'naik produksi'];
+        $this->db->where_in('orders.status_order', $array_status_order);
+
         $array_status_pembayaran = ['menunggu pembayaran', 'partial'];
         $this->db->where_in('orders.status_pembayaran', $array_status_pembayaran);
+
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
         $this->db->order_by('orders.id', 'desc');
@@ -248,8 +252,14 @@ class Pembayaran_model extends CI_Model
         }
     }
 
-    public function store_dp($data)
+    public function store_dp($data, $order_id, $alamat_pengiriman)
     {
+        if ($alamat_pengiriman != null || $alamat_pengiriman != "") {
+            $object = ['alamat_pengiriman' => $alamat_pengiriman];
+            $where  = ['id' => $order_id];
+            $this->db->update('orders', $object, $where);
+        }
+
         return $this->db->insert('order_payments', $data);
     }
 
@@ -275,8 +285,14 @@ class Pembayaran_model extends CI_Model
         }
     }
 
-    public function store_pelunasan($data)
+    public function store_pelunasan($data, $order_id, $alamat_pengiriman)
     {
+        if ($alamat_pengiriman != null || $alamat_pengiriman != "") {
+            $object = ['alamat_pengiriman' => $alamat_pengiriman];
+            $where  = ['id' => $order_id];
+            $this->db->update('orders', $object, $where);
+        }
+
         return $this->db->insert('order_payments', $data);
     }
 

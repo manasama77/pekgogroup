@@ -162,3 +162,8 @@ $route['setup/parameter/request/(:num)']['get']    = 'request/edit/$1';
 
 // init
 $route['init/admin'] = 'init/admin';
+
+
+// cli
+$route['cli/check_expired'] = 'cli/check_expired';
+$route['cli/check_resi']    = 'cli/check_resi';

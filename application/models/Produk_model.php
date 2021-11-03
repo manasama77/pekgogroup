@@ -138,7 +138,14 @@ class Produk_model extends CI_Model
 
     public function get_detail_for_order($id)
     {
+        $this->db->select('products.path_image');
+        $this->db->where('products.id', $id);
+        $p = $this->db->get('products');
+
+        $images = ($p->row()->path_image != null || $p->row()->path_image != "") ? $p->row()->path_image : 'default.jpg';
+
         $return = array(
+            'image'    => $images,
             'colors'   => array(),
             'sizes'    => array(),
             'requests' => array(),

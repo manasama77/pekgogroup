@@ -11,7 +11,7 @@
  Target Server Version : 100421
  File Encoding         : 65001
 
- Date: 02/11/2021 09:02:20
+ Date: 03/11/2021 08:28:45
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `admins`  (
 -- ----------------------------
 -- Records of admins
 -- ----------------------------
-INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-11-02 09:02:10', NULL, 1, 1, NULL);
+INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-11-03 08:26:27', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (2, '085603355799', '$2y$10$kiMo3KzzWPZEnKcPoFJ2JOoro6I9de6HnxEg6trQmQfzFET5YaTrC', 'Nurul', 'order', 'aktif', '2021-10-25 22:48:17', '2021-10-25 22:48:17', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (3, '081248892735', '$2y$10$8kPtP3F1sNMMIuUN.p7kXOl/nIcKMoFcKTvczlk2lNTVe6Uikodgu', 'Isanda', 'owner', 'aktif', '2021-10-30 05:10:38', '2021-11-01 17:09:21', NULL, 1, 3, NULL);
 INSERT INTO `admins` VALUES (4, '081111111111', '$2y$10$LJM7vcllW5DDMcy8jjxEBe33PrrDduCriHxEJdbVGItKeJiqy2cn2', 'Admin CS', 'cs', 'aktif', '2021-10-30 08:53:16', '2021-10-30 08:53:16', NULL, 3, 3, NULL);
@@ -62,15 +62,11 @@ CREATE TABLE `colors`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of colors
 -- ----------------------------
-INSERT INTO `colors` VALUES (1, 'Merah', '2021-10-24 22:52:04', '2021-10-24 22:52:04', NULL, 1, 1, NULL);
-INSERT INTO `colors` VALUES (2, 'Kuning', '2021-10-24 22:52:12', '2021-10-24 22:52:12', NULL, 1, 1, NULL);
-INSERT INTO `colors` VALUES (3, 'test', '2021-10-24 22:52:21', '2021-10-24 22:52:21', '2021-10-24 22:52:24', 1, 1, 1);
-INSERT INTO `colors` VALUES (4, 'a', '2021-10-24 22:53:30', '2021-10-24 22:53:30', '2021-10-24 22:53:36', 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for customers
@@ -80,7 +76,7 @@ CREATE TABLE `customers`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `whatsapp` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_tokped` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `id_shopee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `id_instagram` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -96,7 +92,7 @@ CREATE TABLE `customers`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1001 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of customers
@@ -118,15 +114,11 @@ CREATE TABLE `employees`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of employees
 -- ----------------------------
-INSERT INTO `employees` VALUES (1, 'Udin', 'potong kain', '9fa8d88657da07f72fccd88efb5e009c.jpg', '2021-10-26 00:12:01', '2021-10-26 00:12:01', NULL, 1, 1, NULL);
-INSERT INTO `employees` VALUES (2, 'Budi', 'penjahit', '47d5e5f2882cf9c944bc34ff633b98b0.jpg', '2021-10-30 10:54:41', '2021-10-30 10:54:41', NULL, 3, 3, NULL);
-INSERT INTO `employees` VALUES (3, 'Ujang', 'qc', 'a5bab09a0295e9d49297d30e8577afbc.jpg', '2021-10-30 10:54:50', '2021-10-30 10:54:50', NULL, 3, 3, NULL);
-INSERT INTO `employees` VALUES (4, 'Mamat', 'aksesoris', 'e8c914912907e953f59f0aabcc3832ad.jpg', '2021-10-30 10:55:14', '2021-10-30 10:55:14', NULL, 3, 3, NULL);
 
 -- ----------------------------
 -- Table structure for hpps
@@ -433,11 +425,13 @@ CREATE TABLE `requests`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of requests
 -- ----------------------------
+INSERT INTO `requests` VALUES (1, 'REQUEST (-) PB', 10000.0000, '2021-11-02 20:32:10', '2021-11-02 20:32:10', NULL, 1, 1, NULL);
+INSERT INTO `requests` VALUES (2, 'REQUEST (+) PB', 20000.0000, '2021-11-02 20:32:17', '2021-11-02 20:32:17', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for sequence_orders
@@ -484,14 +478,16 @@ CREATE TABLE `sizes`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sizes
 -- ----------------------------
 INSERT INTO `sizes` VALUES (1, 'S', 0.0000, '2021-10-24 23:02:30', '2021-10-24 23:02:30', NULL, 1, 1, NULL);
 INSERT INTO `sizes` VALUES (2, 'M', 0.0000, '2021-10-24 23:04:30', '2021-10-24 23:04:30', NULL, 1, 1, NULL);
-INSERT INTO `sizes` VALUES (3, 'L', 50000.0000, '2021-10-24 23:06:01', '2021-10-24 23:06:01', NULL, 1, 1, NULL);
+INSERT INTO `sizes` VALUES (3, 'L', 0.0000, '2021-10-24 23:06:01', '2021-10-24 23:06:01', NULL, 1, 1, NULL);
+INSERT INTO `sizes` VALUES (4, 'XL', 50000.0000, '2021-11-02 20:31:12', '2021-11-02 20:31:12', NULL, 1, 1, NULL);
+INSERT INTO `sizes` VALUES (5, 'XXL', 100000.0000, '2021-11-02 20:31:18', '2021-11-02 20:31:18', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for units

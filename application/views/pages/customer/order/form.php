@@ -144,6 +144,7 @@
                                 <label for="catatan">CATATAN TAMBAHAN</label>
                                 <textarea class="form-control form-control-sm" id="catatan" name="catatan" placeholder="CATATAN TAMBAHAN"></textarea>
                             </div>
+                            <div class="text-center" id="v_image"></div>
                         </div>
                     </div>
                 </div>
