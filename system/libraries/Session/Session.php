@@ -121,7 +121,9 @@ class CI_Session
 		if (
 			isset($_COOKIE[$this->_config['cookie_name']])
 			&& (!is_string($_COOKIE[$this->_config['cookie_name']])
-				or !preg_match('#\A' . $this->_sid_regexp . '\z#', $_COOKIE[$this->_config['cookie_name']]))
+				or !preg_match('/^[0-9a-f]/', $_COOKIE[$this->_config['cookie_name']]))
+			// or !preg_match('#\A' . $this->_sid_regexp . '\z#', $_COOKIE[$this->_config['cookie_name']]))
+
 		) {
 			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
