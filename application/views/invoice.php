@@ -103,7 +103,7 @@
                                 $harga_jahitan = 150000;
                             }
                             ?>
-                            Rp <?= number_format($data_orders[0]->harga_jahitan, 2); ?>
+                            Rp <?= number_format($harga_jahitan, 2); ?>
                         </td>
                     </tr>
                     <?php foreach ($data_requests as $key) { ?>
