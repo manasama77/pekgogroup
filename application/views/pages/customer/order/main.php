@@ -213,6 +213,7 @@
                         <div class="form-group">
                             <label for="alamat_pengiriman_dp">Alamat Pengiriman</label>
                             <input type="text" class="form-control" id="alamat_pengiriman_dp" name="alamat_pengiriman_dp" minlength="10" required />
+                            <div class="text-muted">Minimal 10 Karakter</div>
                         </div>
                         <div class="form-group">
                             <label for="path_image_dp">Bukti Transfer</label>
