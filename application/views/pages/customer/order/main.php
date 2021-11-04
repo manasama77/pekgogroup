@@ -216,7 +216,7 @@
                         </div>
                         <div class="form-group">
                             <label for="path_image_dp">Bukti Transfer</label>
-                            <input type="file" class="form-control" id="path_image_dp" name="path_image_dp" accept=".jpg, .png, .jpeg" capture files required />
+                            <input type="file" class="form-control" id="path_image_dp" name="path_image_dp" accept=".jpg, .png, .jpeg" capture required />
                         </div>
                     </div>
                 </div>
