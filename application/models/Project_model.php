@@ -85,6 +85,11 @@ class Project_model extends CI_Model
     {
         return $this->db->update('projects', $data, $where);
     }
+
+    public function destroy($data, $where)
+    {
+        return $this->db->update('projects', $data, $where);
+    }
 }
                         
 /* End of file Project_model.php */

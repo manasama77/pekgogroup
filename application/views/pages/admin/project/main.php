@@ -79,7 +79,7 @@
                                         <td class="text-center">
                                             <button type="button" class="btn btn-info" onclick="modalEdit(<?= $list[$i]['id']; ?>, '<?= $list[$i]['name']; ?>', '<?= $list[$i]['abbr']; ?>');">EDIT</button>
                                             <?php if ($list[$i]['id'] != 1) { ?>
-                                                <button type="button" class="btn btn-danger">DELETE</button>
+                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $list[$i]['id']; ?>, '<?= $list[$i]['name']; ?>')">DELETE</button>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -153,7 +153,7 @@
                         </div>
                         <div class="form-group">
                             <label for="xpath_logo">LOGO PROJECT</label>
-                            <input type="file" class="form-control" id="xpath_logo" name="xpath_logo" placeholder="LOGO PROJECT" accept=".jpg, .png, .jpeg" capture files required>
+                            <input type="file" class="form-control" id="xpath_logo" name="xpath_logo" placeholder="LOGO PROJECT" accept=".jpg, .png, .jpeg" capture files>
                             <div class="text-muted">Rekomendasi ukuran 512x512 px</div>
                         </div>
                     </div>

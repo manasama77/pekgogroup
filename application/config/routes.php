@@ -90,10 +90,11 @@ $route['produk/edit/(:num)']['post']          = 'produk/edit/$1';
 $route['produk/edit/(:num)']['get']           = 'produk/edit/$1';
 
 // setup
-$route['setup/project']  = 'project/index';
-$route['setup/karyawan'] = 'karyawan/index';
-$route['setup/hpp']      = 'hpp/index';
-$route['project/update'] = 'project/update';
+$route['setup/project']                    = 'project/index';
+$route['setup/karyawan']                   = 'karyawan/index';
+$route['setup/hpp']                        = 'hpp/index';
+$route['project/update']                   = 'project/update';
+$route['project/destroy/(:num)']['delete'] = 'project/destroy/$1';
 
 $route['setup/parameter/satuan']                  = 'satuan/index';
 $route['setup/parameter/satuan/(:num)']['delete'] = 'satuan/destroy/$1';

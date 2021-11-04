@@ -90,46 +90,69 @@ class Project extends CI_Controller
 
     public function update()
     {
-        $config['upload_path']   = './assets/img/projects/';
-        $config['allowed_types'] = 'jpeg|jpg|png';
-        $config['max_size']      = 2048;
-        $config['max_width']     = 512;
-        $config['max_height']    = 512;
-        $config['encrypt_name']  = true;
-        $config['remove_spaces'] = true;
-        $this->load->library('upload', $config);
+        $id   = $this->input->post('xid');
+        $name = $this->input->post('xname');
+        $abbr = $this->input->post('xabbr');
 
-        if (!$this->upload->do_upload('xpath_logo')) {
-            $error = $this->upload->display_errors();
-            $this->session->set_flashdata('error', $error);
-            session_write_close();
-            redirect(base_url() . 'setup/project', 'location');
+        if ($_FILES['xpath_logo']['size'] != 0) {
+            $config['upload_path']   = './assets/img/projects/';
+            $config['allowed_types'] = 'jpeg|jpg|png';
+            $config['max_size']      = 2048;
+            $config['max_width']     = 512;
+            $config['max_height']    = 512;
+            $config['encrypt_name']  = true;
+            $config['remove_spaces'] = true;
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('xpath_logo')) {
+                $error = $this->upload->display_errors();
+                $this->session->set_flashdata('error', $error);
+                session_write_close();
+                redirect(base_url() . 'setup/project', 'location');
+            } else {
+                $image_data = $this->upload->data();
+                $path_logo = $image_data['file_name'];
+
+                $data = array(
+                    'name'       => $name,
+                    'abbr'       => $abbr,
+                    'path_logo'  => $path_logo,
+                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'updated_by' => $this->session->userdata('id'),
+                );
+                $where = array('id' => $id);
+                $exec = $this->Project_model->update($data, $where);
+            }
         } else {
-            $image_data = $this->upload->data();
-            $path_logo = $image_data['file_name'];
-
-            $id   = $this->input->post('xid');
-            $name = $this->input->post('xname');
-            $abbr = $this->input->post('xabbr');
-
             $data = array(
                 'name'       => $name,
                 'abbr'       => $abbr,
-                'path_logo'  => $path_logo,
                 'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_by' => $this->session->userdata('id'),
             );
             $where = array('id' => $id);
             $exec = $this->Project_model->update($data, $where);
-
-            if (!$exec) {
-                echo "Update data gagal, silahkan coba kembali!";
-            }
-
-            $this->session->set_flashdata('success', 'Update Project Berhasil');
-            session_write_close();
-            redirect(base_url() . 'setup/project', 'location');
         }
+
+        if (!$exec) {
+            echo "Update data gagal, silahkan coba kembali!";
+        }
+
+        $this->session->set_flashdata('success', 'Update Project Berhasil');
+        session_write_close();
+        redirect(base_url() . 'setup/project', 'location');
+    }
+
+    public function destroy($id)
+    {
+        $data = [
+            'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'deleted_by' => $this->session->userdata('id'),
+        ];
+        $where = ['id' => $id];
+        $exec = $this->Project_model->destroy($data, $where);
+        $code = ($exec) ? 200 : 500;
+        echo json_encode(['code' => $code]);
     }
 }
         
