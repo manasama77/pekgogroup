@@ -76,9 +76,9 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'pekgogroupdb',
+	'username' => 'pekgogro_adampm',
+	'password' => ']QcRp3=]%XVO',
+	'database' => 'pekgogro_appdb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

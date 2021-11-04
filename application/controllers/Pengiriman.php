@@ -40,8 +40,8 @@ class Pengiriman extends CI_Controller
 
         $data = array(
             'title'     => 'Pengiriman',
-            'page'      => 'Pengiriman/main',
-            'vitamin'   => 'Pengiriman/main_vitamin',
+            'page'      => 'pengiriman/main',
+            'vitamin'   => 'pengiriman/main_vitamin',
             'list'      => $list,
             'products'  => $products,
             'customers' => $customers,
