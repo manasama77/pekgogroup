@@ -9,6 +9,8 @@ class Cdashboard_model extends CI_Model
     {
         $this->db->where('month(created_at)', date('m'));
         $this->db->where('customer_id', $this->session->userdata('id'));
+        $this->db->where('status', 'active');
+        $this->db->where('deleted_at', null);
         $exec = $this->db->get('orders');
         return $exec->num_rows();
     }

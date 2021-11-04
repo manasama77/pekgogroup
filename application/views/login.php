@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pekgo Group | Admin Log in</title>
+    <link rel="icon" href="<?= base_url('favicon.ico'); ?>" sizes="any"><!-- 32×32 -->
+    <link rel="icon" href="<?= base_url('icon.svg'); ?>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<?= base_url('apple-touch-icon.png'); ?>"><!-- 180×180 -->
+    <link rel="manifest" href="<?= base_url('manifest.webmanifest'); ?>">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">

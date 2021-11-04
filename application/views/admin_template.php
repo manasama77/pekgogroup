@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pekgo Group | <?= $title; ?></title>
+    <link rel="icon" href="<?= base_url('favicon.ico'); ?>" sizes="any"><!-- 32×32 -->
+    <link rel="icon" href="<?= base_url('icon.svg'); ?>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<?= base_url('apple-touch-icon.png'); ?>"><!-- 180×180 -->
+    <link rel="manifest" href="<?= base_url('manifest.webmanifest'); ?>">
+
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -33,7 +38,7 @@
         <aside class="main-sidebar elevation-4 sidebar-dark-purple">
             <!-- Brand Logo -->
             <a href="<?= base_url('dashboard'); ?>" class="brand-link navbar-purple">
-                <img src="<?= $theme_logo; ?>" alt="<?= $theme_name; ?>" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="<?= $theme_logo; ?>" alt="<?= $theme_name; ?>" class="brand-image" style="opacity: .8; width: 45px; height: 25px; margin-left: .45rem">
                 <span class="brand-text font-weight-light"><?= $theme_name; ?></span>
             </a>
 

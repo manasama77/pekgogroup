@@ -259,12 +259,8 @@ class Corder extends CI_Controller
 
     public function invoice($id)
     {
-        if (in_array($this->session->userdata('role'), ['owner', 'developer', 'komisaris', 'finance'])) {
-            $exec = $this->Order_model->generate_invoice($id);
-            $this->load->view('invoice', $exec, FALSE);
-        } else {
-            show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
-        }
+        $exec = $this->Order_model->generate_invoice($id);
+        $this->load->view('invoice', $exec, FALSE);
     }
 
 

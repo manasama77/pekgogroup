@@ -169,7 +169,7 @@
                                     </tr>
                                     <tr>
                                         <td class="p-0" colspan="2">
-                                            <a href="<?= base_url('order/invoice/' . $key->id); ?>" class="btn btn-info btn-block btn-xs btn-flat" target="_blank">PRINT INVOICE</a>
+                                            <a href="<?= base_url('corder/invoice/' . $key->id); ?>" class="btn btn-info btn-block btn-xs btn-flat" target="_blank">PRINT INVOICE</a>
                                         </td>
                                     </tr>
                                     <tr>

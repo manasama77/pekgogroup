@@ -95,7 +95,7 @@
         let id_product = productId.val()
 
         $.ajax({
-            url: `<?= base_url(); ?>produk/show/${id_product}`,
+            url: `<?= base_url(); ?>cproduk/show/${id_product}`,
             type: 'get',
             dataType: 'json',
             beforeSend: () => $.blockUI({
@@ -216,7 +216,6 @@
         grandTotalOrder.val(dGrandTotal)
         dpOrder.val(dDp)
         lunasOrder.val(dLunas)
-        //adam
     }
 
     function renderDetail() {
