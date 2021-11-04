@@ -75,8 +75,8 @@
                                         <td><?= $list[$i]['name']; ?></td>
                                         <td>PETUGAS <?= strtoupper($list[$i]['role']); ?></td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-info">EDIT</button>
-                                            <button type="button" class="btn btn-danger">DELETE</button>
+                                            <button type="button" class="btn btn-info" onclick="modalEdit(<?= $list[$i]['id']; ?>, '<?= $list[$i]['name']; ?>', '<?= $list[$i]['role']; ?>')">EDIT</button>
+                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $list[$i]['id']; ?>, '<?= $list[$i]['name']; ?>')">DELETE</button>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -148,3 +148,64 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<form id="form_edit" action="<?= base_url('karyawan/update'); ?>" method="post" enctype="multipart/form-data">
+    <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Karyawan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="xname">NAMA KARYAWAN</label>
+                            <input type="text" class="form-control" id="xname" name="xname" placeholder="NAMA PROEJCT" minlength="4" maxlength="16" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ROLE</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="xrole" id="xrole_potong_kain" value="potong kain">
+                                <label class="form-check-label" for="xrole_potong_kain">
+                                    Petugas Potong Kain
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="xrole" id="xrole_penjahit" value="penjahit">
+                                <label class="form-check-label" for="xrole_penjahit">
+                                    Petugas Penjahit
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="xrole" id="xrole_qc" value="qc">
+                                <label class="form-check-label" for="xrole_qc">
+                                    Petugas QC
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="xrole" id="xrole_aksesoris" value="aksesoris">
+                                <label class="form-check-label" for="xrole_aksesoris">
+                                    Petugas Aksesoris
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="xpath_photo">LOGO PROJECT</label>
+                            <input type="file" class="form-control" id="xpath_photo" name="xpath_photo" placeholder="PHOTO" accept=".jpg, .png, .jpeg" capture files>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
+                    <input type="hidden" id="xid" name="xid" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

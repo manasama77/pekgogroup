@@ -31,11 +31,12 @@ class Karyawan extends CI_Controller
             );
             $list = $this->Karyawan_model->get_all_data();
             $data = array(
-                'title' => 'Karyawan',
-                'page'  => 'karyawan/main',
-                'csrf'  => $csrf,
-                'list'  => $list,
-                'error' => null,
+                'title'   => 'Karyawan',
+                'page'    => 'karyawan/main',
+                'vitamin' => 'karyawan/main_vitamin',
+                'csrf'    => $csrf,
+                'list'    => $list,
+                'error'   => null,
             );
             $this->theme->render($data);
         } else {
@@ -85,6 +86,73 @@ class Karyawan extends CI_Controller
             session_write_close();
             redirect(base_url() . 'setup/karyawan', 'location');
         }
+    }
+
+    public function update()
+    {
+        $id   = $this->input->post('xid');
+        $name = $this->input->post('xname');
+        $role = $this->input->post('xrole');
+
+        if ($_FILES['xpath_photo']['size'] != 0) {
+            $config['upload_path']   = './assets/img/karyawan/';
+            $config['allowed_types'] = 'jpeg|jpg|png';
+            $config['max_size']      = 2048;
+            $config['max_width']     = 512;
+            $config['max_height']    = 512;
+            $config['encrypt_name']  = true;
+            $config['remove_spaces'] = true;
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('xpath_photo')) {
+                $error = $this->upload->display_errors();
+                $this->session->set_flashdata('error', $error);
+                session_write_close();
+                redirect(base_url() . 'setup/karyawan', 'location');
+            } else {
+                $image_data = $this->upload->data();
+                $path_photo = $image_data['file_name'];
+
+                $data = array(
+                    'name'       => $name,
+                    'role'       => $role,
+                    'path_photo'  => $path_photo,
+                    'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                    'updated_by' => $this->session->userdata('id'),
+                );
+                $where = array('id' => $id);
+                $exec = $this->Karyawan_model->update($data, $where);
+            }
+        } else {
+            $data = array(
+                'name'       => $name,
+                'role'       => $role,
+                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by' => $this->session->userdata('id'),
+            );
+            $where = array('id' => $id);
+            $exec = $this->Karyawan_model->update($data, $where);
+        }
+
+        if (!$exec) {
+            echo "Update data gagal, silahkan coba kembali!";
+        }
+
+        $this->session->set_flashdata('success', 'Update Karyawan Berhasil');
+        session_write_close();
+        redirect(base_url() . 'setup/karyawan', 'location');
+    }
+
+    public function destroy($id)
+    {
+        $data = [
+            'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'deleted_by' => $this->session->userdata('id'),
+        ];
+        $where = ['id' => $id];
+        $exec = $this->Karyawan_model->destroy($data, $where);
+        $code = ($exec) ? 200 : 500;
+        echo json_encode(['code' => $code]);
     }
 }
         

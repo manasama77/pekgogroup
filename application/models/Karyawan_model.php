@@ -30,17 +30,19 @@ class Karyawan_model extends CI_Model
 
         if ($exec->num_rows() == 0) {
             $result[0] = array(
-                'no'        => 1,
-                'name'      => '',
-                'role'      => '',
+                'no'         => 1,
+                'id'         => '',
+                'name'       => '',
+                'role'       => '',
                 'path_photo' => base_url() . 'assets/img/default-150x150.png',
             );
         } else {
             $itteration = 1;
             foreach ($exec->result() as $key) {
-                $nested['no']        = $itteration++;
-                $nested['name']      = $key->name;
-                $nested['role']      = $key->role;
+                $nested['no']   = $itteration++;
+                $nested['id']   = $key->id;
+                $nested['name'] = $key->name;
+                $nested['role'] = $key->role;
                 if ($key->path_photo != null || $key->path_photo != '') {
                     $nested['path_photo'] = base_url() . 'assets/img/karyawan/' . $key->path_photo;
                 } else {
@@ -87,6 +89,16 @@ class Karyawan_model extends CI_Model
         $this->db->order_by('employees.id', 'desc');
         $exec = $this->db->get();
         return $exec;
+    }
+
+    public function update($data, $where)
+    {
+        return $this->db->update('employees', $data, $where);
+    }
+
+    public function destroy($data, $where)
+    {
+        return $this->db->update('employees', $data, $where);
     }
 }
                         
