@@ -15,20 +15,14 @@ class Customer_auth
         $this->CI->load->model('Customer_model');
 
         if (!$this->CI->session->userdata()) {
-            echo "no session";
-            exit;
             redirect('clogout');
         } elseif ($this->CI->session->userdata('id') == null && $this->CI->session->userdata('whatsapp') == null) {
-            echo "no session id & wa";
-            exit;
             redirect('clogout');
         } else {
             $whatsapp = $this->CI->session->userdata('whatsapp');
             $exec     = $this->CI->Customer_model->get_single_data('whatsapp', $whatsapp);
 
             if ($exec->num_rows() == 0 || $exec->num_rows() > 1) {
-                echo "no data";
-                exit;
                 redirect('clogout');
                 exit;
             }
