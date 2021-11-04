@@ -57,7 +57,7 @@ class Cli_model extends CI_Model
                         THEN customers.order_total 
                         ELSE customers.order_total - " . $grand_total . " END
                 WHERE
-                    `customers`.`id` = 1 
+                    `customers`.`id` = " . $customer_id . " 
                 ";
                 $this->db->query($sql);
             }

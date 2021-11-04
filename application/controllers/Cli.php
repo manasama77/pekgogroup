@@ -15,6 +15,8 @@ class Cli extends CI_Controller
     {
         if ($this->input->is_cli_request()) {
             $this->Cli_model->check_expired();
+        } else {
+            echo "Access Denied" . PHP_EOL;
         }
     }
 
@@ -22,6 +24,8 @@ class Cli extends CI_Controller
     {
         if ($this->input->is_cli_request()) {
             $exec = $this->Cli_model->check_resi();
+        } else {
+            echo "Access Denied" . PHP_EOL;
         }
     }
 }
