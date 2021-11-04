@@ -98,8 +98,8 @@ class Karyawan extends CI_Controller
             $config['upload_path']   = './assets/img/karyawan/';
             $config['allowed_types'] = 'jpeg|jpg|png';
             $config['max_size']      = 2048;
-            $config['max_width']     = 512;
-            $config['max_height']    = 512;
+            $config['max_width']     = 0;
+            $config['max_height']    = 0;
             $config['encrypt_name']  = true;
             $config['remove_spaces'] = true;
             $this->load->library('upload', $config);
