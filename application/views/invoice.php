@@ -91,7 +91,20 @@
                     </tr>
                     <tr>
                         <td>Jahitan: <?= ucwords($data_orders[0]->pilih_jahitan); ?></td>
-                        <td class="text-right">Rp <?= number_format($data_orders[0]->harga_ukuran, 2); ?></td>
+                        <td class="text-right">
+                            <?php
+                            if ($data_orders[0]->pilih_jahitan == "standard") {
+                                $harga_jahitan = 0;
+                            } elseif ($data_orders[0]->pilih_jahitan == "express") {
+                                $harga_jahitan = 50000;
+                            } elseif ($data_orders[0]->pilih_jahitan == "urgent") {
+                                $harga_jahitan = 100000;
+                            } elseif ($data_orders[0]->pilih_jahitan == "super urgent") {
+                                $harga_jahitan = 150000;
+                            }
+                            ?>
+                            Rp <?= number_format($data_orders[0]->harga_jahitan, 2); ?>
+                        </td>
                     </tr>
                     <?php foreach ($data_requests as $key) { ?>
                         <tr>
