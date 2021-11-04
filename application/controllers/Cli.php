@@ -13,20 +13,21 @@ class Cli extends CI_Controller
 
     public function check_expired()
     {
-        if ($this->input->is_cli_request()) {
-            $this->Cli_model->check_expired();
-        } else {
-            echo "Access Denied" . PHP_EOL;
-        }
+        $this->Cli_model->check_expired();
+        // if ($this->input->is_cli_request()) {
+        //     $this->Cli_model->check_expired();
+        // } else {
+        //     echo "Access Denied" . PHP_EOL;
+        // }
     }
 
     public function check_resi()
     {
-        if ($this->input->is_cli_request()) {
-            $exec = $this->Cli_model->check_resi();
-        } else {
-            echo "Access Denied" . PHP_EOL;
-        }
+        $exec = $this->Cli_model->check_resi();
+        // if ($this->input->is_cli_request()) {
+        // } else {
+        //     echo "Access Denied" . PHP_EOL;
+        // }
     }
 }
         
