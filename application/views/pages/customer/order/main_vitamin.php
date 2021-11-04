@@ -120,7 +120,7 @@
                     showConfirmButton: false,
                     timer: 1500,
                     toast: true
-                })
+                }).then(() => window.location.reload())
             } else if (e.code == 404) {
                 Swal.fire({
                     position: 'top-end',
@@ -129,7 +129,7 @@
                     showConfirmButton: false,
                     timer: 3000,
                     toast: true
-                })
+                }).then(() => window.location.reload())
             } else if (e.code == 200) {
                 $('#sales_invoice_dp').val(sales_invoice)
                 $('#id_dp').val(id)
