@@ -29,10 +29,10 @@ class Login extends CI_Controller
             $role     = $exec->row()->role;
 
             $sesi_admin = array(
-                'id'       => $id,
-                'whatsapp' => $whatsapp,
-                'name'     => $name,
-                'role'     => $role,
+                SESS_ADM . 'id'       => $id,
+                SESS_ADM . 'whatsapp' => $whatsapp,
+                SESS_ADM . 'name'     => $name,
+                SESS_ADM . 'role'     => $role,
             );
             $this->session->set_userdata($sesi_admin);
             session_write_close();
@@ -68,7 +68,10 @@ class Login extends CI_Controller
 
     public function logout()
     {
-        $this->session->sess_destroy();
+        $this->session->unset_userdata(SESS_ADM . 'id');
+        $this->session->unset_userdata(SESS_ADM . 'whatsapp');
+        $this->session->unset_userdata(SESS_ADM . 'name');
+        $this->session->unset_userdata(SESS_ADM . 'role');
         session_write_close();
         redirect('login');
     }

@@ -1,13 +1,22 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$route['default_controller']   = 'clogin';
+$route['default_controller']   = 'landing';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //customer
-$route['clogin']  = 'clogin/index';
-$route['clogout'] = 'clogin/logout';
+$route['about/index']  = 'cabout/index';
+
+$route['shop/index']           = 'cshop/index';
+$route['shop/index/(:num)']    = 'cshop/index/$1';
+$route['shop/checkout/(:num)'] = 'cshop/checkout/$1';
+$route['shop/requests']        = 'cshop/requests';
+
+$route['products/(:num)'] = 'cshop/show/$1';
+
+$route['customer/login']  = 'clogin/index';
+$route['customer/logout'] = 'clogin/logout';
 
 $route['cdashboard'] = 'cdashboard/index';
 

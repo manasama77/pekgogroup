@@ -170,9 +170,9 @@ class Order_model extends CI_Model
             'is_paid_off'           => 'no',
             'status'                => 'temp',
             'created_at'            => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'            => $this->session->userdata('id'),
+            'created_by'            => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at'            => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'            => $this->session->userdata('id'),
+            'updated_by'            => $this->session->userdata(SESS_ADM . 'id'),
         );
         $this->store('orders', $data_order_temp);
         $id_order = $this->db->insert_id();
@@ -212,7 +212,7 @@ class Order_model extends CI_Model
         $this->db->join('hpps', 'hpps.id = product_hpp_params.hpp_id', 'left');
         $this->db->join('units', 'units.id = hpps.unit_id', 'left');
         $this->db->where('product_hpp_params.product_id', $product_id);
-        $this->db->where('product_hpp_params.created_by', $this->session->userdata('id'));
+        $this->db->where('product_hpp_params.created_by', $this->session->userdata(SESS_ADM . 'id'));
         $exec = $this->db->get();
 
         return $exec;
@@ -221,13 +221,13 @@ class Order_model extends CI_Model
     public function clear_temp()
     {
         $this->db->where('orders.status', 'temp');
-        $this->db->where('orders.created_by', $this->session->userdata('id'));
+        $this->db->where('orders.created_by', $this->session->userdata(SESS_ADM . 'id'));
         return $this->db->delete('orders');
     }
 
     public function clear_request()
     {
-        $this->db->where('order_requests.created_by', $this->session->userdata('id'));
+        $this->db->where('order_requests.created_by', $this->session->userdata(SESS_ADM . 'id'));
         $this->db->where('order_requests.updated_at', null);
         $this->db->where('order_requests.updated_by', null);
         return $this->db->delete('order_requests');
@@ -567,6 +567,44 @@ class Order_model extends CI_Model
         $this->db->where('orders.deleted_at', null);
         $exec = $this->db->get('orders', 1);
         return $exec;
+    }
+
+    public function check_customer_order($customer_id)
+    {
+        $this->db->where('orders.status', 'temp');
+        $this->db->where('orders.deleted_at', null);
+        $this->db->where('orders.customer_id', $customer_id);
+        $query = $this->db->get('orders');
+
+        if ($query->num_rows() > 0) {
+            $where = [
+                'created_by' => $customer_id,
+                'status'     => 'temp',
+            ];
+            $this->db->delete('orders', $where);
+            return 200;
+        }
+
+        $this->db->where_in('orders.status_order', ['order dibuat', 'naik produksi', 'pengiriman']);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.deleted_at', null);
+        $this->db->where('orders.customer_id', $customer_id);
+        $query = $this->db->get('orders');
+
+        if ($query->num_rows() > 0) {
+            return 404;
+        }
+
+        return 200;
+    }
+
+    public function get_temp_order($customer_id)
+    {
+        $this->db->where('customer_id', $customer_id);
+        $this->db->where('created_by', $customer_id);
+        $this->db->where('status', 'temp');
+        $this->db->where('deleted_at', null);
+        return $this->db->get('orders');
     }
 }
                         

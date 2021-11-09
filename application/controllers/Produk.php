@@ -111,13 +111,39 @@ class Produk extends CI_Controller
             $image_data = $this->upload->data();
             $path_image = $image_data['file_name'];
 
+            if ($_FILES['path_image_2']['size'] > 0) {
+                if (!$this->upload->do_upload('path_image_2')) {
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    session_write_close();
+                    redirect(base_url() . 'produk/add', 'location');
+                }
+            } else {
+                $image_data_2 = $this->upload->data();
+                $path_image_2 = $image_data_2['file_name'];
+            }
+
+            if ($_FILES['path_image_3']['size'] > 0) {
+                if (!$this->upload->do_upload('path_image_3')) {
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    session_write_close();
+                    redirect(base_url() . 'produk/add', 'location');
+                }
+            } else {
+                $image_data_3 = $this->upload->data();
+                $path_image_3 = $image_data_3['file_name'];
+            }
+
             $data = array(
-                'name'       => $name,
-                'price'      => $price,
-                'path_image' => $path_image,
-                'status'     => 'active',
-                'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by' => $this->session->userdata('id'),
+                'name'         => $name,
+                'price'        => $price,
+                'path_image'   => $path_image,
+                'path_image_2' => $path_image_2,
+                'path_image_3' => $path_image_3,
+                'status'       => 'active',
+                'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by'   => $this->session->userdata('id'),
             );
             $where = array('id' => $id_product);
             $exec  = $this->Produk_model->update('products', $data, $where);

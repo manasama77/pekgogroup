@@ -61,6 +61,7 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th>NAMA WARNA</th>
+                                    <th>HEX WARNA</th>
                                     <th class="text-center"><i class="fas fa-cogs"></i></th>
                                 </tr>
                             </thead>
@@ -72,6 +73,11 @@
                                     <tr>
                                         <td class="text-center"><?= $itteration++; ?></td>
                                         <td><?= $key->name; ?></td>
+                                        <td>
+                                            <div class="color-palette-set">
+                                                <div class="color-palette" style="background-color: <?= $key->hex; ?>;"><span class="text-white">&nbsp;</span></div>
+                                            </div>
+                                        </td>
                                         <td class="text-center">
                                             <a href="<?= base_url('setup/parameter/warna/' . $key->id); ?>" class="btn btn-info">EDIT</a>
                                             <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
@@ -101,6 +107,16 @@
                                 <label for="name">NAMA WARNA</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="NAMA WARNA" minlength="3" maxlength="20" value="<?= set_value('name'); ?>" required>
                                 <?= form_error('name'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="hex">HEX WARNA</label>
+                                <div class="input-group my-colorpicker2">
+                                    <input type="text" id="hex" name="hex" class="form-control">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-square"></i></span>
+                                    </div>
+                                </div>
+                                <?= form_error('hex'); ?>
                             </div>
                         </div>
                         <div class="card-footer">

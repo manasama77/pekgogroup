@@ -100,8 +100,8 @@ class Customer extends CI_Controller
             'id_instagram' => $id_instagram,
             'created_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'   => $this->session->userdata('id'),
-            'updated_by'   => $this->session->userdata('id'),
+            'created_by'   => $this->session->userdata(SESS_ADM . 'id'),
+            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec = $this->Customer_model->store($data);
 
@@ -146,7 +146,7 @@ class Customer extends CI_Controller
             'id_shopee'    => $this->input->post('id_shopee'),
             'id_instagram' => $this->input->post('id_instagram'),
             'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'   => $this->session->userdata('id'),
+            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Customer_model->update($data, $where);
@@ -166,7 +166,7 @@ class Customer extends CI_Controller
     {
         $data  = array(
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_by' => $this->session->userdata('id'),
+            'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Customer_model->destroy($data, $where);
@@ -186,7 +186,7 @@ class Customer extends CI_Controller
         $data  = array(
             'status'     => $new_status,
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata('id'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('customers.id' => $id);
         $exec  = $this->Customer_model->update($data, $where);
@@ -211,7 +211,7 @@ class Customer extends CI_Controller
             'status'          => 'tidak aktif',
             'reason_inactive' => $reason_inactive,
             'updated_at'      => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata('id'),
+            'updated_by'      => $this->session->userdata(SESS_ADM . 'id'),
         );
 
         $where = array('id' => $id);

@@ -17,6 +17,9 @@ class Produk_model extends CI_Model
             'products.name',
             'products.price',
             'products.path_image',
+            'products.path_image_2',
+            'products.path_image_3',
+            'products.description',
         );
     }
 
@@ -41,17 +44,23 @@ class Produk_model extends CI_Model
             );
             $itteraion = 0;
             foreach ($exec->result() as $key) {
-                $id         = $key->id;
-                $code       = $key->code;
-                $name       = $key->name;
-                $price      = $key->price;
-                $path_image = $key->path_image;
+                $id           = $key->id;
+                $code         = $key->code;
+                $name         = $key->name;
+                $price        = $key->price;
+                $path_image   = $key->path_image;
+                $path_image_2 = $key->path_image_2;
+                $path_image_3 = $key->path_image_3;
+                $description  = $key->description;
 
-                $return['data'][$itteraion]['id']         = $id;
-                $return['data'][$itteraion]['code']       = $code;
-                $return['data'][$itteraion]['name']       = $name;
-                $return['data'][$itteraion]['price']      = $price;
-                $return['data'][$itteraion]['path_image'] = $path_image;
+                $return['data'][$itteraion]['id']           = $id;
+                $return['data'][$itteraion]['code']         = $code;
+                $return['data'][$itteraion]['name']         = $name;
+                $return['data'][$itteraion]['price']        = $price;
+                $return['data'][$itteraion]['path_image']   = $path_image;
+                $return['data'][$itteraion]['path_image_2'] = $path_image_2;
+                $return['data'][$itteraion]['path_image_3'] = $path_image_3;
+                $return['data'][$itteraion]['description']  = $description;
 
                 $this->db->select('colors.name');
                 $this->db->from('product_color_params');
@@ -334,6 +343,145 @@ class Produk_model extends CI_Model
         $this->db->where('product_request_params.deleted_at', null);
         $exec = $this->db->get('product_request_params');
         return $exec;
+    }
+
+    public function count_all($f_size = null)
+    {
+        $this->db->join('product_size_params', 'product_size_params.product_id = products.id', 'left');
+        $this->db->group_by('products.id');
+
+
+        if ($f_size != null) {
+            $this->db->where_in('product_size_params.size_id', $f_size);
+        }
+
+        $this->db->where('products.deleted_at', null);
+        $this->db->where('product_size_params.deleted_at', null);
+        return $this->db->get('products');
+    }
+
+    public function get_paging_data($limit, $offset, $f_size)
+    {
+        $this->db->select('products.*');
+
+        $this->db->join('product_size_params', 'product_size_params.product_id = products.id', 'left');
+        $this->db->group_by('products.id');
+
+
+        if ($f_size != null) {
+            $this->db->where_in('product_size_params.size_id', $f_size);
+        }
+
+        $this->db->where('products.deleted_at', null);
+        $this->db->where('product_size_params.deleted_at', null);
+        return $this->db->get('products', $limit, $offset);
+    }
+
+    public function show_single_data($id)
+    {
+        $this->db->select($this->select);
+        $this->db->from('products');
+        $this->db->where('products.id', $id);
+        $this->db->where('products.status', 'active');
+        $this->db->where('products.deleted_at', null);
+        $this->db->order_by('products.id', 'asc');
+        $exec = $this->db->get();
+
+        if ($exec->num_rows() == 0) {
+            return array(
+                'num_rows' => 0,
+                'data'     => array(),
+            );
+        } else {
+            $return = array(
+                'num_rows' => $exec->num_rows(),
+                'data'     => array(),
+            );
+            $itteraion = 0;
+            foreach ($exec->result() as $key) {
+                $id           = $key->id;
+                $code         = $key->code;
+                $name         = $key->name;
+                $price        = $key->price;
+                $path_image   = $key->path_image;
+                $path_image_2 = $key->path_image_2;
+                $path_image_3 = $key->path_image_3;
+                $description  = $key->description;
+
+                $return['data'][$itteraion]['id']           = $id;
+                $return['data'][$itteraion]['code']         = $code;
+                $return['data'][$itteraion]['name']         = $name;
+                $return['data'][$itteraion]['price']        = $price;
+                $return['data'][$itteraion]['path_image']   = $path_image;
+                $return['data'][$itteraion]['path_image_2'] = $path_image_2;
+                $return['data'][$itteraion]['path_image_3'] = $path_image_3;
+                $return['data'][$itteraion]['description']  = $description;
+
+                $this->db->select('colors.id, colors.name');
+                $this->db->from('product_color_params');
+                $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+                $this->db->where('product_color_params.product_id', $id);
+                $this->db->where('product_color_params.deleted_at', null);
+                $this->db->order_by('product_color_params.id', 'asc');
+                $exec_color = $this->db->get();
+                if ($exec_color->num_rows() == 0) {
+                    $return['data'][$itteraion]['colors'] = [];
+                } else {
+                    $return['data'][$itteraion]['colors'] = $exec_color->result_array();
+                }
+
+                $this->db->select('sizes.id, sizes.name');
+                $this->db->from('product_size_params');
+                $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+                $this->db->where('product_size_params.product_id', $id);
+                $this->db->where('product_size_params.deleted_at', null);
+                $this->db->order_by('product_size_params.id', 'asc');
+                $exec_size = $this->db->get();
+                if ($exec_size->num_rows() == 0) {
+                    $return['data'][$itteraion]['sizes'] = [];
+                } else {
+                    $return['data'][$itteraion]['sizes'] = $exec_size->result_array();
+                }
+
+                $this->db->select('requests.id, requests.name');
+                $this->db->from('product_request_params');
+                $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+                $this->db->where('product_request_params.product_id', $id);
+                $this->db->where('product_request_params.deleted_at', null);
+                $this->db->order_by('product_request_params.id', 'asc');
+                $exec_request = $this->db->get();
+                if ($exec_request->num_rows() == 0) {
+                    $return['data'][$itteraion]['requests'] = [];
+                } else {
+                    $return['data'][$itteraion]['requests'] = $exec_request->result_array();
+                }
+
+                $this->db->select('hpps.id, hpps.name');
+                $this->db->from('product_hpp_params');
+                $this->db->join('hpps', 'hpps.id = product_hpp_params.hpp_id', 'left');
+                $this->db->where('product_hpp_params.product_id', $id);
+                $this->db->where('product_hpp_params.deleted_at', null);
+                $this->db->order_by('product_hpp_params.id', 'asc');
+                $exec_hpp = $this->db->get();
+                if ($exec_hpp->num_rows() == 0) {
+                    $return['data'][$itteraion]['hpps'] = [];
+                } else {
+                    $return['data'][$itteraion]['hpps'] = $exec_hpp->result_array();
+                }
+
+                $itteraion++;
+            }
+            return $return;
+        }
+    }
+
+    public function get_top_product($id)
+    {
+        $this->db->where_not_in('id', $id);
+        $this->db->where('status', 'active');
+        $this->db->where('deleted_at', null);
+        $this->db->order_by('sold', 'desc');
+        return $this->db->get('products', 5);
     }
 }
                         

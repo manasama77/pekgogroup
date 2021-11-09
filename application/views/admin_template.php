@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/select2/css/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/adminlte.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
 </head>
 
 <body class="control-sidebar-slide-open layout-fixed sidebar-mini text-sm accent-orange sidebar-collapse">
@@ -51,7 +53,7 @@
                     <div class="info" style="padding: 0px 5px 5px 8px;">
                         <a href="#" class="d-block">
                             <small class="font-weight-bold">
-                                <?= $this->session->userdata('name'); ?><br /><?= strtoupper($this->session->userdata('role')); ?>
+                                <?= $this->session->userdata(SESS_ADM . 'name'); ?><br /><?= strtoupper($this->session->userdata(SESS_ADM . 'role')); ?>
                             </small>
                         </a>
                     </div>

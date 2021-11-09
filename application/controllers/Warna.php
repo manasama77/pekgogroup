@@ -22,6 +22,7 @@ class Warna extends CI_Controller
     public function index()
     {
         $this->form_validation->set_rules('name', 'NAMA WARNA', 'required');
+        $this->form_validation->set_rules('hex', 'HEX WARNA', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
@@ -46,9 +47,11 @@ class Warna extends CI_Controller
     protected function store()
     {
         $name = $this->input->post('name');
+        $hex  = $this->input->post('hex');
 
         $data = array(
             'name'       => $name,
+            'hex'        => $hex,
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'created_by' => $this->session->userdata('id'),
@@ -59,12 +62,12 @@ class Warna extends CI_Controller
         if (!$exec) {
             $this->session->set_flashdata('error', 'Tambah Warna Gagal');
             session_write_close();
-            redirect(base_url() . 'setup/parameter/warna', 'refresh');
+            redirect(base_url() . 'setup/parameter/warna', 'location');
         }
 
         $this->session->set_flashdata('success', 'Tambah Warna Berhasil');
         session_write_close();
-        redirect(base_url() . 'setup/parameter/warna', 'refresh');
+        redirect(base_url() . 'setup/parameter/warna', 'location');
     }
 
     public function edit($id)
@@ -99,12 +102,12 @@ class Warna extends CI_Controller
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Warna Gagal');
             session_write_close();
-            redirect(base_url() . 'setup/parameter/warna', 'refresh');
+            redirect(base_url() . 'setup/parameter/warna', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Warna Berhasil');
         session_write_close();
-        redirect(base_url() . 'setup/parameter/warna', 'refresh');
+        redirect(base_url() . 'setup/parameter/warna', 'location');
     }
 
     public function destroy($id)

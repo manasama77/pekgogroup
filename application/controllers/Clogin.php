@@ -34,7 +34,7 @@ class Clogin extends CI_Controller
             );
             $this->session->set_userdata($sesi_customer);
             session_write_close();
-            redirect('cdashboard');
+            redirect(base_url());
         }
     }
 
@@ -68,6 +68,6 @@ class Clogin extends CI_Controller
     {
         $this->session->sess_destroy();
         session_write_close();
-        redirect('clogin');
+        redirect(base_url());
     }
 }

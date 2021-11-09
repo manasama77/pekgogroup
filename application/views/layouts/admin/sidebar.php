@@ -73,7 +73,7 @@
                 </li>
             </ul>
         </li>
-        <?php if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris'))) { ?>
+        <?php if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris'))) { ?>
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-tshirt"></i>

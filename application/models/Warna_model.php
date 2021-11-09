@@ -13,6 +13,7 @@ class Warna_model extends CI_Model
         $this->select = array(
             'colors.id',
             'colors.name',
+            'colors.hex',
         );
     }
 

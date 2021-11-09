@@ -65,9 +65,11 @@ class Project_model extends CI_Model
         $exec = $this->db->get();
 
         if ($exec->num_rows() == 0) {
+            $result['id']   = 1;
             $result['name'] = 'Pekgo Group';
             $result['logo'] = base_url() . 'assets/img/AdminLTELogo.png';
         } else {
+            $result['id']   = $exec->row()->id;
             $result['name'] = $exec->row()->name;
             $result['logo'] = base_url() . 'assets/img/projects/' . $exec->row()->path_logo;
         }

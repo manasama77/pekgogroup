@@ -104,9 +104,16 @@
                                 <?= form_error('request_id[]'); ?>
                             </div>
                             <div class="form-group">
-                                <label for="path_image">GAMBAR PRODUK</label>
-                                <input type="file" class="form-control" id="path_image" name="path_image" placeholder="GAMBAR PRODUK" value="<?= set_value('path_image'); ?>" accept=".jpg, .png, .jpeg" capture files required>
-                                <?= form_error('path_image'); ?>
+                                <label for="path_image">GAMBAR PRODUK 1</label>
+                                <input type="file" class="form-control" id="path_image" name="path_image" placeholder="GAMBAR PRODUK" accept=".jpg, .png, .jpeg" files required>
+                            </div>
+                            <div class="form-group">
+                                <label for="path_image_2">GAMBAR PRODUK 2</label>
+                                <input type="file" class="form-control" id="path_image_2" name="path_image_2" placeholder="GAMBAR PRODUK" accept=".jpg, .png, .jpeg" files>
+                            </div>
+                            <div class="form-group">
+                                <label for="path_image_3">GAMBAR PRODUK 3</label>
+                                <input type="file" class="form-control" id="path_image_3" name="path_image_3" placeholder="GAMBAR PRODUK" accept=".jpg, .png, .jpeg" files>
                             </div>
                         </div>
                         <div class="card-footer">

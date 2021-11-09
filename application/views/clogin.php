@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pekgo Group | Customer Log in</title>
+    <title>Customer Log in | Pekgo Group</title>
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" sizes="any"><!-- 32×32 -->
     <link rel="icon" href="<?= base_url('icon.svg'); ?>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="<?= base_url('apple-touch-icon.png'); ?>"><!-- 180×180 -->
@@ -30,7 +30,7 @@
             <div class="card-body">
                 <p class="login-box-msg">Customer Area</p>
 
-                <form action="<?= base_url(); ?>clogin/index" method="post">
+                <form action="<?= base_url('customer/login'); ?>" method="post">
                     <div class="input-group">
                         <input type="tel" class="form-control" id="whatsapp" name="whatsapp" placeholder="Whatsapp" minlength="4" maxlength="16" autocomplete="mobile" value="<?= set_value('whatsapp'); ?>" required>
                         <div class="input-group-append">
