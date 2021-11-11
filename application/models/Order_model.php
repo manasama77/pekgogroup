@@ -336,7 +336,7 @@ class Order_model extends CI_Model
                 $harga_request += $cost;
 
                 $html .= '<tr>';
-                $html .= '<td><button type="button" class="btn btn-xs btn-danger" onclick="removeRequest(' . $id . ', \'' . $cost . '\');"><i class="fas fa-times"></i></button> Request: ' . $name . '</td>';
+                $html .= '<td><button type="button" class="btn btn-small btn-danger px-2 py-0" onclick="removeRequest(' . $id . ', \'' . $cost . '\');" title="Remove Request"><i class="fas fa-times"></i></button> Request: ' . $name . '</td>';
                 $html .= '<td class="text-right">' . number_format($cost, 2, ",", ".") . '</td>';
                 $html .= '</tr>';
             }
@@ -528,6 +528,8 @@ class Order_model extends CI_Model
     {
         $this->db->set('customers.order_total', 'customers.order_total + ' . $grand_total, false);
         $this->db->set('customers.order_created', 'customers.order_created + 1', false);
+        $this->db->set('customers.updated_at', $this->cur_datetime->format('Y-m-d H:i:s'));
+        $this->db->set('customers.updated_by', $this->session->userdata('id'));
         $this->db->where('customers.id', $customer_id);
         return $this->db->update('customers');
     }
@@ -605,6 +607,14 @@ class Order_model extends CI_Model
         $this->db->where('status', 'temp');
         $this->db->where('deleted_at', null);
         return $this->db->get('orders');
+    }
+
+    public function get_request_data($order_id)
+    {
+        $this->db->select_sum('order_requests.cost');
+        $this->db->where('order_requests.deleted_at', null);
+        $this->db->where('order_requests.order_id', $order_id);
+        return $this->db->get('order_requests');
     }
 }
                         

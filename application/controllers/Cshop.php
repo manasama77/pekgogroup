@@ -15,6 +15,7 @@ class Cshop extends CI_Controller
         $this->load->model('Customer_model', 'customer_model');
         $this->load->model('Order_model', 'order_model');
         $this->load->model('Request_model', 'request_model');
+        $this->load->model('Shop_model', 'shop_model');
         $this->load->library('pagination');
     }
 
@@ -110,17 +111,46 @@ class Cshop extends CI_Controller
 
         $customers = $this->customer_model->get_single_data('id', $this->session->userdata('id'));
 
+        $kode_unik = $this->shop_model->generate_kode_unik();
+
+        $sales_invoice = $this->shop_model->generate_sales_invoice($kode_unik);
+
+        $products = $this->produk_model->get_single_data('id', $product_id);
+        $product_price = $products->row()->price;
+
+        $sizes = $this->ukuran_model->get_single_data('id', $this->input->post('size_id'));
+        $size_price = $sizes->row()->cost;
+
+        if ($this->input->post('pilih_jahitan') == "standard") {
+            $pilih_jahitan_price = 0;
+        } elseif ($this->input->post('pilih_jahitan') == "express") {
+            $pilih_jahitan_price = 50000;
+        } elseif ($this->input->post('pilih_jahitan') == "urgent") {
+            $pilih_jahitan_price = 100000;
+        } elseif ($this->input->post('pilih_jahitan') == "super urgent") {
+            $pilih_jahitan_price = 150000;
+        }
+
+        $sub_total   = $product_price + $size_price + $pilih_jahitan_price;
+        $grand_total = $sub_total + $kode_unik;
+
+        $dp_value        = ($grand_total * 30) / 100;
+        $pelunasan_value = ($grand_total * 70) / 100;
+
         $data = [
             'project_id'            => $project_id,
-            'sales_invoice'         => '',
+            'sales_invoice'         => $sales_invoice,
             'durasi_batas_transfer' => 3,
             'batas_waktu_transfer'  => $batas_waktu_transfer_obj->format('Y-m-d H:i:s'),
             'estimasi_selesai'      => $estimasi_selesai_obj->format('Y-m-d H:i:s'),
             'order_via'             => 'web',
             'product_id'            => $product_id,
+            'product_price'         => $product_price,
             'color_id'              => $this->input->post('color_id'),
             'size_id'               => $this->input->post('size_id'),
+            'size_price'            => $size_price,
             'pilih_jahitan'         => $this->input->post('pilih_jahitan'),
+            'pilih_jahitan_price'   => $pilih_jahitan_price,
             'catatan'               => null,
             'customer_id'           => $this->session->userdata('id'),
             'whatsapp'              => $customers->row()->whatsapp,
@@ -130,12 +160,12 @@ class Cshop extends CI_Controller
             'status_order'          => 'order dibuat',
             'status_pembayaran'     => 'menunggu pembayaran',
             'status_pengiriman'     => 'antrian',
-            'sub_total'             => 0,
-            'kode_unik'             => 0,
-            'grand_total'           => 0,
-            'jenis_dp'              => 30,
-            'dp_value'              => 0,
-            'pelunasan_value'       => 0,
+            'sub_total'             => $sub_total,
+            'kode_unik'             => $kode_unik,
+            'grand_total'           => $grand_total,
+            'jenis_dp'              => '30',
+            'dp_value'              => $dp_value,
+            'pelunasan_value'       => $pelunasan_value,
             'terbayarkan'           => 0,
             'tanggal_pengiriman'    => null,
             'ekspedisi'             => null,
@@ -170,15 +200,17 @@ class Cshop extends CI_Controller
 
     public function requests()
     {
+        if (!$this->session->userdata('id') && !$this->session->userdata('whatsapp') && !$this->session->userdata('name')) {
+            redirect(base_url('customer/logout'), 'location');
+            exit;
+        }
+
         $customer_id = $this->session->userdata('id');
-        $customers = $this->customer_model->get_single_data('id', $customer_id);
-        $exec = $this->order_model->get_temp_order($customer_id);
+        $customers   = $this->customer_model->get_single_data('id', $customer_id);
+        $exec        = $this->order_model->get_temp_order($customer_id);
 
-        // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';
-        // exit;
-
-        $projects     = $this->project_model->get_single_data('PKG');
-        $requests     = $this->produk_model->get_product_request('product_request_params.product_id', $exec->row()->product_id);
+        $projects = $this->project_model->get_single_data('PKG');
+        $requests = $this->produk_model->get_product_request('product_request_params.product_id', $exec->row()->product_id);
 
         $data = [
             'page_title' => 'Shop',
@@ -187,6 +219,167 @@ class Cshop extends CI_Controller
             'customers'  => $customers,
             'projects'   => $projects,
             'requests'   => $requests,
+            'orders'     => $exec,
+        ];
+        $this->load->view('template/customer/master', $data);
+    }
+
+    public function render_order()
+    {
+        $customer_id = $this->session->userdata('id');
+        $orders      = $this->order_model->get_temp_order($customer_id);
+
+        $order_id      = $orders->row()->id;
+        $product_id    = $orders->row()->product_id;
+        $color_id      = $orders->row()->color_id;
+        $size_id       = $orders->row()->size_id;
+        $kode_unik     = $orders->row()->kode_unik;
+        $pilih_jahitan = $orders->row()->pilih_jahitan;
+        $jenis_dp      = $this->input->get('jenis_dp');
+
+        $exec  = $this->order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan);
+
+        echo json_encode([
+            'code' => 200,
+            'data' => $exec
+        ]);
+    }
+
+    public function store_request()
+    {
+        $customer_id = $this->session->userdata('id');
+        $orders      = $this->order_model->get_temp_order($customer_id);
+
+        $order_id   = $orders->row()->id;
+        $request_id = $this->input->post('request_id');
+        $exec       = $this->produk_model->get_product_request('product_request_params.id', $request_id);
+        $cost       = $exec->row()->cost;
+
+        $cur_date_obj = new DateTime('now');
+
+        $data = array(
+            'order_id'   => $order_id,
+            'request_id' => $request_id,
+            'cost'       => $cost,
+            'created_at' => $cur_date_obj->format('Y-m-d H:i:s'),
+            'created_by' => $this->session->userdata('id'),
+        );
+
+        $exec = $this->order_model->store('order_requests', $data);
+
+        if (!$exec) {
+            $return = ['code' => 500];
+        }
+
+        $return = [
+            'code' => 200,
+            'cost' => $cost,
+        ];
+
+        echo json_encode($return);
+    }
+
+    public function remove_request()
+    {
+        $id   = $this->input->post('id');
+        $exec = $this->order_model->remove_request($id);
+        if (!$exec) {
+            $return = ['code' => 500];
+        }
+
+        $return = ['code' => 200];
+
+        echo json_encode($return);
+    }
+
+    public function finish()
+    {
+        $this->db->trans_begin();
+
+        $customer_id = $this->session->userdata('id');
+        $orders      = $this->order_model->get_temp_order($customer_id);
+
+        $order_id            = $orders->row()->id;
+        $alamat_pengiriman   = $this->input->post('alamat_pengiriman');
+        $catatan             = $this->input->post('catatan');
+        $jenis_dp            = $this->input->post('jenis_dp');
+        $kode_unik           = $orders->row()->kode_unik;
+        $product_price       = $orders->row()->product_price;
+        $size_price          = $orders->row()->size_price;
+        $pilih_jahitan_price = $orders->row()->pilih_jahitan_price;
+        $request_price       = 0;
+        $sub_total           = 0;
+        $grand_total         = 0;
+        $dp_value            = 0;
+        $pelunasan_value     = 0;
+
+        $requests = $this->order_model->get_request_data($order_id);
+        $request_price = $requests->row()->cost;
+
+        $sub_total = $product_price + $size_price + $pilih_jahitan_price + $request_price;
+        $grand_total = $sub_total + $kode_unik;
+        $dp_value = $grand_total * $jenis_dp / 100;
+
+        if ($jenis_dp == 100) {
+            $pelunasan_value = 0;
+        } else {
+            $pelunasan_value = $grand_total * (100 - $jenis_dp) / 100;
+        }
+
+        $cur_date_obj = new DateTime('now');
+
+        $data = [
+            'sub_total'       => $sub_total,
+            'grand_total'     => $grand_total,
+            'jenis_dp'        => $jenis_dp,
+            'dp_value'        => $dp_value,
+            'pelunasan_value' => $pelunasan_value,
+            'status'          => 'active',
+            'updated_at'      => $cur_date_obj->format('Y-m-d H:i:s'),
+            'updated_by'      => $this->session->userdata('id'),
+        ];
+        $where = [
+            'id'     => $order_id,
+            'status' => 'temp',
+        ];
+        $exec = $this->order_model->update('orders', $data, $where);
+        if (!$exec) {
+            $this->db->trans_rollback();
+            show_error('Proses Create Order gagal. Tidak terhubung dengan database, silahkan coba kembali', 500, 'Terjadi Kesalahan');
+            exit;
+        }
+
+        $exec = $this->order_model->update_customer($customer_id, $grand_total);
+        if (!$exec) {
+            $this->db->trans_rollback();
+            show_error('Proses Update customer gagal. Tidak terhubung dengan database, silahkan coba kembali', 500, 'Terjadi Kesalahan');
+            exit;
+        }
+
+        $this->db->trans_commit();
+        redirect(base_url('shop/thanks'), 'location');
+    }
+
+    public function thanks()
+    {
+        $projects = $this->project_model->get_single_data('PKG');
+
+        $data = [
+            'page_title' => 'Shop',
+            'page'       => 'shop/thanks',
+            'projects'   => $projects,
+        ];
+        $this->load->view('template/customer/master', $data);
+    }
+
+    public function list_order()
+    {
+        $projects = $this->project_model->get_single_data('PKG');
+
+        $data = [
+            'page_title' => 'Shop',
+            'page'       => 'shop/list_order',
+            'projects'   => $projects,
         ];
         $this->load->view('template/customer/master', $data);
     }

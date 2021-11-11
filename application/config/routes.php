@@ -12,6 +12,12 @@ $route['shop/index']           = 'cshop/index';
 $route['shop/index/(:num)']    = 'cshop/index/$1';
 $route['shop/checkout/(:num)'] = 'cshop/checkout/$1';
 $route['shop/requests']        = 'cshop/requests';
+$route['shop/render_order']    = 'cshop/render_order';
+$route['shop/store_request']   = 'cshop/store_request';
+$route['shop/remove_request']  = 'cshop/remove_request';
+$route['shop/finish']          = 'cshop/finish';
+$route['shop/thanks']          = 'cshop/thanks';
+$route['shop/list_order']      = 'cshop/list_order';
 
 $route['products/(:num)'] = 'cshop/show/$1';
 

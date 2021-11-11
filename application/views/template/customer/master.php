@@ -23,6 +23,11 @@
   <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/flexbox2/css/lightbox.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.min.css">
+  <style>
+    .swal2-container {
+      z-index: 10000 !important;
+    }
+  </style>
 
 </head>
 
@@ -43,6 +48,9 @@
   <script src="<?= base_url(); ?>assets/shoppers/js/aos.js"></script>
   <script src="<?= base_url(); ?>assets/shoppers/js/main.js"></script>
   <script src="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.blockUI.js"></script>
+  <script src="<?= base_url(); ?>assets/plugins/moment/moment.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/adam_helper.js"></script>
 
 </body>
 

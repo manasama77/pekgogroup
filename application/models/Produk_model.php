@@ -141,7 +141,7 @@ class Produk_model extends CI_Model
         $this->db->where($field, $key);
         $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
-        $exec = $this->db->get('produks', 1);
+        $exec = $this->db->get('products', 1);
         return $exec;
     }
 
