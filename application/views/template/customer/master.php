@@ -12,8 +12,8 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/shoppers/fonts/icomoon/style.css">
-
   <link rel="stylesheet" href="<?= base_url(); ?>assets/shoppers/css/bootstrap.min.css">
+
   <link rel="stylesheet" href="<?= base_url(); ?>assets/shoppers/css/magnific-popup.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/shoppers/css/jquery-ui.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/shoppers/css/owl.carousel.min.css">
@@ -26,6 +26,14 @@
   <style>
     .swal2-container {
       z-index: 10000 !important;
+    }
+
+    .modal {
+      z-index: 2000 !important;
+    }
+
+    .blockOverlay {
+      z-index: 2000 !important;
     }
   </style>
 
@@ -42,7 +50,8 @@
   <script src="<?= base_url(); ?>assets/shoppers/js/jquery-3.3.1.min.js"></script>
   <script src="<?= base_url(); ?>assets/shoppers/js/jquery-ui.js"></script>
   <script src="<?= base_url(); ?>assets/shoppers/js/popper.min.js"></script>
-  <script src="<?= base_url(); ?>assets/shoppers/js/bootstrap.min.js"></script>
+  <!-- <script src="<?= base_url(); ?>assets/shoppers/js/bootstrap.min.js"></script> -->
+  <script src="<?= base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<?= base_url(); ?>assets/shoppers/js/owl.carousel.min.js"></script>
   <script src="<?= base_url(); ?>assets/shoppers/js/jquery.magnific-popup.min.js"></script>
   <script src="<?= base_url(); ?>assets/shoppers/js/aos.js"></script>

@@ -14,7 +14,7 @@ class Admin extends CI_Controller
         $this->auth->check_session();
         $this->load->model('Admin_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
         }
     }
@@ -73,8 +73,8 @@ class Admin extends CI_Controller
             'role'       => $role,
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id'),
-            'updated_by' => $this->session->userdata('id'),
+            'created_by' => $this->session->userdata(SESS_ADM . 'id'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec = $this->Admin_model->store($data);
 
@@ -119,7 +119,7 @@ class Admin extends CI_Controller
             'id_shopee'    => $this->input->post('id_shopee'),
             'id_instagram' => $this->input->post('id_instagram'),
             'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'   => $this->session->userdata('id'),
+            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Admin_model->update($data, $where);
@@ -139,7 +139,7 @@ class Admin extends CI_Controller
     {
         $data  = array(
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_by' => $this->session->userdata('id'),
+            'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Admin_model->destroy($data, $where);
@@ -159,7 +159,7 @@ class Admin extends CI_Controller
         $data  = array(
             'status'     => $new_status,
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata('id'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('admins.id' => $id);
         $exec  = $this->Admin_model->update($data, $where);
@@ -184,7 +184,7 @@ class Admin extends CI_Controller
             'status'          => 'tidak aktif',
             'reason_inactive' => $reason_inactive,
             'updated_at'      => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata('id'),
+            'updated_by'      => $this->session->userdata(SESS_ADM . 'id'),
         );
 
         $where = array('id' => $id);

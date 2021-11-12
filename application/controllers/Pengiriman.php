@@ -16,7 +16,7 @@ class Pengiriman extends CI_Controller
         $this->load->model('Customer_model');
         $this->load->model('Produk_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
             // redirect('logout', 'location');
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
         }

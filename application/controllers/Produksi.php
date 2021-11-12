@@ -17,7 +17,7 @@ class Produksi extends CI_Controller
         $this->load->model('Produk_model');
         $this->load->model('Karyawan_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'produksi')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'produksi')) === false) {
             // redirect('logout', 'location');
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
         }
@@ -94,9 +94,9 @@ class Produksi extends CI_Controller
             'petugas_qc_2'        => $petugas_qc_2,
             'tanggal_qc_2'        => $tanggal_qc_2,
             'created_at'          => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'          => $this->session->userdata('id'),
+            'created_by'          => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at'          => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'          => $this->session->userdata('id'),
+            'updated_by'          => $this->session->userdata(SESS_ADM . 'id'),
         ];
 
         $data_2 = [
@@ -112,7 +112,7 @@ class Produksi extends CI_Controller
             'petugas_qc_2'        => $petugas_qc_2,
             'tanggal_qc_2'        => $tanggal_qc_2,
             'updated_at'          => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'          => $this->session->userdata('id'),
+            'updated_by'          => $this->session->userdata(SESS_ADM . 'id'),
         ];
 
         $exec = $this->Produksi_model->store_history($order_id, $data_1, $data_2);

@@ -16,6 +16,7 @@ class Cshop extends CI_Controller
         $this->load->model('Order_model', 'order_model');
         $this->load->model('Request_model', 'request_model');
         $this->load->model('Shop_model', 'shop_model');
+        $this->load->model('Pembayaran_model', 'pembayaran_model');
         $this->load->library('pagination');
     }
 
@@ -140,7 +141,7 @@ class Cshop extends CI_Controller
         $data = [
             'project_id'            => $project_id,
             'sales_invoice'         => $sales_invoice,
-            'durasi_batas_transfer' => 3,
+            'durasi_batas_transfer' => '3',
             'batas_waktu_transfer'  => $batas_waktu_transfer_obj->format('Y-m-d H:i:s'),
             'estimasi_selesai'      => $estimasi_selesai_obj->format('Y-m-d H:i:s'),
             'order_via'             => 'web',
@@ -374,14 +375,196 @@ class Cshop extends CI_Controller
 
     public function list_order()
     {
+        if (!$this->session->userdata('id') && !$this->session->userdata('whatsapp') && !$this->session->userdata('name')) {
+            redirect(base_url('customer/logout'), 'location');
+            exit;
+        }
+
+        $customer_id = $this->session->userdata('id');
+
         $projects = $this->project_model->get_single_data('PKG');
+
+        $config['base_url']           = base_url('shop/list_order');
+        $config['total_rows']         = $this->order_model->count_customer_order($customer_id)->num_rows();
+        $config['per_page']           = 1;
+        $config['reuse_query_string'] = TRUE;
+        $config['uri_segment']        = 3;
+        $config["num_links"]          = floor($config["total_rows"] / $config["per_page"]);
+
+        $config['full_tag_open']   = '<ul>';
+        $config['full_tag_close']  = '</ul>';
+        $config['first_link']      = false;
+        $config['last_link']       = false;
+        $config['first_tag_open']  = '<li>';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link']       = '<i class="fas fa-chevron-left fa-fw"></i>';
+        $config['prev_tag_open']   = '<li class="prev">';
+        $config['prev_tag_close']  = '</li>';
+        $config['next_link']       = '<i class="fas fa-chevron-right fa-fw"></i>';
+        $config['next_tag_open']   = '<li>';
+        $config['next_tag_close']  = '</li>';
+        $config['last_tag_open']   = '<li>';
+        $config['last_tag_close']  = '</li>';
+        $config['cur_tag_open']    = '<li class="active"><span>';
+        $config['cur_tag_close']   = '</span></li>';
+        $config['num_tag_open']    = '<li>';
+        $config['num_tag_close']   = '</li>';
+        $this->pagination->initialize($config);
+
+        $segment = ($this->uri->segment(3)) ?? null;
+
+        $orders   = $this->order_model->get_customer_order($config['per_page'], $segment, $this->session->userdata('id'));
 
         $data = [
             'page_title' => 'Shop',
             'page'       => 'shop/list_order',
+            'vitamin'    => 'shop/list_order_vitamin',
             'projects'   => $projects,
+            'orders'     => $orders,
         ];
         $this->load->view('template/customer/master', $data);
+    }
+
+    public function order_detail()
+    {
+        header('Content-type: application/json; charset=utf-8');
+        $order_id = $this->input->get('order_id');
+        $data = $this->order_model->get_order_detail($order_id);
+        echo json_encode($data);
+    }
+
+    public function check_pembayaran_dp()
+    {
+        $order_id = $this->input->get('order_id');
+        $code     = $this->pembayaran_model->cek_pembayaran_dp($order_id);
+        echo json_encode(['code' => $code]);
+    }
+
+    public function store_dp()
+    {
+        $this->db->trans_begin();
+
+        $config['upload_path']   = './assets/img/pembayaran/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $config['max_size']      = 2048;
+        $config['max_width']     = 0;
+        $config['max_height']    = 0;
+        $config['encrypt_name']  = true;
+        $config['remove_spaces'] = true;
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('path_image_dp')) {
+            $error = $this->upload->display_errors();
+            show_error($error, 500, "Terjadi Kesalahan");
+            exit;
+        } else {
+            $order_id = $this->input->post('id_dp');
+
+            $check = $this->order_model->count_customer_order_by_id($order_id);
+
+            if ($check->num_rows() == 0) {
+                $this->db->trans_rollback();
+                show_error('Order tidak ditemukan', 500, "Terjadi Kesalahan");
+                exit;
+            }
+
+            $image_data = $this->upload->data();
+            $path_image = $image_data['file_name'];
+
+            $customer_id    = $this->session->userdata('id');
+
+            $cur_datetime = new DateTime('now');
+
+            $data = [
+                'order_id'          => $order_id,
+                'customer_id'       => $customer_id,
+                'path_image'        => $path_image,
+                'status_pembayaran' => 'menunggu verifikasi',
+                'jenis_pembayaran'  => 'dp',
+                'created_at'        => $cur_datetime->format('Y-m-d H:i:s'),
+                'created_by'        => $this->session->userdata('id'),
+                'updated_at'        => $cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by'        => $this->session->userdata('id'),
+            ];
+            $exec = $this->pembayaran_model->store_dp_2($data);
+            if (!$exec) {
+                $this->db->trans_rollback();
+                show_error('Proses Pembayaran Gagal', 500, "Terjadi Kesalahan");
+                exit;
+            }
+
+            $this->db->trans_commit();
+            $this->session->set_flashdata('success', 'Upload Bukti Pembayaran DP Berhasil');
+            session_write_close();
+            redirect(base_url() . 'shop/list_order', 'location');
+        }
+    }
+
+    public function check_pembayaran_pelunasan()
+    {
+        $order_id = $this->input->get('order_id');
+        $code     = $this->pembayaran_model->cek_pembayaran_pelunasan($order_id);
+        echo json_encode(['code' => $code]);
+    }
+
+    public function store_pelunasan()
+    {
+        $this->db->trans_begin();
+
+        $config['upload_path']   = './assets/img/pembayaran/';
+        $config['allowed_types'] = 'jpeg|jpg|png';
+        $config['max_size']      = 2048;
+        $config['max_width']     = 0;
+        $config['max_height']    = 0;
+        $config['encrypt_name']  = true;
+        $config['remove_spaces'] = true;
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('path_image_pelunasan')) {
+            $error = $this->upload->display_errors();
+            show_error($error, 500, "Terjadi Kesalahan");
+            exit;
+        } else {
+            $order_id = $this->input->post('id_pelunasan');
+
+            $check = $this->order_model->count_customer_order_by_id($order_id);
+
+            if ($check->num_rows() == 0) {
+                $this->db->trans_rollback();
+                show_error('Order tidak ditemukan', 500, "Terjadi Kesalahan");
+                exit;
+            }
+
+            $image_data = $this->upload->data();
+            $path_image = $image_data['file_name'];
+
+            $customer_id    = $this->session->userdata('id');
+
+            $cur_datetime = new DateTime('now');
+
+            $data = [
+                'order_id'          => $order_id,
+                'customer_id'       => $customer_id,
+                'path_image'        => $path_image,
+                'status_pembayaran' => 'menunggu verifikasi',
+                'jenis_pembayaran'  => 'pelunasan',
+                'created_at'        => $cur_datetime->format('Y-m-d H:i:s'),
+                'created_by'        => $this->session->userdata('id'),
+                'updated_at'        => $cur_datetime->format('Y-m-d H:i:s'),
+                'updated_by'        => $this->session->userdata('id'),
+            ];
+            $exec = $this->pembayaran_model->store_pelunasan_2($data);
+            if (!$exec) {
+                $this->db->trans_rollback();
+                show_error('Proses Pembayaran Gagal', 500, "Terjadi Kesalahan");
+                exit;
+            }
+
+            $this->db->trans_commit();
+            $this->session->set_flashdata('success', 'Upload Bukti Pembayaran Pelunasan Berhasil');
+            session_write_close();
+            redirect(base_url() . 'shop/list_order', 'location');
+        }
     }
 }
         

@@ -15,7 +15,7 @@ class Hpp extends CI_Controller
         $this->load->model('Hpp_model');
         $this->load->model('Satuan_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
         }
     }
@@ -59,8 +59,8 @@ class Hpp extends CI_Controller
             'unit_id'    => $unit_id,
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id'),
-            'updated_by' => $this->session->userdata('id'),
+            'created_by' => $this->session->userdata(SESS_ADM . 'id'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec = $this->Hpp_model->store($data);
 

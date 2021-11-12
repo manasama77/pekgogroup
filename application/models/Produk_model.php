@@ -262,9 +262,9 @@ class Produk_model extends CI_Model
             'path_image' => null,
             'status'     => 'temp',
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id'),
+            'created_by' => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata('id'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $this->store('products', $data_product_temp);
         $id_product = $this->db->insert_id();
@@ -300,7 +300,7 @@ class Produk_model extends CI_Model
         $this->db->join('hpps', 'hpps.id = product_hpp_params.hpp_id', 'left');
         $this->db->join('units', 'units.id = hpps.unit_id', 'left');
         $this->db->where('product_hpp_params.product_id', $product_id);
-        $this->db->where('product_hpp_params.created_by', $this->session->userdata('id'));
+        $this->db->where('product_hpp_params.created_by', $this->session->userdata(SESS_ADM . 'id'));
         $exec = $this->db->get();
 
         return $exec;
@@ -309,13 +309,13 @@ class Produk_model extends CI_Model
     public function clear_temp()
     {
         $this->db->where('status', 'temp');
-        $this->db->where('created_by', $this->session->userdata('id'));
+        $this->db->where('created_by', $this->session->userdata(SESS_ADM . 'id'));
         return $this->db->delete('products');
     }
 
     public function clear_hpp()
     {
-        $this->db->where('created_by', $this->session->userdata('id'));
+        $this->db->where('created_by', $this->session->userdata(SESS_ADM . 'id'));
         $this->db->where('updated_at', null);
         $this->db->where('updated_by', null);
         return $this->db->delete('product_hpp_params');
@@ -355,6 +355,7 @@ class Produk_model extends CI_Model
             $this->db->where_in('product_size_params.size_id', $f_size);
         }
 
+        $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
         $this->db->where('product_size_params.deleted_at', null);
         return $this->db->get('products');
@@ -372,6 +373,7 @@ class Produk_model extends CI_Model
             $this->db->where_in('product_size_params.size_id', $f_size);
         }
 
+        $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
         $this->db->where('product_size_params.deleted_at', null);
         return $this->db->get('products', $limit, $offset);

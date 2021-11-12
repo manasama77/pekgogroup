@@ -245,7 +245,7 @@ class Produksi_model extends CI_Model
 
         $data = [
             'orders.status_order'   => 'naik produksi',
-            'orders.admin_produksi' => $this->session->userdata('id'),
+            'orders.admin_produksi' => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $this->db->where('orders.id', $id);
         $this->db->where('orders.status_order', 'order dibuat');
@@ -289,9 +289,9 @@ class Produksi_model extends CI_Model
         if ($petugas_potong_kain != null && $petugas_jahit != null && $petugas_qc_1 != null && $petugas_aksesoris != null && $petugas_qc_2 != null) {
             $data = [
                 'status_order'   => 'pengiriman',
-                'admin_produksi' => $this->session->userdata('id'),
+                'admin_produksi' => $this->session->userdata(SESS_ADM . 'id'),
                 'updated_at'     => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'     => $this->session->userdata('id'),
+                'updated_by'     => $this->session->userdata(SESS_ADM . 'id'),
             ];
             $this->db->where('orders.status_pembayaran', 'lunas');
             $this->db->where('orders.id', $order_id);
@@ -299,9 +299,9 @@ class Produksi_model extends CI_Model
         } else {
             $data = [
                 'status_order'   => 'naik produksi',
-                'admin_produksi' => $this->session->userdata('id'),
+                'admin_produksi' => $this->session->userdata(SESS_ADM . 'id'),
                 'updated_at'     => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'     => $this->session->userdata('id'),
+                'updated_by'     => $this->session->userdata(SESS_ADM . 'id'),
             ];
             $this->db->where_in('orders.status_pembayaran', ['partial', 'lunas']);
             $this->db->where('orders.id', $order_id);

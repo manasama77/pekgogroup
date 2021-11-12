@@ -18,7 +18,7 @@ class Produk extends CI_Controller
         $this->load->model('Request_model');
         $this->load->model('Hpp_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
         }
     }
@@ -143,7 +143,7 @@ class Produk extends CI_Controller
                 'path_image_3' => $path_image_3,
                 'status'       => 'active',
                 'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'   => $this->session->userdata('id'),
+                'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
             );
             $where = array('id' => $id_product);
             $exec  = $this->Produk_model->update('products', $data, $where);
@@ -154,7 +154,7 @@ class Produk extends CI_Controller
 
             $data = array(
                 'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by' => $this->session->userdata('id'),
+                'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
             );
             $where = array('product_id' => $id_product);
             $exec  = $this->Produk_model->update('product_hpp_params', $data, $where);
@@ -169,8 +169,8 @@ class Produk extends CI_Controller
                     'color_id'   => $color_id[$i],
                     'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                     'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'created_by' => $this->session->userdata('id'),
-                    'updated_by' => $this->session->userdata('id'),
+                    'created_by' => $this->session->userdata(SESS_ADM . 'id'),
+                    'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
                 );
                 $exec  = $this->Produk_model->store('product_color_params', $data);
                 if (!$exec) {
@@ -184,8 +184,8 @@ class Produk extends CI_Controller
                     'size_id'   => $size_id[$i],
                     'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                     'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'created_by' => $this->session->userdata('id'),
-                    'updated_by' => $this->session->userdata('id'),
+                    'created_by' => $this->session->userdata(SESS_ADM . 'id'),
+                    'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
                 );
                 $exec  = $this->Produk_model->store('product_size_params', $data);
                 if (!$exec) {
@@ -199,8 +199,8 @@ class Produk extends CI_Controller
                     'request_id'   => $request_id[$i],
                     'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                     'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'created_by' => $this->session->userdata('id'),
-                    'updated_by' => $this->session->userdata('id'),
+                    'created_by' => $this->session->userdata(SESS_ADM . 'id'),
+                    'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
                 );
                 $exec  = $this->Produk_model->store('product_request_params', $data);
                 if (!$exec) {
@@ -246,7 +246,7 @@ class Produk extends CI_Controller
             'id_shopee'    => $this->input->post('id_shopee'),
             'id_instagram' => $this->input->post('id_instagram'),
             'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'   => $this->session->userdata('id'),
+            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Produk_model->update($data, $where);
@@ -266,7 +266,7 @@ class Produk extends CI_Controller
     {
         $data  = array(
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_by' => $this->session->userdata('id'),
+            'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Produk_model->destroy($data, $where);
@@ -308,7 +308,7 @@ class Produk extends CI_Controller
             'basic_price' => $basic_price,
             'total_price' => $total_price,
             'created_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'  => $this->session->userdata('id'),
+            'created_by'  => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec  = $this->Produk_model->store_hpp($data);
 
@@ -344,7 +344,7 @@ class Produk extends CI_Controller
             'status'          => 'tidak aktif',
             'reason_inactive' => $reason_inactive,
             'updated_at'      => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata('id'),
+            'updated_by'      => $this->session->userdata(SESS_ADM . 'id'),
         );
 
         $where = array('id' => $id);

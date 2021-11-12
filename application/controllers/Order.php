@@ -22,7 +22,7 @@ class Order extends CI_Controller
         $this->load->model('Hpp_model');
         $this->load->model('Admin_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order', 'produksi', 'finance', 'cs')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'order', 'produksi', 'finance', 'cs')) === false) {
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
             // redirect('logout', 'location');
         }
@@ -59,7 +59,7 @@ class Order extends CI_Controller
 
     public function add()
     {
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
             // redirect('logout', 'location');
         }
@@ -174,7 +174,7 @@ class Order extends CI_Controller
             'jenis_dp'              => $jenis_dp,
             'dp_value'              => $dp_value,
             'pelunasan_value'       => $pelunasan_value,
-            'admin_order'           => $this->session->userdata('id'),
+            'admin_order'           => $this->session->userdata(SESS_ADM . 'id'),
             'status'                => 'active',
         );
         $where = array('id' => $id_order);
@@ -186,7 +186,7 @@ class Order extends CI_Controller
 
         $data = array(
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata('id'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('order_id' => $id_order);
         $exec  = $this->Order_model->update('order_requests', $data, $where);
@@ -234,7 +234,7 @@ class Order extends CI_Controller
             'id_shopee'    => $this->input->post('id_shopee'),
             'id_instagram' => $this->input->post('id_instagram'),
             'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'   => $this->session->userdata('id'),
+            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Order_model->update($data, $where);
@@ -254,7 +254,7 @@ class Order extends CI_Controller
     {
         $data  = array(
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_by' => $this->session->userdata('id'),
+            'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Order_model->destroy($data, $where);
@@ -296,7 +296,7 @@ class Order extends CI_Controller
             'basic_price' => $basic_price,
             'total_price' => $total_price,
             'created_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'  => $this->session->userdata('id'),
+            'created_by'  => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec  = $this->Order_model->store_hpp($data);
 
@@ -332,7 +332,7 @@ class Order extends CI_Controller
             'status'          => 'tidak aktif',
             'reason_inactive' => $reason_inactive,
             'updated_at'      => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata('id'),
+            'updated_by'      => $this->session->userdata(SESS_ADM . 'id'),
         );
 
         $where = array('id' => $id);
@@ -359,7 +359,7 @@ class Order extends CI_Controller
             'request_id' => $request_id,
             'cost'       => $cost,
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata('id'),
+            'created_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
 
         $exec = $this->Order_model->store('order_requests', $data);
@@ -440,7 +440,7 @@ class Order extends CI_Controller
 
     public function invoice($id)
     {
-        if (in_array($this->session->userdata('role'), ['owner', 'developer', 'komisaris', 'finance'])) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), ['owner', 'developer', 'komisaris', 'finance'])) {
             $exec = $this->Order_model->generate_invoice($id);
             $this->load->view('invoice', $exec, FALSE);
         } else {

@@ -129,7 +129,7 @@ class Pembayaran_model extends CI_Model
         $data = [
             'status_pembayaran' => 'valid',
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $id];
         $this->db->update('order_payments', $data, $where);
@@ -152,9 +152,9 @@ class Pembayaran_model extends CI_Model
             'status_pembayaran' => $status_pembayaran,
             'terbayarkan'       => $dp_value,
             'is_paid_off'       => $is_paid_off,
-            'admin_finance'     => $this->session->userdata('id'),
+            'admin_finance'     => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $order_id];
         return $this->db->update('orders', $data, $where);
@@ -166,7 +166,7 @@ class Pembayaran_model extends CI_Model
             'status_pembayaran' => 'ditolak',
             'alasan_penolakan'  => $alasan_penolakan,
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $id];
         return $this->db->update('order_payments', $data, $where);
@@ -187,7 +187,7 @@ class Pembayaran_model extends CI_Model
         $data = [
             'status_pembayaran' => 'valid',
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $id];
         $this->db->update('order_payments', $data, $where);
@@ -204,9 +204,9 @@ class Pembayaran_model extends CI_Model
             'status_pembayaran' => $status_pembayaran,
             'terbayarkan'       => $grand_total,
             'is_paid_off'       => $is_paid_off,
-            'admin_finance'     => $this->session->userdata('id'),
+            'admin_finance'     => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $order_id];
         $exec = $this->db->update('orders', $data, $where);
@@ -224,7 +224,7 @@ class Pembayaran_model extends CI_Model
                 $data = [
                     'status_order' => 'pengiriman',
                     'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_by'   => $this->session->userdata('id'),
+                    'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
                 ];
                 $this->db->where('orders.status_pembayaran', 'lunas');
                 $this->db->where('orders.id', $order_id);
@@ -311,13 +311,23 @@ class Pembayaran_model extends CI_Model
                 $data = [
                     'status_order' => 'pengiriman',
                     'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_by'   => $this->session->userdata('id'),
+                    'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
                 ];
                 $this->db->where('orders.status_pembayaran', 'lunas');
                 $this->db->where('orders.id', $order_id);
                 $this->db->update('orders', $data);
             }
         }
+    }
+
+    public function store_dp_2($data)
+    {
+        return $this->db->insert('order_payments', $data);
+    }
+
+    public function store_pelunasan_2($data)
+    {
+        return $this->db->insert('order_payments', $data);
     }
 }
                         

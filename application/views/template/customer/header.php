@@ -40,7 +40,7 @@
                 $about_active   = "active";
                 $shop_active    = "";
                 $contact_active = "";
-            } elseif ($this->uri->segment(1) == "shop") {
+            } elseif ($this->uri->segment(1) == "shop" && $this->uri->segment(2) != 'list_order') {
                 $home_active    = "";
                 $about_active   = "";
                 $shop_active    = "active";
@@ -50,8 +50,13 @@
                 $about_active   = "";
                 $shop_active    = "";
                 $contact_active = "active";
-            } else {
+            } else if ($this->uri->segment(1) == null) {
                 $home_active    = "active";
+                $about_active   = "";
+                $shop_active    = "";
+                $contact_active = "";
+            } else {
+                $home_active    = "";
                 $about_active   = "";
                 $shop_active    = "";
                 $contact_active = "";
@@ -62,6 +67,12 @@
                 <li class="<?= $about_active; ?>"><a href="<?= base_url('about/index'); ?>">About Us</a></li>
                 <li class="<?= $shop_active; ?>"><a href="<?= base_url('shop/index'); ?>">Shop</a></li>
                 <li class="<?= $contact_active; ?>"><a href="<?= base_url('contact/index'); ?>">Contact</a></li>
+                <?php
+                if ($this->session->userdata('id') && $this->session->userdata('whatsapp') && $this->session->userdata('name')) {
+                    $list_order_active = ($this->uri->segment('2') == "list_order") ? "active" : null;
+                ?>
+                    <li class="<?= $list_order_active; ?>"><a href="<?= base_url('shop/list_order'); ?>">List Order</a></li>
+                <?php } ?>
             </ul>
         </div>
     </nav>

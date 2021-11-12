@@ -479,7 +479,7 @@ class Order_model extends CI_Model
 
     public function generate_invoice($id)
     {
-        $this->db->update('orders', ['admin_order' => $this->session->userdata('id'), 'is_printed' => 'yes'], ['id' => $id]);
+        $this->db->update('orders', ['admin_order' => $this->session->userdata(SESS_ADM . 'id'), 'is_printed' => 'yes'], ['id' => $id]);
 
         $this->db->select('path_logo');
         $this->db->from('projects');
@@ -615,6 +615,140 @@ class Order_model extends CI_Model
         $this->db->where('order_requests.deleted_at', null);
         $this->db->where('order_requests.order_id', $order_id);
         return $this->db->get('order_requests');
+    }
+
+    public function get_customer_order($limit, $offset, $customer_id)
+    {
+        $this->db->select([
+            'orders.id',
+            'products.path_image',
+            'orders.created_at',
+            'orders.sales_invoice',
+            'products.name as product_name',
+            'colors.name as color_name',
+            'sizes.name as size_name',
+            'orders.pilih_jahitan',
+            'orders.grand_total',
+            'orders.status_order',
+            'orders.status_pembayaran',
+        ]);
+
+        $this->db->join('products', 'products.id = orders.product_id', 'left');
+        $this->db->join('colors', 'colors.id = orders.color_id', 'left');
+        $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
+        $this->db->where('orders.deleted_at', null);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.customer_id', $customer_id);
+        $this->db->order_by('orders.id', 'desc');
+        return $this->db->get('orders', $limit, $offset);
+    }
+
+    public function count_customer_order($customer_id)
+    {
+        $this->db->where('orders.deleted_at', null);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.customer_id', $customer_id);
+        $this->db->order_by('orders.id', 'desc');
+        return $this->db->get('orders');
+    }
+
+    public function count_customer_order_by_id($order_id)
+    {
+        $this->db->where('orders.deleted_at', null);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.id', $order_id);
+        $this->db->order_by('orders.id', 'desc');
+        return $this->db->get('orders');
+    }
+
+    public function get_order_detail($order_id)
+    {
+        $data = [
+            'code'     => 500,
+            'orders'   => array(),
+            'requests' => array()
+        ];
+
+        $this->db->select([
+            'orders.created_at',
+            'orders.batas_waktu_transfer',
+            'orders.estimasi_selesai',
+            'products.name as product_name',
+            'colors.name as color_name',
+            'sizes.name as size_name',
+            'orders.pilih_jahitan',
+            'orders.catatan',
+            'orders.status_order',
+            'orders.status_pembayaran',
+            'orders.sub_total',
+            'orders.kode_unik',
+            'orders.grand_total',
+            'orders.jenis_dp',
+            'orders.dp_value',
+            'orders.pelunasan_value',
+            'orders.terbayarkan',
+        ]);
+        $this->db->join('products', 'products.id = orders.product_id', 'left');
+        $this->db->join('colors', 'colors.id = orders.color_id', 'left');
+        $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
+        $this->db->where('orders.id', $order_id);
+        $this->db->where('orders.status', 'active');
+        $this->db->where('orders.deleted_at', null);
+        $orders = $this->db->get('orders');
+
+        if ($orders->num_rows() == 0) {
+            $data['code'] = 404;
+        } else {
+            $data['code'] = 200;
+
+            foreach ($orders->result() as $order) {
+                $pelunasan_persen = 0;
+
+                if ($order->jenis_dp == 100) {
+                    $pelunasan_persen = 0;
+                } else {
+                    $pelunasan_persen = (100 - $order->jenis_dp);
+                }
+
+                $data['orders']['created_at']           = $order->created_at;
+                $data['orders']['batas_waktu_transfer'] = $order->batas_waktu_transfer;
+                $data['orders']['estimasi_selesai']     = $order->estimasi_selesai;
+                $data['orders']['product_name']         = ucwords($order->product_name);
+                $data['orders']['color_name']           = ucwords($order->color_name);
+                $data['orders']['size_name']            = ucwords($order->size_name);
+                $data['orders']['pilih_jahitan']        = ucwords($order->pilih_jahitan);
+                $data['orders']['catatan']              = trim($order->catatan);
+                $data['orders']['status_order']         = ucwords($order->status_order);
+                $data['orders']['status_pembayaran']    = ucwords($order->status_pembayaran);
+                $data['orders']['sub_total']            = number_format($order->sub_total, 2, ',', '.');
+                $data['orders']['kode_unik']            = number_format($order->kode_unik, 0, ',', '.');
+                $data['orders']['grand_total']          = number_format($order->grand_total, 2, ',', '.');
+                $data['orders']['dp_persen']            = $order->jenis_dp;
+                $data['orders']['pelunasan_persen']     = $pelunasan_persen;
+                $data['orders']['dp_value']             = number_format($order->dp_value, 2, ',', '.');
+                $data['orders']['pelunasan_value']      = number_format($order->pelunasan_value, 2, ',', '.');
+                $data['orders']['terbayarkan']          = number_format($order->terbayarkan, 2, ',', '.');
+            }
+        }
+
+        $this->db->select([
+            'requests.name',
+        ]);
+        $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
+        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->where('order_requests.order_id', $order_id);
+        $this->db->where('order_requests.deleted_at', null);
+        $requests = $this->db->get('order_requests');
+
+        if ($requests->num_rows() > 0) {
+            $i = 0;
+            foreach ($requests->result() as $request) {
+                $data['requests'][$i]['name'] = ucwords($request->name);
+                $i++;
+            }
+        }
+
+        return $data;
     }
 }
                         

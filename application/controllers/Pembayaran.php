@@ -16,7 +16,7 @@ class Pembayaran extends CI_Controller
         $this->load->model('Customer_model');
         $this->load->model('Produk_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris', 'finance')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'finance')) === false) {
             // redirect('logout', 'location');
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
         }
@@ -177,9 +177,9 @@ class Pembayaran extends CI_Controller
                 'status_pembayaran' => 'valid',
                 'jenis_pembayaran'  => 'dp',
                 'created_at'        => $created_at,
-                'created_by'        => $this->session->userdata('id'),
+                'created_by'        => $this->session->userdata(SESS_ADM . 'id'),
                 'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'        => $this->session->userdata('id'),
+                'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
             ];
             $exec = $this->Pembayaran_model->store_dp($data);
             if (!$exec) {
@@ -199,10 +199,10 @@ class Pembayaran extends CI_Controller
             $data = [
                 'status_pembayaran' => $status_pembayaran,
                 'terbayarkan'       => $terbayarkan,
-                'admin_finance'     => $this->session->userdata('id'),
+                'admin_finance'     => $this->session->userdata(SESS_ADM . 'id'),
                 'is_paid_off'       => $is_paid_off,
                 'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'        => $this->session->userdata('id'),
+                'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
             ];
             $where = [
                 'id' => $order_id
@@ -260,9 +260,9 @@ class Pembayaran extends CI_Controller
                 'status_pembayaran' => 'valid',
                 'jenis_pembayaran'  => 'pelunasan',
                 'created_at'        => $created_at,
-                'created_by'        => $this->session->userdata('id'),
+                'created_by'        => $this->session->userdata(SESS_ADM . 'id'),
                 'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'        => $this->session->userdata('id'),
+                'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
             ];
             $exec = $this->Pembayaran_model->store_pelunasan($data);
             if (!$exec) {
@@ -277,10 +277,10 @@ class Pembayaran extends CI_Controller
             $data = [
                 'status_pembayaran' => $status_pembayaran,
                 'terbayarkan'       => $terbayarkan,
-                'admin_finance'     => $this->session->userdata('id'),
+                'admin_finance'     => $this->session->userdata(SESS_ADM . 'id'),
                 'is_paid_off'       => $is_paid_off,
                 'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by'        => $this->session->userdata('id'),
+                'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
             ];
             $where = [
                 'id' => $order_id

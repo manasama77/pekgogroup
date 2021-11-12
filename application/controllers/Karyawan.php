@@ -14,7 +14,7 @@ class Karyawan extends CI_Controller
         $this->auth->check_session();
         $this->load->model('Karyawan_model');
         $this->cur_datetime = new DateTime('now');
-        if (in_array($this->session->userdata('role'), array('owner', 'developer', 'komisaris')) === false) {
+        if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
         }
     }
@@ -73,8 +73,8 @@ class Karyawan extends CI_Controller
                 'path_photo' => $path_photo,
                 'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'created_by' => $this->session->userdata('id'),
-                'updated_by' => $this->session->userdata('id'),
+                'created_by' => $this->session->userdata(SESS_ADM . 'id'),
+                'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
             );
             $exec = $this->Karyawan_model->store($data);
 
@@ -118,7 +118,7 @@ class Karyawan extends CI_Controller
                     'role'       => $role,
                     'path_photo'  => $path_photo,
                     'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                    'updated_by' => $this->session->userdata('id'),
+                    'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
                 );
                 $where = array('id' => $id);
                 $exec = $this->Karyawan_model->update($data, $where);
@@ -128,7 +128,7 @@ class Karyawan extends CI_Controller
                 'name'       => $name,
                 'role'       => $role,
                 'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-                'updated_by' => $this->session->userdata('id'),
+                'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
             );
             $where = array('id' => $id);
             $exec = $this->Karyawan_model->update($data, $where);
@@ -147,7 +147,7 @@ class Karyawan extends CI_Controller
     {
         $data = [
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'deleted_by' => $this->session->userdata('id'),
+            'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $id];
         $exec = $this->Karyawan_model->destroy($data, $where);

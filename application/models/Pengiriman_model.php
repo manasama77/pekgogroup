@@ -134,9 +134,9 @@ class Pengiriman_model extends CI_Model
             'orders.no_resi'            => $no_resi,
             'orders.alamat_pengiriman'  => $alamat_pengiriman,
             'orders.status_pengiriman'  => 'proses pengiriman',
-            'admin_order'               => $this->session->userdata('id'),
+            'admin_order'               => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at'                => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'                => $this->session->userdata('id'),
+            'updated_by'                => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $this->db->where('orders.id', $order_id);
         return $this->db->update('orders', $data);
@@ -147,9 +147,9 @@ class Pengiriman_model extends CI_Model
         $data = [
             'status_order'      => 'selesai',
             'status_pengiriman' => 'terkirim',
-            'admin_order'       => $this->session->userdata('id'),
+            'admin_order'       => $this->session->userdata(SESS_ADM . 'id'),
             'updated_at'        => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'        => $this->session->userdata('id'),
+            'updated_by'        => $this->session->userdata(SESS_ADM . 'id'),
         ];
         $where = ['id' => $id];
         return $this->db->update('orders', $data, $where);
