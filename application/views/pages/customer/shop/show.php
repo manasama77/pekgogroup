@@ -17,26 +17,26 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-12">
-                        <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail">
+                        <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail shadow-sm">
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-4">
                         <a href="<?= base_url('assets/img/products/' . $products['data'][0]['path_image']); ?>" data-lightbox="image-1" data-title="<?= $products['data'][0]['name']; ?>">
-                            <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail">
+                            <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail shadow">
                         </a>
                     </div>
                     <?php if ($products['data'][0]['path_image_2']) { ?>
                         <div class="col-4">
                             <a href="<?= base_url('assets/img/products/' . $products['data'][0]['path_image_2']); ?>" data-lightbox="image-1" data-title="<?= $products['data'][0]['name']; ?>">
-                                <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image_2']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail">
+                                <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image_2']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail shadow">
                             </a>
                         </div>
                     <?php } ?>
                     <?php if ($products['data'][0]['path_image_3']) { ?>
                         <div class="col-4">
                             <a href="<?= base_url('assets/img/products/' . $products['data'][0]['path_image_3']); ?>" data-lightbox="image-1" data-title="<?= $products['data'][0]['name']; ?>">
-                                <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image_3']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail">
+                                <img src="<?= base_url('assets/img/products/' . $products['data'][0]['path_image_3']); ?>" alt="<?= $products['data'][0]['name']; ?>" class="img-thumbnail shadow">
                             </a>
                         </div>
                     <?php } ?>
@@ -132,10 +132,12 @@
                         <div class="item shadow">
                             <div class="block-4 text-center">
                                 <figure class="block-4-image">
-                                    <img src="<?= base_url('assets/img/products/' . $top_product->path_image); ?>" alt="<?= $top_product->name; ?>" class="img-fluid">
+                                    <a href="<?= base_url('products/' . $top_product->id); ?>">
+                                        <img src="<?= base_url('assets/img/products/' . $top_product->path_image); ?>" alt="<?= $top_product->name; ?>" class="img-fluid" />
+                                    </a>
                                 </figure>
                                 <div class="block-4-text p-4">
-                                    <h3><a href="#"><?= $top_product->name; ?></a></h3>
+                                    <h3><a href="<?= base_url('products/' . $top_product->id); ?>"><?= $top_product->name; ?></a></h3>
                                     <p class="text-primary font-weight-bold">Rp.<?= number_format($top_product->price, 0, ',', '.'); ?>,-</p>
                                 </div>
                             </div>

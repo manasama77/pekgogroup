@@ -59,10 +59,12 @@
             <div class="col-md-12">
                 <div class="nonloop-block-3 owl-carousel">
                     <?php for ($i = 0; $i < $products['num_rows']; $i++) { ?>
-                        <div class="item">
+                        <div class="item shadow">
                             <div class="block-4 text-center">
                                 <figure class="block-4-image">
-                                    <img src="<?= base_url(); ?>assets/img/products/<?= $products['data'][$i]['path_image']; ?>" alt="<?= $products['data'][$i]['name']; ?>" class="img-fluid">
+                                    <a href="<?= base_url('products/' . $products['data'][$i]['id']); ?>">
+                                        <img src="<?= base_url(); ?>assets/img/products/<?= $products['data'][$i]['path_image']; ?>" alt="<?= $products['data'][$i]['name']; ?>" class="img-fluid" />
+                                    </a>
                                 </figure>
                                 <div class="block-4-text p-4">
                                     <h3><a href="<?= base_url('products/' . $products['data'][$i]['id']); ?>"><?= $products['data'][$i]['name']; ?></a></h3>
