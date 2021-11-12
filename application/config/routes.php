@@ -24,28 +24,30 @@ $route['shop/store_dp']                   = 'cshop/store_dp';
 $route['shop/check_pembayaran_pelunasan'] = 'cshop/check_pembayaran_pelunasan';
 $route['shop/store_pelunasan']            = 'cshop/store_pelunasan';
 
+$route['contact/index']  = 'ccontact/index';
 
-$route['products/(:num)'] = 'cshop/show/$1';
+
+// $route['products/(:num)'] = 'cshop/show/$1';
 
 $route['customer/login']  = 'clogin/index';
 $route['customer/logout'] = 'clogin/logout';
 
-$route['cdashboard'] = 'cdashboard/index';
+// $route['cdashboard'] = 'cdashboard/index';
 
-$route['corder/index']                      = 'corder/index';
-$route['corder/add']                        = 'corder/add';
-$route['corder/store_request']['post']      = 'corder/store_request';
-$route['corder/render_detail']              = 'corder/render_detail';
-$route['corder/remove_request']             = 'corder/remove_request';
-$route['corder/copy_order']                 = 'corder/copy_order';
-$route['corder/show_request']               = 'corder/show_request';
-$route['corder/check_pembayaran_dp']        = 'corder/check_pembayaran_dp';
-$route['corder/store_dp']                   = 'corder/store_dp';
-$route['corder/check_pembayaran_pelunasan'] = 'corder/check_pembayaran_pelunasan';
-$route['corder/store_pelunasan']            = 'corder/store_pelunasan';
-$route['corder/invoice/(:num)']             = 'corder/invoice/$1';
+// $route['corder/index']                      = 'corder/index';
+// $route['corder/add']                        = 'corder/add';
+// $route['corder/store_request']['post']      = 'corder/store_request';
+// $route['corder/render_detail']              = 'corder/render_detail';
+// $route['corder/remove_request']             = 'corder/remove_request';
+// $route['corder/copy_order']                 = 'corder/copy_order';
+// $route['corder/show_request']               = 'corder/show_request';
+// $route['corder/check_pembayaran_dp']        = 'corder/check_pembayaran_dp';
+// $route['corder/store_dp']                   = 'corder/store_dp';
+// $route['corder/check_pembayaran_pelunasan'] = 'corder/check_pembayaran_pelunasan';
+// $route['corder/store_pelunasan']            = 'corder/store_pelunasan';
+// $route['corder/invoice/(:num)']             = 'corder/invoice/$1';
 
-$route['cproduk/show/(:num)'] = 'cproduk/show/$1';
+// $route['cproduk/show/(:num)'] = 'cproduk/show/$1';
 
 // admin
 $route['login'] = 'login/index';
