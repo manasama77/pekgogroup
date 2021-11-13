@@ -28,7 +28,9 @@ class Admin_auth
             }
 
             // regenerate role
-            $this->CI->session->set_userdata('role', $exec->row()->role);
+            $this->CI->session->set_userdata(SESS_ADM . 'name', $exec->row()->name);
+            $this->CI->session->set_userdata(SESS_ADM . 'role', $exec->row()->role);
+            session_write_close();
 
             // update datetime log
             $this->CI->Admin_model->update_log($exec->row()->id, $whatsapp);

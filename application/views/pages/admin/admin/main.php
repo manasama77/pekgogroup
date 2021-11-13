@@ -67,8 +67,8 @@
                                         <th>NAMA</th>
                                         <th>NO WA</th>
                                         <th>ROLE</th>
-                                        <th>STATUS</th>
-                                        <th class="text-center" style="width: 340px;"><i class="fas fa-cogs"></i></th>
+                                        <th class="text-center">STATUS</th>
+                                        <th class="text-center" style="width: 350px;"><i class="fas fa-cogs"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,13 +81,25 @@
                                             <td><?= $key->name; ?></td>
                                             <td><?= $key->whatsapp; ?></td>
                                             <td><?= strtoupper($key->role); ?></td>
-                                            <td><?= strtoupper($key->status); ?></td>
+                                            <td class="text-center">
+                                                <?php if ($key->status == 'aktif') { ?>
+                                                    <span class="badge badge-pill badge-success"><?= ucwords($key->status); ?></span>
+                                                <?php } else { ?>
+                                                    <span class="badge badge-pill badge-danger"><?= ucwords($key->status); ?></span>
+                                                <?php } ?>
+                                            </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a href="<?= base_url('admin/edit/' . $key->id); ?>" class="btn btn-info btn-sm">EDIT</a>
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">DELETE</button>
-                                                    <button type="button" class="btn btn-success btn-sm" onclick="X(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">AKTIFKAN</button>
-                                                    <button type="button" class="btn btn-dark btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">RESET PASSWORD</button>
+                                                    <?php if ($key->id != 1) { ?>
+                                                        <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">DELETE</button>
+                                                    <?php } ?>
+                                                    <?php if ($key->status == "aktif") { ?>
+                                                        <button type="button" class="btn btn-warning btn-sm" onclick="nonAktifKan(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">Non Aktifkan</button>
+                                                    <?php } else { ?>
+                                                        <button type="button" class="btn btn-success btn-sm" onclick="aktifKan(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">AKTIFKAN</button>
+                                                    <?php } ?>
+                                                    <button type="button" class="btn btn-dark btn-sm" onclick="modalResetPassword(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">RESET PASSWORD</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -104,12 +116,12 @@
 </div>
 
 <!-- Modal -->
-<form id="form_blokir">
-    <div class="modal fade" id="modal_blokir" tabindex="-1" role="dialog">
+<form id="form_reset">
+    <div class="modal fade" id="modal_reset" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Blokir Admin</h5>
+                    <h5 class="modal-title">Reset Password Admin</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -117,19 +129,19 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <label for="whatsapp_blokir">WHATSAPP</label>
-                            <input type="text" class="form-control" id="whatsapp_blokir" name="whatsapp_blokir" placeholder="WHATSAPP" readonly required>
+                            <label for="whatsapp">WHATSAPP</label>
+                            <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="WHATSAPP" readonly required>
                         </div>
                         <div class="form-group">
-                            <label for="reason_inactive">ALASAN BLOKIR</label>
-                            <textarea class="form-control" id="reason_inactive" name="reason_inactive" minlength="3" placeholder="Masukan Alsan Blokir" required></textarea>
+                            <label for="password">New Password</label>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="New Password" minlength="4" maxlength="20" autocomplete="new-password" required>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="id_blokir" name="id_blokir">
+                    <input type="hidden" id="id_reset" name="id_reset">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Blokir Admin</button>
+                    <button type="submit" class="btn btn-primary">Reset Password</button>
                 </div>
             </div>
         </div>

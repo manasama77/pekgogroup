@@ -40,6 +40,14 @@ class Admin_model extends CI_Model
         return $exec;
     }
 
+    public function get_single_data_2($field, $keyword)
+    {
+        $this->db->where($field, $keyword);
+        $this->db->where('admins.deleted_at', null);
+        $exec = $this->db->get('admins', 1);
+        return $exec;
+    }
+
     public function store($data)
     {
         return $this->db->insert('admins', $data);
@@ -127,6 +135,16 @@ class Admin_model extends CI_Model
         $this->db->order_by('admins.id', 'asc');
         $exec = $this->db->get();
         return $exec;
+    }
+
+    public function update($data, $where)
+    {
+        return $this->db->update('admins', $data, $where);
+    }
+
+    public function destroy($data, $where)
+    {
+        return $this->db->update('admins', $data, $where);
     }
 }
                         

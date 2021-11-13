@@ -102,7 +102,9 @@ $route['admin/add']                      = 'admin/add';
 $route['admin/destroy/(:num)']['delete'] = 'admin/destroy/$1';
 $route['admin/edit/(:num)']['post']      = 'admin/edit/$1';
 $route['admin/edit/(:num)']['get']       = 'admin/edit/$1';
-$route['admin/blokir']                   = 'admin/blokir';
+$route['admin/disable']                  = 'admin/disable';
+$route['admin/active']                   = 'admin/active';
+$route['admin/reset']                    = 'admin/reset';
 
 $route['produk/index']                        = 'produk/index';
 $route['produk/show/(:num)']                  = 'produk/show/$1';

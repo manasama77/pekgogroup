@@ -89,15 +89,16 @@ class Admin extends CI_Controller
 
     public function edit($id)
     {
-        $this->form_validation->set_rules('whatsapp', 'WHATSAPP', 'required');
+        $this->form_validation->set_rules('whatsapp', 'NO WHATSAPP', 'required');
         $this->form_validation->set_rules('name', 'NAMA', 'required');
+        $this->form_validation->set_rules('role', 'ROLE', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
-            $list = $this->Admin_model->get_single_data('id', $id);
+            $list = $this->Admin_model->get_single_data_2('admins.id', $id);
             $data = array(
                 'title' => 'Admin Edit',
                 'page'  => 'admin/form_edit',
@@ -114,12 +115,10 @@ class Admin extends CI_Controller
     protected function update($id)
     {
         $data  = array(
-            'name'         => $this->input->post('name'),
-            'id_tokped'    => $this->input->post('id_tokped'),
-            'id_shopee'    => $this->input->post('id_shopee'),
-            'id_instagram' => $this->input->post('id_instagram'),
-            'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
+            'name'       => $this->input->post('name'),
+            'role'       => $this->input->post('role'),
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec  = $this->Admin_model->update($data, $where);
@@ -153,11 +152,14 @@ class Admin extends CI_Controller
         echo json_encode($return);
     }
 
-    public function status($status, $id)
+    public function disable()
     {
-        $new_status = ($status == 'aktifkan') ? 'aktif' : 'tidak aktif';
-        $data  = array(
-            'status'     => $new_status,
+        $id   = $this->input->post('id');
+        $code = 200;
+
+        $status = 'tidak aktif';
+        $data   = array(
+            'status'     => $status,
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
@@ -165,28 +167,46 @@ class Admin extends CI_Controller
         $exec  = $this->Admin_model->update($data, $where);
 
         if (!$exec) {
-            $this->session->set_flashdata('error', 'Update status admin Gagal');
-            session_write_close();
-            redirect($_SERVER['HTTP_REFERER'], 'location');
+            $code = 500;
         }
 
-        $this->session->set_flashdata('success', 'Update status admin Berhasil');
-        session_write_close();
-        redirect($_SERVER['HTTP_REFERER'], 'location');
+        echo json_encode(['code' => $code]);
+        exit;
     }
 
-    public function blokir()
+    public function active()
     {
-        $id              = $this->input->post('id');
-        $reason_inactive = trim($this->input->post('reason_inactive'));
+        $id   = $this->input->post('id');
+        $code = 200;
+
+        $status = 'aktif';
+        $data   = array(
+            'status'     => $status,
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
+        );
+        $where = array('admins.id' => $id);
+        $exec  = $this->Admin_model->update($data, $where);
+
+        if (!$exec) {
+            $code = 500;
+        }
+
+        echo json_encode(['code' => $code]);
+        exit;
+    }
+
+    public function reset()
+    {
+        $id           = $this->input->post('id');
+        $password     = $this->input->post('password') . HASH_SLING_SLICER;
+        $new_password = password_hash($password, PASSWORD_BCRYPT);
 
         $data = array(
-            'status'          => 'tidak aktif',
-            'reason_inactive' => $reason_inactive,
-            'updated_at'      => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata(SESS_ADM . 'id'),
+            'password'   => $new_password,
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
-
         $where = array('id' => $id);
         $exec  = $this->Admin_model->update($data, $where);
 
