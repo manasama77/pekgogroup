@@ -78,8 +78,8 @@
                                         <td>Rp.<?= number_format($key->cost, 0); ?></td>
                                         <td><?= $key->unit_name; ?></td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-info">EDIT</button>
-                                            <button type="button" class="btn btn-danger">DELETE</button>
+                                            <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= $key->name; ?>', <?= $key->cost; ?>, '<?= $key->unit_id; ?>')">EDIT</button>
+                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>')">DELETE</button>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -132,3 +132,45 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<form id="form_edit" action="<?= base_url('hpp/update'); ?>" method="post">
+    <div class="modal fade" id="modal_edit" tabindex="-1" data-backdrop="static" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit HPP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <label for="xname">NAMA HPP</label>
+                            <input type="text" class="form-control" id="xname" name="xname" placeholder="NAMA HPP" minlength="3" maxlength="20" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="xcost">HPP</label>
+                            <input type="number" class="form-control" id="xcost" name="xcost" placeholder="HPP" min="0" max="1000000000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="xunit_id">SATUAN</label>
+                            <select class="form-control" id="xunit_id" name="xunit_id" required>
+                                <?php foreach ($units->result() as $unit) { ?>
+                                    <option value="<?= $unit->id; ?>"><?= $unit->name; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
+                    <input type="hidden" id="xid" name="xid" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

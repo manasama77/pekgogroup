@@ -47,6 +47,16 @@ class Hpp_model extends CI_Model
     {
         return $this->db->insert('hpps', $data);
     }
+
+    public function update($data, $where)
+    {
+        return $this->db->update('hpps', $data, $where);
+    }
+
+    public function destroy($data, $where)
+    {
+        return $this->db->update('hpps', $data, $where);
+    }
 }
                         
 /* End of file Hpp_model.php */

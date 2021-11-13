@@ -123,7 +123,9 @@ $route['setup/karyawan']                    = 'karyawan/index';
 $route['karyawan/update']                   = 'karyawan/update';
 $route['karyawan/destroy/(:num)']['delete'] = 'karyawan/destroy/$1';
 
-$route['setup/hpp']                        = 'hpp/index';
+$route['setup/hpp']                    = 'hpp/index';
+$route['hpp/update']                   = 'hpp/update';
+$route['hpp/destroy/(:num)']['delete'] = 'hpp/destroy/$1';
 
 $route['setup/parameter/satuan']                  = 'satuan/index';
 $route['setup/parameter/satuan/(:num)']['delete'] = 'satuan/destroy/$1';

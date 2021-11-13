@@ -151,7 +151,7 @@
 
 <!-- Modal -->
 <form id="form_edit" action="<?= base_url('karyawan/update'); ?>" method="post" enctype="multipart/form-data">
-    <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog">
+    <div class="modal fade" id="modal_edit" tabindex="-1" data-backdrop="static" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

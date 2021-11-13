@@ -34,12 +34,13 @@ class Hpp extends CI_Controller
             $list  = $this->Hpp_model->get_all_data();
             $units = $this->Satuan_model->get_all_data();
             $data = array(
-                'title' => 'HPP',
-                'page'  => 'hpp/main',
-                'csrf'  => $csrf,
-                'list'  => $list,
-                'units' => $units,
-                'error' => null,
+                'title'   => 'HPP',
+                'page'    => 'hpp/main',
+                'vitamin' => 'hpp/main_vitamin',
+                'csrf'    => $csrf,
+                'list'    => $list,
+                'units'   => $units,
+                'error'   => null,
             );
             $this->theme->render($data);
         } else {
@@ -73,6 +74,44 @@ class Hpp extends CI_Controller
         $this->session->set_flashdata('success', 'Tambah Hpp Berhasil');
         session_write_close();
         redirect(base_url() . 'setup/hpp', 'location');
+    }
+
+    public function update()
+    {
+        $id      = $this->input->post('xid');
+        $name    = $this->input->post('xname');
+        $cost    = $this->input->post('xcost');
+        $unit_id = $this->input->post('xunit_id');
+
+        $data = array(
+            'name'       => $name,
+            'cost'       => $cost,
+            'unit_id'    => $unit_id,
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
+        );
+        $where = array('id' => $id);
+        $exec = $this->Hpp_model->update($data, $where);
+
+        if (!$exec) {
+            echo "Update data gagal, silahkan coba kembali!";
+        }
+
+        $this->session->set_flashdata('success', 'Update HPP Berhasil');
+        session_write_close();
+        redirect(base_url() . 'setup/hpp', 'location');
+    }
+
+    public function destroy($id)
+    {
+        $data = [
+            'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
+        ];
+        $where = ['id' => $id];
+        $exec = $this->Hpp_model->destroy($data, $where);
+        $code = ($exec) ? 200 : 500;
+        echo json_encode(['code' => $code]);
     }
 }
         
