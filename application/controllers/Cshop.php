@@ -330,14 +330,16 @@ class Cshop extends CI_Controller
         $cur_date_obj = new DateTime('now');
 
         $data = [
-            'sub_total'       => $sub_total,
-            'grand_total'     => $grand_total,
-            'jenis_dp'        => $jenis_dp,
-            'dp_value'        => $dp_value,
-            'pelunasan_value' => $pelunasan_value,
-            'status'          => 'active',
-            'updated_at'      => $cur_date_obj->format('Y-m-d H:i:s'),
-            'updated_by'      => $this->session->userdata('id'),
+            'alamat_pengiriman' => $alamat_pengiriman,
+            'catatan'           => $catatan,
+            'sub_total'         => $sub_total,
+            'grand_total'       => $grand_total,
+            'jenis_dp'          => $jenis_dp,
+            'dp_value'          => $dp_value,
+            'pelunasan_value'   => $pelunasan_value,
+            'status'            => 'active',
+            'updated_at'        => $cur_date_obj->format('Y-m-d H:i:s'),
+            'updated_by'        => $this->session->userdata('id'),
         ];
         $where = [
             'id'     => $order_id,
@@ -386,28 +388,29 @@ class Cshop extends CI_Controller
 
         $config['base_url']           = base_url('shop/list_order');
         $config['total_rows']         = $this->order_model->count_customer_order($customer_id)->num_rows();
-        $config['per_page']           = 1;
+        $config['per_page']           = 5;
         $config['reuse_query_string'] = TRUE;
         $config['uri_segment']        = 3;
         $config["num_links"]          = floor($config["total_rows"] / $config["per_page"]);
+        $config['attributes']         = array('class' => 'page-link');
 
-        $config['full_tag_open']   = '<ul>';
+        $config['full_tag_open']   = '<ul class="pagination justify-content-end mt-3">';
         $config['full_tag_close']  = '</ul>';
         $config['first_link']      = false;
         $config['last_link']       = false;
-        $config['first_tag_open']  = '<li>';
+        $config['first_tag_open']  = '<li class="page-item">';
         $config['first_tag_close'] = '</li>';
         $config['prev_link']       = '<i class="fas fa-chevron-left fa-fw"></i>';
-        $config['prev_tag_open']   = '<li class="prev">';
+        $config['prev_tag_open']   = '<li class="page-item">';
         $config['prev_tag_close']  = '</li>';
         $config['next_link']       = '<i class="fas fa-chevron-right fa-fw"></i>';
-        $config['next_tag_open']   = '<li>';
+        $config['next_tag_open']   = '<li class="page-item">';
         $config['next_tag_close']  = '</li>';
-        $config['last_tag_open']   = '<li>';
+        $config['last_tag_open']   = '<li class="page-item">';
         $config['last_tag_close']  = '</li>';
-        $config['cur_tag_open']    = '<li class="active"><span>';
+        $config['cur_tag_open']    = '<li class="page-item active"><span class="page-link">';
         $config['cur_tag_close']   = '</span></li>';
-        $config['num_tag_open']    = '<li>';
+        $config['num_tag_open']    = '<li class="page-item">';
         $config['num_tag_close']   = '</li>';
         $this->pagination->initialize($config);
 
@@ -564,6 +567,55 @@ class Cshop extends CI_Controller
             $this->session->set_flashdata('success', 'Upload Bukti Pembayaran Pelunasan Berhasil');
             session_write_close();
             redirect(base_url() . 'shop/list_order', 'location');
+        }
+    }
+
+    public function order_track()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        $order_id   = $this->input->get('order_id');
+        $orders = $this->order_model->show_data('id', $order_id);
+        if ($orders->num_rows() == 0) {
+            echo json_encode(['code' => 404]);
+            exit;
+        }
+
+        if ($orders->row()->no_resi == "" || $orders->row()->no_resi == null) {
+            echo json_encode(['code' => 405]);
+            exit;
+        }
+
+        $no_resi   = $orders->row()->no_resi;
+        $ekspedisi = strtolower($orders->row()->ekspedisi);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://pro.rajaongkir.com/api/waybill",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "waybill=" . $no_resi . "&courier=" . $ekspedisi,
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                "key:" . RAJAONGKIR_API_KEY
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo $err;
+            exit;
+        } else {
+            echo $response;
+            exit;
         }
     }
 }

@@ -9,6 +9,8 @@
                             <span class="sr-only">Close</span>
                         </button>
                         <strong><?= $this->session->flashdata('warning'); ?></strong>
+                        <!-- repair bug php 8 -->
+                        <?php $this->session->unset_userdata('warning'); ?>
                     </div>
                 </div>
             </div>

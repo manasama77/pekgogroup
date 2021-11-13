@@ -263,14 +263,12 @@ class Order_model extends CI_Model
             $this->db->select('colors.name as nama_warna');
             $this->db->join('product_color_params', 'product_color_params.product_id = products.id', 'left');
             $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
-            $this->db->where('product_color_params.id', $color_id);
         }
 
         if ($size_id != null) {
             $this->db->select('sizes.name as nama_ukuran, sizes.cost as harga_ukuran');
             $this->db->join('product_size_params', 'product_size_params.product_id = products.id', 'left');
             $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
-            $this->db->where('product_size_params.id', $size_id);
         }
 
         $this->db->limit(1);
@@ -288,7 +286,7 @@ class Order_model extends CI_Model
 
         $html = '<tr>';
         $html .= '<td>' . $nama_produk . $text_warna . '</td>';
-        $html .= '<td class="text-right">Rp ' . number_format($harga_produk, 2, ",", ".") . '</td>';
+        $html .= '<td class="text-right">Rp. ' . number_format($harga_produk, 2, ",", ".") . '</td>';
         $html .= '</tr>';
 
         if ($size_id != null) {
@@ -297,7 +295,7 @@ class Order_model extends CI_Model
 
             $html .= '<tr>';
             $html .= '<td>Size: ' . $nama_ukuran . '</td>';
-            $html .= '<td class="text-right">' . number_format($harga_ukuran, 2, ",", ".") . '</td>';
+            $html .= '<td class="text-right">Rp. ' . number_format($harga_ukuran, 2, ",", ".") . '</td>';
             $html .= '</tr>';
         }
 
@@ -313,7 +311,7 @@ class Order_model extends CI_Model
         $nama_jahitan = ucwords($pilih_jahitan);
         $html .= '<tr>';
         $html .= '<td>Jahitan: ' . $nama_jahitan . '</td>';
-        $html .= '<td class="text-right">' . number_format($harga_jahitan, 2, ",", ".") . '</td>';
+        $html .= '<td class="text-right">Rp. ' . number_format($harga_jahitan, 2, ",", ".") . '</td>';
         $html .= '</tr>';
 
         $this->db->select(array(
@@ -337,11 +335,10 @@ class Order_model extends CI_Model
 
                 $html .= '<tr>';
                 $html .= '<td><button type="button" class="btn btn-small btn-danger px-2 py-0" onclick="removeRequest(' . $id . ', \'' . $cost . '\');" title="Remove Request"><i class="fas fa-times"></i></button> Request: ' . $name . '</td>';
-                $html .= '<td class="text-right">' . number_format($cost, 2, ",", ".") . '</td>';
+                $html .= '<td class="text-right">Rp. ' . number_format($cost, 2, ",", ".") . '</td>';
                 $html .= '</tr>';
             }
         }
-
 
         $sub_total = $harga_produk + $harga_ukuran + $harga_jahitan + $harga_request;
 

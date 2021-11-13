@@ -31,67 +31,64 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($orders->result() as $order) { ?>
+                            <?php if ($orders->num_rows() == 0) { ?>
                                 <tr>
-                                    <td>
-                                        <img src="<?= base_url('assets/img/products/' . $order->path_image); ?>" alt="Image" class="img-fluid img-thumbnail">
-                                    </td>
-                                    <td>
-                                        <?= $order->created_at; ?>
-                                    </td>
-                                    <td class="text-black">
-                                        <?= $order->sales_invoice; ?>
-                                    </td>
-                                    <td class="text-black">
-                                        <?= $order->product_name; ?><br />
-                                        <small>
-                                            Color: <?= $order->color_name; ?><br />
-                                            Size: <?= $order->size_name; ?><br />
-                                            Jahitan: <?= ucwords($order->pilih_jahitan); ?>
-                                        </small>
-                                    </td>
-                                    <td>Rp. <?= number_format($order->grand_total, 2, ',', '.'); ?></td>
-                                    <td><?= ucwords($order->status_order); ?></td>
-                                    <td>
-                                        <?= ucwords($order->status_pembayaran); ?><br />
-                                        <?php if ($order->status_pembayaran == "menunggu pembayaran") { ?>
-                                            <button type="button" class="btn btn-warning btn-sm" onclick="showModalDP(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">Upload Pembayaran DP</button>
-                                        <?php } ?>
-                                        <?php if ($order->status_pembayaran == "partial") { ?>
-                                            <button type="button" class="btn btn-warning btn-sm" onclick="showModalPelunasan(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">Upload Pembayaran Pelunasan</button>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-info btn-sm" title="Lihat Detail" onclick="showModalDetail(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <?php if ($order->status_pembayaran == "pengiriman") { ?>
-                                                <button class="btn btn-dark btn-sm" title="Lihat Detail">
-                                                    <i class="fas fa-map"></i>
-                                                </button>
-                                            <?php } ?>
-                                        </div>
-                                    </td>
+                                    <td colspan="8" class="text-center font-weight-bold">Kamu Belum Melakukan Order</td>
                                 </tr>
-                            <?php } ?>
+                            <?php } else { ?>
+                                <?php foreach ($orders->result() as $order) { ?>
+                                    <tr>
+                                        <td>
+                                            <img src="<?= base_url('assets/img/products/' . $order->path_image); ?>" alt="Image" class="img-fluid img-thumbnail">
+                                        </td>
+                                        <td>
+                                            <?= $order->created_at; ?>
+                                        </td>
+                                        <td class="text-black">
+                                            <?= $order->sales_invoice; ?>
+                                        </td>
+                                        <td class="text-black">
+                                            <?= $order->product_name; ?><br />
+                                            <small>
+                                                Color: <?= $order->color_name; ?><br />
+                                                Size: <?= $order->size_name; ?><br />
+                                                Jahitan: <?= ucwords($order->pilih_jahitan); ?>
+                                            </small>
+                                        </td>
+                                        <td>Rp. <?= number_format($order->grand_total, 2, ',', '.'); ?></td>
+                                        <td><?= ucwords($order->status_order); ?></td>
+                                        <td>
+                                            <?= ucwords($order->status_pembayaran); ?><br />
+                                            <?php if ($order->status_pembayaran == "menunggu pembayaran") { ?>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="showModalDP(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">Upload Pembayaran DP</button>
+                                            <?php } ?>
+                                            <?php if ($order->status_pembayaran == "partial") { ?>
+                                                <button type="button" class="btn btn-warning btn-sm" onclick="showModalPelunasan(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">Upload Pembayaran Pelunasan</button>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info btn-sm" title="Lihat Detail" onclick="showModalDetail(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <?php if (in_array($order->status_order, ['pengiriman', 'selesai']) && $order->status_pembayaran == "lunas") { ?>
+                                                    <button class="btn btn-dark btn-sm" title="Tracking" onclick="showModalTrack(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">
+                                                        <i class="fas fa-map"></i>
+                                                    </button>
+                                                <?php } ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                            <?php
+                                }
+                            }
+                            ?>
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation example">
-                        <!-- <ul class="pagination justify-content-end">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul> -->
-                        <?= $this->pagination->create_links(); ?>
-                    </nav>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <?= $this->pagination->create_links(); ?>
+                </nav>
             </div>
         </div>
     </div>
@@ -181,3 +178,23 @@
         </div>
     </div>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_track" tabindex="-1" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Track Order - <span id="sales_invoice_track"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="v_track"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

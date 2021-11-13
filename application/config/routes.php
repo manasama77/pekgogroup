@@ -17,17 +17,19 @@ $route['shop/store_request']              = 'cshop/store_request';
 $route['shop/remove_request']             = 'cshop/remove_request';
 $route['shop/finish']                     = 'cshop/finish';
 $route['shop/thanks']                     = 'cshop/thanks';
+$route['shop/list_order/(:num)']          = 'cshop/list_order/$1';
 $route['shop/list_order']                 = 'cshop/list_order';
 $route['shop/order_detail']               = 'cshop/order_detail';
 $route['shop/check_pembayaran_dp']        = 'cshop/check_pembayaran_dp';
 $route['shop/store_dp']                   = 'cshop/store_dp';
 $route['shop/check_pembayaran_pelunasan'] = 'cshop/check_pembayaran_pelunasan';
 $route['shop/store_pelunasan']            = 'cshop/store_pelunasan';
+$route['shop/order_track']                = 'cshop/order_track';
+$route['products/(:num)']                 = 'cshop/show/$1';
 
 $route['contact/index']  = 'ccontact/index';
 
 
-// $route['products/(:num)'] = 'cshop/show/$1';
 
 $route['customer/login']  = 'clogin/index';
 $route['customer/logout'] = 'clogin/logout';
