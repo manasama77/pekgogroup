@@ -29,6 +29,16 @@
                                 <input type="text" class="form-control" id="name" name="name" placeholder="NAMA SATUAN" minlength="1" maxlength="10" value="<?= (set_value('name')) ? set_value('name') : $list->row()->name; ?>" required>
                                 <?= form_error('name'); ?>
                             </div>
+                            <div class="form-group">
+                                <label for="hex">HEX WARNA</label>
+                                <div class="input-group my-colorpicker2">
+                                    <input type="text" id="hex" name="hex" class="form-control" value="<?= (set_value('hex')) ? set_value('hex') : $list->row()->hex; ?>" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-square"></i></span>
+                                    </div>
+                                </div>
+                                <?= form_error('hex'); ?>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />

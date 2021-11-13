@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <label for="hex">HEX WARNA</label>
                                 <div class="input-group my-colorpicker2">
-                                    <input type="text" id="hex" name="hex" class="form-control">
+                                    <input type="text" id="hex" name="hex" class="form-control" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fas fa-square"></i></span>
                                     </div>

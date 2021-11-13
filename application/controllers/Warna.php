@@ -73,6 +73,7 @@ class Warna extends CI_Controller
     public function edit($id)
     {
         $this->form_validation->set_rules('name', 'NAMA WARNA', 'required');
+        $this->form_validation->set_rules('hex', 'HEX WARNA', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
@@ -81,11 +82,12 @@ class Warna extends CI_Controller
             );
             $list = $this->Warna_model->get_single_data('id', $id);
             $data = array(
-                'title' => 'Warna',
-                'page'  => 'warna/form_edit',
-                'csrf'  => $csrf,
-                'list'  => $list,
-                'error' => null,
+                'title'   => 'Warna',
+                'page'    => 'warna/form_edit',
+                'vitamin' => 'warna/form_edit_vitamin',
+                'csrf'    => $csrf,
+                'list'    => $list,
+                'error'   => null,
             );
             $this->theme->render($data);
         } else {
@@ -95,7 +97,12 @@ class Warna extends CI_Controller
 
     protected function update($id)
     {
-        $data  = array('name' => $this->input->post('name'));
+        $data  = array(
+            'name'       => $this->input->post('name'),
+            'hex'        => $this->input->post('hex'),
+            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
+        );
         $where = array('id' => $id);
         $exec  = $this->Warna_model->update($data, $where);
 
