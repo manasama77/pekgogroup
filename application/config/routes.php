@@ -115,6 +115,7 @@ $route['produk/destroy_hpp/(:num)']['delete'] = 'produk/destroy_hpp/$1';
 $route['produk/destroy/(:num)']['delete']     = 'produk/destroy/$1';
 $route['produk/edit/(:num)']['post']          = 'produk/edit/$1';
 $route['produk/edit/(:num)']['get']           = 'produk/edit/$1';
+$route['produk/hpp/render_active']['get']            = 'produk/render_hpp_active';
 
 // setup
 $route['setup/project']                    = 'project/index';

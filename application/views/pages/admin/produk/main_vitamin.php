@@ -58,7 +58,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `<?= base_url(); ?>customer/destroy/${id}`,
+                    url: `<?= base_url(); ?>produk/destroy/${id}`,
                     type: 'delete',
                     dataType: 'json',
                     data: {

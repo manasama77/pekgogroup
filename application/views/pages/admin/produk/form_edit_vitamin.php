@@ -1,0 +1,221 @@
+<script>
+    let formProduk = $('#form_produk')
+    let id_product = $('#id_product')
+    let id_hpp = $('#id_hpp')
+    let qty_hpp = $('#qty_hpp')
+    let btn_tambah_hpp = $('#tambah_hpp')
+    let vHPP = $('#v_hpp')
+    let grandTotal = $('#grand_total')
+    let count_hpp = $('#count_hpp')
+    let counter = 0;
+
+    $(document).ready(() => {
+        renderHppTable()
+
+        btn_tambah_hpp.on('click', e => {
+            console.log(e)
+            e.preventDefault()
+            storeHpp()
+        })
+
+        formProduk.on('submit', e => {
+            e.preventDefault()
+            if (count_hpp.val() == 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'HPP Produk tidak boleh kosong',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                })
+            } else if ($('input[name="color_id[]"]:checked').length == 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Warna Produk minimal terpilih satu',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                })
+            } else if ($('input[name="size_id[]"]:checked').length == 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Ukuran Produk minimal terpilih satu',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                })
+            } else if ($('input[name="request_id[]"]:checked').length == 0) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Request Produk minimal terpilih satu',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true
+                })
+            } else {
+                e.currentTarget.submit();
+            }
+        })
+    })
+</script>
+
+<script>
+    function storeHpp() {
+        $.ajax({
+            url: `<?= base_url(); ?>produk/hpp/store`,
+            type: 'post',
+            dataType: 'json',
+            data: {
+                'product_id': id_product.val(),
+                'hpp_id': id_hpp.val(),
+                'qty_hpp': qty_hpp.val(),
+            },
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Tambah HPP gagal',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Tambah HPP Berhasil',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                }).then(() => {
+                    resetFormHPP()
+                    renderHppTable()
+                })
+            }
+        })
+    }
+
+    function resetFormHPP() {
+        qty_hpp.val('')
+    }
+
+    function renderHppTable() {
+        $.ajax({
+            url: `<?= base_url(); ?>produk/hpp/render_active`,
+            type: 'get',
+            dataType: 'json',
+            data: {
+                'product_id': id_product.val()
+            },
+            beforeSend: () => $.blockUI()
+        }).always(() => $.unblockUI()).fail(e => Swal.fire({
+            icon: 'warning',
+            html: e.responseText,
+        })).done(e => {
+            console.log(e)
+            let vTotal = 0;
+            if (e.code == 500) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Render HPP gagal',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                })
+            } else if (e.code == 200) {
+                let renderHTML = ``
+
+                if (e.count == 0) {
+                    renderHTML = `
+                    <tr class="bg-warning">
+                        <td class="text-center" colspan="4">Data HPP Kosong</td>
+                    </tr>
+                    `
+                } else {
+                    counter = 0
+                    $.each(e.data, (i, k) => {
+                        console.log(k.total_price)
+                        let totalPrice = parseFloat(k.total_price)
+                        let vTotalPrice = new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR'
+                        }).format(totalPrice)
+                        renderHTML += `
+                        <tr>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger btn-sm" title="Delete" onclick="destroyHPP(${k.id});"><i class="fas fa-trash"></i></button>
+                            </td>
+                            <td>${k.name}</td>
+                            <td class="text-right">${parseInt(k.qty)} ${k.unit_name}</td>
+                            <td class="text-right">${vTotalPrice}</td>
+                        </tr>
+                        `
+                        vTotal += totalPrice
+                        counter += 1
+                    })
+                    count_hpp.val(counter)
+                }
+                vHPP.html(renderHTML)
+                grandTotal.html(currency(vTotal))
+            }
+        })
+    }
+
+    function destroyHPP(id) {
+        Swal.fire({
+            icon: 'question',
+            title: `Delete HPP ?`,
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `<?= base_url(); ?>produk/destroy_hpp/${id}`,
+                    type: 'delete',
+                    dataType: 'json',
+                    data: {
+                        '<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>',
+                    },
+                    beforeSend: () => $.blockUI()
+                }).always(() => $.unblockUI()).fail(e => Swal.fire({
+                    icon: 'warning',
+                    html: e.responseText,
+                })).done(e => {
+                    if (e.code == 500) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: 'Delete Data gagal',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true
+                        })
+                    } else if (e.code == 200) {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Delete Data berhasil',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true
+                        }).then(() => {
+                            renderHppTable()
+                            count_hpp.val(counter)
+                        })
+                    }
+                })
+            }
+        })
+    }
+</script>

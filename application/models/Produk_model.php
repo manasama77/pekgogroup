@@ -306,6 +306,25 @@ class Produk_model extends CI_Model
         return $exec;
     }
 
+    public function get_active_hpp($product_id)
+    {
+        $this->db->select(array(
+            'product_hpp_params.id',
+            'product_hpp_params.qty',
+            'product_hpp_params.basic_price',
+            'product_hpp_params.total_price',
+            'hpps.name',
+            'units.name as unit_name',
+        ));
+        $this->db->from('product_hpp_params');
+        $this->db->join('hpps', 'hpps.id = product_hpp_params.hpp_id', 'left');
+        $this->db->join('units', 'units.id = hpps.unit_id', 'left');
+        $this->db->where('product_hpp_params.product_id', $product_id);
+        $exec = $this->db->get();
+
+        return $exec;
+    }
+
     public function clear_temp()
     {
         $this->db->where('status', 'temp');
@@ -327,6 +346,11 @@ class Produk_model extends CI_Model
     }
 
     public function update($table, $data, $where)
+    {
+        return $this->db->update($table, $data, $where);
+    }
+
+    public function destroy($table, $data, $where)
     {
         return $this->db->update($table, $data, $where);
     }
@@ -484,6 +508,78 @@ class Produk_model extends CI_Model
         $this->db->where('deleted_at', null);
         $this->db->order_by('sold', 'desc');
         return $this->db->get('products', 5);
+    }
+
+    public function get_product_colors($product_id)
+    {
+        $this->db->select([
+            'colors.id',
+        ]);
+        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+        $this->db->where('product_color_params.product_id', $product_id);
+        $this->db->where('product_color_params.deleted_at', null);
+        $exec = $this->db->get('product_color_params');
+        $return = [];
+
+        foreach ($exec->result() as $key) {
+            array_push($return, $key->id);
+        }
+
+        return $return;
+    }
+
+    public function get_product_sizes($product_id)
+    {
+        $this->db->select([
+            'sizes.id',
+        ]);
+        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->where('product_size_params.product_id', $product_id);
+        $this->db->where('product_size_params.deleted_at', null);
+        $exec = $this->db->get('product_size_params');
+        $return = [];
+
+        foreach ($exec->result() as $key) {
+            array_push($return, $key->id);
+        }
+
+        return $return;
+    }
+
+    public function get_product_requests($product_id)
+    {
+        $this->db->select([
+            'requests.id',
+        ]);
+        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->where('product_request_params.product_id', $product_id);
+        $this->db->where('product_request_params.deleted_at', null);
+        $exec = $this->db->get('product_request_params');
+        $return = [];
+
+        foreach ($exec->result() as $key) {
+            array_push($return, $key->id);
+        }
+
+        return $return;
+    }
+
+    public function clear_color($product_id)
+    {
+        $this->db->where('product_id', $product_id);
+        $this->db->delete('product_color_params');
+    }
+
+    public function clear_size($product_id)
+    {
+        $this->db->where('product_id', $product_id);
+        $this->db->delete('product_size_params');
+    }
+
+    public function clear_request($product_id)
+    {
+        $this->db->where('product_id', $product_id);
+        $this->db->delete('product_request_params');
     }
 }
                         
