@@ -55,22 +55,22 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="field">CARI BERDASARKAN</label>
-                                <select class="form-control" id="field" name="field" required>
-                                    <option value="all">SEMUA</option>
-                                    <option value="name">NAMA</option>
-                                    <option value="whatsapp">WHATSAPP</option>
-                                    <option value="id_tokped">ID TOKPED</option>
-                                    <option value="id_shopee">ID SHOPEE</option>
-                                    <option value="id_instagram">ID INSTAGRAM</option>
-                                    <option value="order_total">GRAND TOTAL</option>
+                                <label for="status">STATUS MEMBER <?= $this->input->get('status'); ?></label>
+                                <select class="form-control" id="status" name="status" autocomplete="off" required>
+                                    <option value="aktif" <?= ($this->input->get('status') == "aktif") ? "selected" : null; ?>>AKTIF</option>
+                                    <option value="tidak aktif" <?= ($this->input->get('status') == "tidak aktif") ? "selected" : null; ?>>TIDAK AKTIF</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="status">STATUS MEMBER</label>
-                                <select class="form-control" id="status" name="status" required>
-                                    <option value="aktif">AKTIF</option>
-                                    <option value="tidak aktif">TIDAK AKTIF</option>
+                                <label for="field">CARI BERDASARKAN</label>
+                                <select class="form-control" id="field" name="field" autocomplete="off" required>
+                                    <option value="all" <?= ($this->input->get('field') == "all") ? "selected" : null; ?>>SEMUA</option>
+                                    <option value="name" <?= ($this->input->get('field') == "name") ? "selected" : null; ?>>NAMA</option>
+                                    <option value="whatsapp" <?= ($this->input->get('field') == "whatsapp") ? "selected" : null; ?>>WHATSAPP</option>
+                                    <option value="id_tokped" <?= ($this->input->get('field') == "id_tokped") ? "selected" : null; ?>>ID TOKPED</option>
+                                    <option value="id_shopee" <?= ($this->input->get('field') == "id_shopee") ? "selected" : null; ?>>ID SHOPEE</option>
+                                    <option value="id_instagram" <?= ($this->input->get('field') == "id_instagram") ? "selected" : null; ?>>ID INSTAGRAM</option>
+                                    <option value="order_total" <?= ($this->input->get('field') == "order_total") ? "selected" : null; ?>>GRAND TOTAL</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -106,84 +106,69 @@
             </div>
         </div>
         <div class="row">
-            <?php foreach ($list->result() as $key) { ?>
-                <div class="col-lg-4">
-                    <div class="card card-primary elevation-3">
-                        <div class="card-body p-0">
-                            <table class="table table-bordered table-striped table-valign-middle table-sm small">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-sm bg-light">
+                        <thead class="bg-gradient-dark">
+                            <tr>
+                                <th>Whatsapp</th>
+                                <th>Nama</th>
+                                <th>ID Tokped</th>
+                                <th>ID Shopee</th>
+                                <th>ID Instagram</th>
+                                <th>Status</th>
+                                <th>Jumlah Order</th>
+                                <th>Grand Total Order</th>
+                                <th>Pembatalan Order</th>
+                                <th class="text-center"><i class="fas fa-cogs"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($list->num_rows() == 0) { ?>
                                 <tr>
-                                    <td>NAMA</td>
-                                    <td><?= $key->name; ?></td>
+                                    <td colspan="10" class="text-center">Tidak ada data</td>
                                 </tr>
-                                <tr>
-                                    <td>NO WHATSAPP</td>
-                                    <td><?= $key->whatsapp; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>ID TOKPED</td>
-                                    <td><?= $key->id_tokped; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>ID SHOPEE</td>
-                                    <td><?= $key->id_shopee; ?></td>
-                                </tr>
-                                <tr>
-                                    <td>ID INSTAGRAM</td>
-                                    <td><?= $key->id_instagram; ?></td>
-                                </tr>
-                                <tr>
-                                    <td style="vertical-align: top;">STATUS</td>
-                                    <td>
-                                        <?= strtoupper($key->status); ?>
-                                        <?php if ($key->status == 'tidak aktif') { ?>
-                                            <br />
-                                            <?= $key->reason_inactive; ?>
-                                        <?php } ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>JUMLAH ORDER</td>
-                                    <td><?= number_format($key->order_created, 0); ?></td>
-                                </tr>
-                                <tr>
-                                    <td>GRAND TOTAL ORDER</td>
-                                    <td>Rp.<?= number_format($key->order_total, 0); ?></td>
-                                </tr>
-                                <tr>
-                                    <td>PEMBATALAN ORDER</td>
-                                    <td><?= number_format($key->order_canceled, 0); ?></td>
-                                </tr>
-                                <tr class="bg-dark">
-                                    <td colspan="2" class="text-center pb-1 pt-1">
-                                        AKSI
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-0">
-                                        <a href="<?= base_url('customer/edit/' . $key->id); ?>" class="btn btn-info btn-block btn-xs btn-flat">EDIT</a>
-                                    </td>
-                                    <td class="p-0">
-                                        <button type="button" class="btn btn-danger btn-block btn-xs btn-flat" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">HAPUS</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-0">
-                                        <?php if ($key->status == "aktif") { ?>
-                                            <button type="button" class="btn btn-danger btn-block btn-xs btn-flat" onclick="modalBlokir(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">BLOKIR</button>
-                                        <?php } else { ?>
-                                            <a href="<?= base_url('customer/status/aktifkan/' . $key->id); ?>" class="btn btn-success btn-block btn-xs btn-flat">AKTIFKAN</a>
-                                        <?php } ?>
-                                    </td>
-                                    <td class="p-0">
-                                        <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="modalReset(<?= $key->id; ?>, '<?= $key->whatsapp; ?>')">RESET PASSWORD</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
+                            <?php } else { ?>
+                                <?php foreach ($list->result() as $key) { ?>
+                                    <tr>
+                                        <td><?= $key->whatsapp; ?></td>
+                                        <td><?= $key->name; ?></td>
+                                        <td><?= $key->id_tokped; ?></td>
+                                        <td><?= $key->id_shopee; ?></td>
+                                        <td><?= $key->id_instagram; ?></td>
+                                        <td>
+                                            <?= strtoupper($key->status); ?>
+                                            <?php if ($key->status == 'tidak aktif') { ?>
+                                                <br />
+                                                (<?= $key->reason_inactive; ?>)
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <?= number_format($key->order_created, 0); ?>
+                                        </td>
+                                        <td>
+                                            Rp.<?= number_format($key->order_total, 0); ?>
+                                        </td>
+                                        <td><?= number_format($key->order_canceled, 0); ?></td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+                                                <a href="<?= base_url('customer/edit/' . $key->id); ?>" class="btn btn-info btn-xs">EDIT</a>
+                                                <button type="button" class="btn btn-danger btn-xs" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">HAPUS</button>
+                                                <?php if ($key->status == "aktif") { ?>
+                                                    <button type="button" class="btn btn-warning btn-xs" onclick="modalBlokir(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">BLOKIR</button>
+                                                <?php } else { ?>
+                                                    <a href="<?= base_url('customer/status/aktifkan/' . $key->id); ?>" class="btn btn-success btn-xs">AKTIFKAN</a>
+                                                <?php } ?>
+                                                <button type="button" class="btn btn-secondary btn-xs" onclick="modalReset(<?= $key->id; ?>, '<?= $key->whatsapp; ?>')">RESET PASSWORD</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
-            <?php } ?>
+            </div>
         </div>
     <?php } ?>
 </div>
