@@ -1,0 +1,7 @@
+- cek cara input order dari customer
+- cek cara input order dari admin
+- pastikan color & size bukan dari tabel product_color_params / product_size_params tapi ambil dari tabel induknya (colors / sizes)
+- perbaikan order filter
+- tambahkan pagination di halaman admin -> order page
+- tambah counter di sidebar
+- perbaikan dashboard

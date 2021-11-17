@@ -65,6 +65,7 @@ $route['order/remove_request']        = 'order/remove_request';
 $route['order/copy_order']            = 'order/copy_order';
 $route['order/show_request']          = 'order/show_request';
 $route['order/invoice/(:num)']        = 'order/invoice/$1';
+$route['order/show_detail']           = 'order/show_detail';
 
 $route['pembayaran/index']                    = 'pembayaran/index';
 $route['pembayaran/verifikasi_dp']            = 'pembayaran/verifikasi_dp';

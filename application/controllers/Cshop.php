@@ -26,7 +26,7 @@ class Cshop extends CI_Controller
 
         $config['base_url']           = base_url('shop/index');
         $config['total_rows']         = $this->produk_model->count_all($f_size)->num_rows();
-        $config['per_page']           = 1;
+        $config['per_page']           = 5;
         $config['reuse_query_string'] = TRUE;
         $config['uri_segment']        = 3;
         $config["num_links"]          = floor($config["total_rows"] / $config["per_page"]);

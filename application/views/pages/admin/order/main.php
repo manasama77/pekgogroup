@@ -195,211 +195,143 @@
                 </blockquote>
             </div>
         </div>
-        <?php if ($list->num_rows() > 0) { ?>
-            <div class="row">
-                <?php foreach ($list->result() as $key) { ?>
-                    <div class="col-lg-4">
-                        <div class="card card-primary elevation-3">
-                            <div class="card-body p-0">
-                                <table class="table table-bordered table-striped table-valign-middle table-sm small">
-                                    <tr>
-                                        <td>SALES INVOICE</td>
-                                        <td><?= $key->sales_invoice; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>TANGGAL & JAM ORDER</td>
-                                        <td><?= $key->created_at; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>BATAS WAKTU TRANSFER</td>
-                                        <td><?= $key->batas_waktu_transfer; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ESTIMASI SELESAI</td>
-                                        <td><?= $key->estimasi_selesai; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ORDER VIA</td>
-                                        <td><?= strtoupper($key->order_via); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>PRODUK</td>
-                                        <td><?= $key->nama_produk; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>WARNA</td>
-                                        <td><?= $key->nama_warna; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>UKURAN</td>
-                                        <td><?= $key->nama_ukuran; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>JAHITAN</td>
-                                        <td><?= strtoupper($key->pilih_jahitan); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>REQUEST</td>
-                                        <td>
-                                            <button type="button" class="btn btn-xs btn-info" onclick="showRequest(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')">Show</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>CATATAN</td>
-                                        <td>
-                                            <button type="button" class="btn btn-xs btn-info" onclick="showCatatan('<?= $key->catatan; ?>', '<?= $key->sales_invoice; ?>')">Show</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>CUSTOMER</td>
-                                        <td><?= $key->nama_customer; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>WHATSAPP</td>
-                                        <td><?= $key->whatsapp; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ID TOKPED</td>
-                                        <td><?= $key->id_tokped; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ID SHOPEE</td>
-                                        <td><?= $key->id_shopee; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ID INSTAGRAM</td>
-                                        <td><?= $key->id_instagram; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>STATUS ORDER</td>
-                                        <td><?= strtoupper($key->status_order); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>STATUS PEMBAYARAN</td>
-                                        <td><?= strtoupper($key->status_pembayaran); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>GRAND TOTAL</td>
-                                        <td>Rp <?= number_format($key->grand_total, 2); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>DP (<?= $key->jenis_dp; ?>%)</td>
-                                        <td>Rp <?= number_format($key->dp_value, 2); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>PELUNASAN</td>
-                                        <td>Rp <?= number_format($key->pelunasan_value, 2); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>TANGGAL PENGIRIMAN</td>
-                                        <td><?= $key->tanggal_pengiriman; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>EKSPEDISI</td>
-                                        <td><?= $key->ekspedisi; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>NO RESI</td>
-                                        <td><?= $key->no_resi; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ALAMAT PENGIRIMAN</td>
-                                        <td><?= $key->alamat_pengiriman; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ADMIN ORDER</td>
-                                        <td><?= $key->nama_admin_order; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ADMIN PRODUKSI</td>
-                                        <td><?= $key->nama_admin_produksi; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ADMIN CS</td>
-                                        <td><?= $key->nama_admin_cs; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>ADMIN FINANCE</td>
-                                        <td><?= $key->nama_admin_finance; ?></td>
-                                    </tr>
-                                    <tr class="bg-dark">
-                                        <td colspan="2" class="text-center pb-1 pt-1">
-                                            AKSI
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0">
-                                            <a href="<?= base_url('order/edit/' . $key->id); ?>" class="btn btn-info btn-block btn-xs btn-flat">EDIT</a>
-                                        </td>
-                                        <td class="p-0">
-                                            <button type="button" class="btn btn-danger btn-block btn-xs btn-flat" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">HAPUS</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0">
-                                            <button type="button" class="btn btn-warning btn-block btn-xs btn-flat" onclick="copyOrder(<?= $key->id; ?>, <?= $key->product_id; ?>, <?= $key->color_id; ?>, <?= $key->size_id; ?>, <?= $key->kode_unik; ?>, <?= $key->jenis_dp; ?>, '<?= $key->catatan; ?>', '<?= $key->pilih_jahitan; ?>');">COPY DETAIL ORDER</button>
-                                        </td>
-                                        <td class="p-0">
-                                            <a href="<?= base_url('order/invoice/' . $key->id); ?>" class="btn btn-dark btn-block btn-xs btn-flat" target="_blank">PRINT INVOICE</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0">
-                                            <a href="<?= base_url('pembayaran/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PEMBAYARAN</a>
-                                        </td>
-                                        <td class="p-0">
-                                            <a href="<?= base_url('produksi/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PRODUKSI</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-0">
-                                            <a href="<?= base_url('pengiriman/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGIRIMAN</a>
-                                        </td>
-                                        <td class="p-0">
-                                            <!-- <a href="#" class="btn btn-secondary btn-block btn-xs btn-flat">DATA PENGADUAN</a> -->
-                                            <button type="button" class="btn btn-secondary btn-block btn-xs btn-flat" onclick="comingSoon()">DATA PENGADUAN</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Order List</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
                         </div>
                     </div>
-                <?php } ?>
+                    <div class="card-body">
+                        <?php if ($list->num_rows() == 0) { ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sales Invoice</th>
+                                            <th>Tanggal & Jam Order</th>
+                                            <th>Estimasi Selesai</th>
+                                            <th>Order Via</th>
+                                            <th>Customer</th>
+                                            <th>Whatsapp</th>
+                                            <th>Produk</th>
+                                            <th>Warna</th>
+                                            <th>Ukuran</th>
+                                            <th>Jahitan</th>
+                                            <th>Status Order</th>
+                                            <th>Status Pembayaran</th>
+                                            <th>Grand Total</th>
+                                            <th>
+                                                <i class="fas fa-cogs"></i>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="text-center" colspan="14">Data Tidak Ditemukan</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } else { ?>
+                            <div class="table-responsive mb-5">
+                                <table class="table table-bordered table-striped table-sm" stlye="min-height: 500px; height: 500px;">
+                                    <thead class="bg-dark">
+                                        <tr>
+                                            <th>Sales Invoice</th>
+                                            <th>Tanggal & Jam Order</th>
+                                            <th>Estimasi Selesai</th>
+                                            <th>Order Via</th>
+                                            <th>Customer</th>
+                                            <th>Whatsapp</th>
+                                            <th>Produk</th>
+                                            <th>Warna</th>
+                                            <th>Ukuran</th>
+                                            <th>Jahitan</th>
+                                            <th>Status Order</th>
+                                            <th>Status Pembayaran</th>
+                                            <th>Grand Total</th>
+                                            <th class="text-center">
+                                                <i class="fas fa-cogs"></i>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($list->result() as $key) { ?>
+                                            <tr>
+                                                <th>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-primary btn-flat dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-boundary="viewport">
+                                                            Action
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <button type="button" class="dropdown-item" onclick="showDetail(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')"><i class="fas fa-eye fa-fw"></i> Detail</button>
+                                                            <button type="button" class="dropdown-item" onclick="comingSoon();"><i class="fas fa-pencil-alt fa-fw"></i> EDIT</button>
+                                                            <button type="button" class="dropdown-item" onclick="comingSoon();"><i class="fas fa-trash fa-fw"></i> HAPUS</button>
+                                                            <button type="button" class="dropdown-item" onclick="copyOrder(<?= $key->id; ?>, <?= $key->product_id; ?>, <?= $key->color_id; ?>, <?= $key->size_id; ?>, <?= $key->kode_unik; ?>, <?= $key->jenis_dp; ?>, '<?= $key->pilih_jahitan; ?>');"><i class="fas fa-copy fa-fw"></i> COPY DETAIL ORDER</button>
+                                                            <a href="<?= base_url('order/invoice/' . $key->id); ?>" class="dropdown-item" target="_blank"><i class="fas fa-print fa-fw"></i> PRINT INVOICE</a>
+                                                            <hr />
+                                                            <a href="<?= base_url('pembayaran/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="dropdown-item" target="_blank">DATA PEMBAYARAN</a>
+                                                            <a href="<?= base_url('produksi/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="dropdown-item" target="_blank">DATA PRODUKSI</a>
+                                                            <a href="<?= base_url('pengiriman/index?product_id=' . $key->product_id . '&customer_id=' . $key->customer_id . '&field=sales_invoice&keyword=' . $key->sales_invoice); ?>" class="dropdown-item" target="_blank">DATA PENGIRIMAN</a>
+                                                            <button type="button" class="dropdown-item" onclick="comingSoon()">DATA PENGADUAN</button>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                                <th><?= $key->sales_invoice; ?></th>
+                                                <th><?= $key->created_at; ?></th>
+                                                <th><?= $key->estimasi_selesai; ?></th>
+                                                <th><?= strtoupper($key->order_via); ?></th>
+                                                <th><?= $key->nama_customer; ?></th>
+                                                <th><?= $key->whatsapp; ?></th>
+                                                <th><?= $key->nama_produk; ?></th>
+                                                <th><?= $key->nama_warna; ?></th>
+                                                <th><?= $key->nama_ukuran; ?></th>
+                                                <th><?= strtoupper($key->pilih_jahitan); ?></th>
+                                                <th><?= strtoupper($key->status_order); ?></th>
+                                                <th><?= strtoupper($key->status_pembayaran); ?></th>
+                                                <th>Rp <?= number_format($key->grand_total, 2); ?></th>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
             </div>
-        <?php } ?>
+        </div>
     <?php } ?>
 </div>
 
 <!-- Modal -->
-<form id="form_blokir">
-    <div class="modal fade" id="modal_blokir" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Blokir Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="form-group">
-                            <label for="whatsapp_blokir">WHATSAPP</label>
-                            <input type="text" class="form-control" id="whatsapp_blokir" name="whatsapp_blokir" placeholder="WHATSAPP" readonly required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reason_inactive">ALASAN BLOKIR</label>
-                            <textarea class="form-control" id="reason_inactive" name="reason_inactive" minlength="3" placeholder="Masukan Alsan Blokir" required></textarea>
-                        </div>
+<div class="modal fade" id="modal_detail" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Order Detail <span id="v_sales_invoice"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody id="v_detail">
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <input type="hidden" id="id_blokir" name="id_blokir">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Blokir Order</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</form>
+</div>

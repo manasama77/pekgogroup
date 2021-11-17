@@ -33,6 +33,7 @@ class Order extends CI_Controller
         $filter_product_id = ($this->input->get('filter_product_id')) ?? null;
 
         $list            = $this->Order_model->get_all_data($filter_product_id);
+
         $products        = $this->Produk_model->get_all_data();
         $customers       = $this->Customer_model->get_all_data();
         $admin_orders    = $this->Admin_model->get_admin('order');
@@ -41,18 +42,18 @@ class Order extends CI_Controller
         $admin_finances  = $this->Admin_model->get_admin('finance');
 
         $data = array(
-            'title'           => 'Order',
-            'page'            => 'order/main',
-            'vitamin'         => 'order/main_vitamin',
-            'list'            => $list,
-            'products'        => $products,
-            'customers'       => $customers,
-            'admin_orders'    => $admin_orders,
-            'admin_produksis' => $admin_produksis,
-            'admin_css'       => $admin_css,
-            'admin_finances'  => $admin_finances,
-            'filter_product_id'  => $filter_product_id,
-            'error'           => null,
+            'title'             => 'Order',
+            'page'              => 'order/main',
+            'vitamin'           => 'order/main_vitamin',
+            'list'              => $list,
+            'products'          => $products,
+            'customers'         => $customers,
+            'admin_orders'      => $admin_orders,
+            'admin_produksis'   => $admin_produksis,
+            'admin_css'         => $admin_css,
+            'admin_finances'    => $admin_finances,
+            'filter_product_id' => $filter_product_id,
+            'error'             => null,
         );
         $this->theme->render($data);
     }
@@ -151,6 +152,22 @@ class Order extends CI_Controller
         $dp_value              = $this->input->post('dp_order');
         $pelunasan_value       = $this->input->post('lunas_order');
 
+        $products      = $this->Produk_model->get_single_data('id', $product_id);
+        $product_price = $products->row()->price;
+
+        $sizes      = $this->Ukuran_model->get_single_data('id', $size_id);
+        $size_price = $sizes->row()->cost;
+
+        if ($pilih_jahitan == "standard") {
+            $pilih_jahitan_price = 0;
+        } elseif ($pilih_jahitan == "express") {
+            $pilih_jahitan_price = 50000;
+        } elseif ($pilih_jahitan == "urgent") {
+            $pilih_jahitan_price = 100000;
+        } elseif ($pilih_jahitan == "super urgent") {
+            $pilih_jahitan_price = 150000;
+        }
+
         $data = array(
             'project_id'            => $project_id,
             'durasi_batas_transfer' => $durasi_batas_transfer,
@@ -158,9 +175,12 @@ class Order extends CI_Controller
             'estimasi_selesai'      => $estimasi_selesai,
             'order_via'             => $order_via,
             'product_id'            => $product_id,
+            'product_price'         => $product_price,
             'color_id'              => $color_id,
             'size_id'               => $size_id,
+            'size_price'            => $size_price,
             'pilih_jahitan'         => $pilih_jahitan,
+            'pilih_jahitan_price'   => $pilih_jahitan_price,
             'catatan'               => $catatan,
             'customer_id'           => $customer_id,
             'whatsapp'              => $whatsapp,
@@ -199,7 +219,7 @@ class Order extends CI_Controller
 
         $this->session->set_flashdata('success', 'Tambah Order Berhasil');
         session_write_close();
-        redirect(base_url() . 'order/add', 'location');
+        redirect(base_url('order/add'));
     }
 
     public function edit($id)
@@ -415,10 +435,9 @@ class Order extends CI_Controller
         $size_id       = $this->input->get('size_id');
         $kode_unik     = $this->input->get('kode_unik');
         $jenis_dp      = $this->input->get('jenis_dp');
-        $catatan       = $this->input->get('catatan');
         $pilih_jahitan = $this->input->get('pilih_jahitan');
 
-        $exec  = $this->Order_model->copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan, $pilih_jahitan);
+        $exec  = $this->Order_model->copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan);
 
         echo json_encode([
             'code' => 200,
@@ -446,6 +465,13 @@ class Order extends CI_Controller
         } else {
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
         }
+    }
+
+    public function show_detail()
+    {
+        $id = $this->input->get('id');
+        $orders = $this->Order_model->get_order_detail($id);
+        echo json_encode([$orders]);
     }
 }
         

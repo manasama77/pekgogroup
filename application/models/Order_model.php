@@ -69,10 +69,8 @@ class Order_model extends CI_Model
         $this->db->select($this->select);
         $this->db->from('orders');
         $this->db->join('products', 'products.id = orders.product_id', 'left');
-        $this->db->join('product_color_params', 'product_color_params.id = orders.color_id', 'left');
-        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
-        $this->db->join('product_size_params', 'product_size_params.id = orders.size_id', 'left');
-        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->join('colors', 'colors.id = orders.color_id', 'left');
+        $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
         $this->db->join('customers', 'customers.id = orders.customer_id', 'left');
         $this->db->join('admins as admin_order', 'admin_order.id = orders.admin_order', 'left');
         $this->db->join('admins as admin_produksi', 'admin_produksi.id = orders.admin_produksi', 'left');
@@ -261,14 +259,12 @@ class Order_model extends CI_Model
 
         if ($color_id != null) {
             $this->db->select('colors.name as nama_warna');
-            $this->db->join('product_color_params', 'product_color_params.product_id = products.id', 'left');
-            $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
+            $this->db->join('colors', 'colors.id = orders.color_id', 'left');
         }
 
         if ($size_id != null) {
             $this->db->select('sizes.name as nama_ukuran, sizes.cost as harga_ukuran');
-            $this->db->join('product_size_params', 'product_size_params.product_id = products.id', 'left');
-            $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+            $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
         }
 
         $this->db->limit(1);
@@ -353,31 +349,23 @@ class Order_model extends CI_Model
         return $this->db->delete('order_requests', ['id' => $id]);
     }
 
-    public function copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $catatan, $pilih_jahitan)
+    public function copy_order($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan)
     {
         $this->db->select([
             "orders.sales_invoice",
             "orders.kode_unik",
             "products.name as nama_produk",
             "products.price as harga_produk",
+            "colors.name as nama_warna",
+            "sizes.name as nama_ukuran",
+            "sizes.cost as harga_ukuran",
+            "orders.catatan",
         ]);
         $this->db->from("orders");
         $this->db->join("products", "products.id = orders.product_id", "left");
+        $this->db->join("colors", "colors.id = orders.color_id", "left");
+        $this->db->join("sizes", "sizes.id = orders.size_id", "left");
         $this->db->where("orders.id", $order_id);
-
-        if ($color_id != null) {
-            $this->db->select("colors.name as nama_warna");
-            $this->db->join("product_color_params", "product_color_params.product_id = products.id", "left");
-            $this->db->join("colors", "colors.id = product_color_params.color_id", "left");
-            $this->db->where("product_color_params.id", $color_id);
-        }
-
-        if ($size_id != null) {
-            $this->db->select("sizes.name as nama_ukuran, sizes.cost as harga_ukuran");
-            $this->db->join("product_size_params", "product_size_params.product_id = products.id", "left");
-            $this->db->join("sizes", "sizes.id = product_size_params.size_id", "left");
-            $this->db->where("product_size_params.id", $size_id);
-        }
 
         $this->db->limit(1);
         $exec = $this->db->get();
@@ -386,6 +374,7 @@ class Order_model extends CI_Model
         $kode_unik     = $exec->row()->kode_unik;
         $nama_produk   = $exec->row()->nama_produk;
         $harga_produk  = $exec->row()->harga_produk;
+        $catatan       = $exec->row()->catatan;
         $harga_ukuran  = 0;
 
         $text_warna = " (Warna: -)";
@@ -668,8 +657,15 @@ class Order_model extends CI_Model
 
         $this->db->select([
             'orders.created_at',
+            'orders.durasi_batas_transfer',
             'orders.batas_waktu_transfer',
             'orders.estimasi_selesai',
+            'orders.order_via',
+            'customers.name as customer_name',
+            'orders.whatsapp',
+            'orders.id_tokped',
+            'orders.id_shopee',
+            'orders.id_instagram',
             'products.name as product_name',
             'colors.name as color_name',
             'sizes.name as size_name',
@@ -688,6 +684,7 @@ class Order_model extends CI_Model
         $this->db->join('products', 'products.id = orders.product_id', 'left');
         $this->db->join('colors', 'colors.id = orders.color_id', 'left');
         $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
+        $this->db->join('customers', 'customers.id = orders.customer_id', 'left');
         $this->db->where('orders.id', $order_id);
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
@@ -707,24 +704,31 @@ class Order_model extends CI_Model
                     $pelunasan_persen = (100 - $order->jenis_dp);
                 }
 
-                $data['orders']['created_at']           = $order->created_at;
-                $data['orders']['batas_waktu_transfer'] = $order->batas_waktu_transfer;
-                $data['orders']['estimasi_selesai']     = $order->estimasi_selesai;
-                $data['orders']['product_name']         = ucwords($order->product_name);
-                $data['orders']['color_name']           = ucwords($order->color_name);
-                $data['orders']['size_name']            = ucwords($order->size_name);
-                $data['orders']['pilih_jahitan']        = ucwords($order->pilih_jahitan);
-                $data['orders']['catatan']              = trim($order->catatan);
-                $data['orders']['status_order']         = ucwords($order->status_order);
-                $data['orders']['status_pembayaran']    = ucwords($order->status_pembayaran);
-                $data['orders']['sub_total']            = number_format($order->sub_total, 2, ',', '.');
-                $data['orders']['kode_unik']            = number_format($order->kode_unik, 0, ',', '.');
-                $data['orders']['grand_total']          = number_format($order->grand_total, 2, ',', '.');
-                $data['orders']['dp_persen']            = $order->jenis_dp;
-                $data['orders']['pelunasan_persen']     = $pelunasan_persen;
-                $data['orders']['dp_value']             = number_format($order->dp_value, 2, ',', '.');
-                $data['orders']['pelunasan_value']      = number_format($order->pelunasan_value, 2, ',', '.');
-                $data['orders']['terbayarkan']          = number_format($order->terbayarkan, 2, ',', '.');
+                $data['orders']['created_at']            = $order->created_at;
+                $data['orders']['durasi_batas_transfer'] = $order->durasi_batas_transfer;
+                $data['orders']['batas_waktu_transfer']  = $order->batas_waktu_transfer;
+                $data['orders']['estimasi_selesai']      = $order->estimasi_selesai;
+                $data['orders']['order_via']             = strtoupper($order->order_via);
+                $data['orders']['customer_name']      = $order->customer_name;
+                $data['orders']['whatsapp']      = $order->whatsapp;
+                $data['orders']['id_tokped']      = $order->id_tokped;
+                $data['orders']['id_shopee']      = $order->id_shopee;
+                $data['orders']['id_instagram']      = $order->id_instagram;
+                $data['orders']['product_name']          = ucwords($order->product_name);
+                $data['orders']['color_name']            = ucwords($order->color_name);
+                $data['orders']['size_name']             = ucwords($order->size_name);
+                $data['orders']['pilih_jahitan']         = ucwords($order->pilih_jahitan);
+                $data['orders']['catatan']               = nl2br(trim($order->catatan));
+                $data['orders']['status_order']          = ucwords($order->status_order);
+                $data['orders']['status_pembayaran']     = ucwords($order->status_pembayaran);
+                $data['orders']['sub_total']             = number_format($order->sub_total, 2, ',', '.');
+                $data['orders']['kode_unik']             = number_format($order->kode_unik, 0, ',', '.');
+                $data['orders']['grand_total']           = number_format($order->grand_total, 2, ',', '.');
+                $data['orders']['dp_persen']             = $order->jenis_dp;
+                $data['orders']['pelunasan_persen']      = $pelunasan_persen;
+                $data['orders']['dp_value']              = number_format($order->dp_value, 2, ',', '.');
+                $data['orders']['pelunasan_value']       = number_format($order->pelunasan_value, 2, ',', '.');
+                $data['orders']['terbayarkan']           = number_format($order->terbayarkan, 2, ',', '.');
             }
         }
 

@@ -161,7 +161,7 @@ class Produk_model extends CI_Model
         );
 
         $this->db->select(array(
-            'product_color_params.id',
+            'colors.id',
             'colors.name',
         ));
         $this->db->from('product_color_params');
@@ -179,7 +179,7 @@ class Produk_model extends CI_Model
         }
 
         $this->db->select(array(
-            'product_size_params.id',
+            'sizes.id',
             'sizes.name',
         ));
         $this->db->from('product_size_params');
@@ -197,7 +197,7 @@ class Produk_model extends CI_Model
         }
 
         $this->db->select(array(
-            'product_request_params.id',
+            'requests.id',
             'requests.name',
         ));
         $this->db->from('product_request_params');
