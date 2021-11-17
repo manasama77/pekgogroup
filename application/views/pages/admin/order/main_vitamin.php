@@ -127,7 +127,7 @@
                 let requestsnya = ''
 
                 $.each(e[0].requests, (i, k) => {
-                    requestsnya += `<p>k.name</p>`
+                    requestsnya += `<p>${k.name}</p>`
                 })
 
                 htmlnya += `

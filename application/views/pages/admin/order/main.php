@@ -42,7 +42,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <form action="<?= base_url('order/index'); ?>" method="get">
                     <div class="card card-dark">
                         <div class="card-header">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="filter_product_id">PRODUK</label>
                                         <select class="form-control select2" id="filter_product_id" name="filter_product_id" required>
@@ -66,42 +66,27 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="customer_id">CUSTOMER</label>
-                                        <select class="form-control select2" id="customer_id" name="customer_id" required>
+                                        <label for="filter_customer_id">CUSTOMER</label>
+                                        <select class="form-control select2" id="filter_customer_id" name="filter_customer_id" required>
                                             <option value="all">SEMUA</option>
                                             <?php foreach ($customers->result() as $customer) { ?>
-                                                <option value="<?= $customer->id; ?>"><?= $customer->name; ?> - <?= $customer->whatsapp; ?></option>
+                                                <option value="<?= $customer->id; ?>" <?= ($filter_customer_id == $customer->id) ? "selected" : null; ?>><?= $customer->name; ?> - <?= $customer->whatsapp; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="status_order">STATUS ORDER</label>
-                                        <select class="form-control" id="status_order" name="status_order" required>
-                                            <option value="all">SEMUA</option>
-                                            <option value="order dibuat">ORDER DIBUAT</option>
-                                            <option value="naik produksi">NAIK PRODUKSI</option>
-                                            <option value="pengiriman">PENGIRIMAN</option>
-                                            <option value="selesai">SELESAI</option>
-                                            <option value="order dibatalkan">ORDER DIBATALKAN</option>
-                                            <option value="retur pending">RETUR PENDING</option>
-                                            <option value="retur terkirim">RETUR TERKIRIM</option>
-                                            <option value="refund">REFUND</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status_pembayaran">STATUS PEMBAYARAN</label>
-                                        <select class="form-control" id="status_pembayaran" name="status_pembayaran" required>
-                                            <option value="all">SEMUA</option>
-                                            <option value="menunggu pembayaran">MENUNGGU PEMBAYARAN</option>
-                                            <option value="partial">PARTIAL</option>
-                                            <option value="lunas">LUNAS</option>
-                                            <option value="melewati batas transfer">MELEWATI BATAS TRANSFER</option>
-                                            <option value="refund pending">REFUND PENDING</option>
-                                            <option value="refund selesai">REFUND SELESAI</option>
+                                        <label for="filter_order_via">ORDER VIA</label>
+                                        <select class="form-control" id="filter_order_via" name="filter_order_via" required>
+                                            <option value="all" <?= ($filter_order_via == "all") ? "selected" : null; ?>>SEMUA</option>
+                                            <option value="web" <?= ($filter_order_via == "web") ? "selected" : null; ?>>WEB</option>
+                                            <option value="wa" <?= ($filter_order_via == "wa") ? "selected" : null; ?>>WHATSAPP</option>
+                                            <option value="tokped" <?= ($filter_order_via == "tokped") ? "selected" : null; ?>>TOKOPEDIA</option>
+                                            <option value="shopee" <?= ($filter_order_via == "shopee") ? "selected" : null; ?>>SHOPEE</option>
+                                            <option value="offline" <?= ($filter_order_via == "offline") ? "selected" : null; ?>>OFFLINE</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="admin_order">ADMIN ORDER</label>
                                         <select class="form-control select2" id="admin_order" name="admin_order" required>
@@ -138,20 +123,35 @@
                                             <?php } ?>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
+                                </div> -->
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="order_via">ORDER VIA</label>
-                                        <select class="form-control" id="order_via" name="order_via" required>
-                                            <option value="all">SEMUA</option>
-                                            <option value="web">WEB</option>
-                                            <option value="wa">WHATSAPP</option>
-                                            <option value="tokped">TOKOPEDIA</option>
-                                            <option value="shopee">SHOPEE</option>
-                                            <option value="offline">OFFLINE</option>
+                                        <label for="filter_status_order">STATUS ORDER</label>
+                                        <select class="form-control" id="filter_status_order" name="filter_status_order" required>
+                                            <option value="all" <?= ($filter_status_order == "all") ? "selected" : null; ?>>SEMUA</option>
+                                            <option value="order dibuat" <?= ($filter_status_order == "order dibuat") ? "selected" : null; ?>>ORDER DIBUAT</option>
+                                            <option value="naik produksi" <?= ($filter_status_order == "naik produksi") ? "selected" : null; ?>>NAIK PRODUKSI</option>
+                                            <option value="pengiriman" <?= ($filter_status_order == "pengiriman") ? "selected" : null; ?>>PENGIRIMAN</option>
+                                            <option value="selesai" <?= ($filter_status_order == "selesai") ? "selected" : null; ?>>SELESAI</option>
+                                            <option value="order dibatalkan" <?= ($filter_status_order == "order dibatalkan") ? "selected" : null; ?>>ORDER DIBATALKAN</option>
+                                            <option value="retur pending" <?= ($filter_status_order == "retur pending") ? "selected" : null; ?>>RETUR PENDING</option>
+                                            <option value="retur terkirim" <?= ($filter_status_order == "retur terkirim") ? "selected" : null; ?>>RETUR TERKIRIM</option>
+                                            <option value="refund" <?= ($filter_status_order == "refund") ? "selected" : null; ?>>REFUND</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label for="filter_status_pembayaran">STATUS PEMBAYARAN</label>
+                                        <select class="form-control" id="filter_status_pembayaran" name="filter_status_pembayaran" required>
+                                            <option value="all" <?= ($filter_status_pembayaran == "refund") ? "selected" : null; ?>>SEMUA</option>
+                                            <option value="menunggu pembayaran" <?= ($filter_status_pembayaran == "menunggu pembayaran") ? "selected" : null; ?>>MENUNGGU PEMBAYARAN</option>
+                                            <option value="partial" <?= ($filter_status_pembayaran == "partial") ? "selected" : null; ?>>PARTIAL</option>
+                                            <option value="lunas" <?= ($filter_status_pembayaran == "lunas") ? "selected" : null; ?>>LUNAS</option>
+                                            <option value="melewati batas transfer" <?= ($filter_status_pembayaran == "melewati batas transfer") ? "selected" : null; ?>>MELEWATI BATAS TRANSFER</option>
+                                            <option value="refund pending" <?= ($filter_status_pembayaran == "refund pending") ? "selected" : null; ?>>REFUND PENDING</option>
+                                            <option value="refund selesai" <?= ($filter_status_pembayaran == "refund selesai") ? "selected" : null; ?>>REFUND SELESAI</option>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="form-group">
                                         <label for="field">CARI BERDASARKAN</label>
                                         <select class="form-control" id="field" name="field" required>
                                             <option value="all">SEMUA</option>
@@ -167,7 +167,7 @@
                                     <div class="form-group">
                                         <label for="keyword">KEYWORD</label>
                                         <input type="text" class="form-control" id="keyword" name="keyword" minlength="1" maxlength="50" value="<?= ($this->input->get('keyword')) ? $this->input->get('keyword') : null; ?>" placeholder="KEYWORD">
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -212,6 +212,9 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th class="text-center">
+                                                <i class="fas fa-cogs"></i>
+                                            </th>
                                             <th>Sales Invoice</th>
                                             <th>Tanggal & Jam Order</th>
                                             <th>Estimasi Selesai</th>
@@ -225,9 +228,6 @@
                                             <th>Status Order</th>
                                             <th>Status Pembayaran</th>
                                             <th>Grand Total</th>
-                                            <th>
-                                                <i class="fas fa-cogs"></i>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -242,6 +242,9 @@
                                 <table class="table table-bordered table-striped table-sm" stlye="min-height: 500px; height: 500px;">
                                     <thead class="bg-dark">
                                         <tr>
+                                            <th class="text-center">
+                                                <i class="fas fa-cogs"></i>
+                                            </th>
                                             <th>Sales Invoice</th>
                                             <th>Tanggal & Jam Order</th>
                                             <th>Estimasi Selesai</th>
@@ -255,9 +258,6 @@
                                             <th>Status Order</th>
                                             <th>Status Pembayaran</th>
                                             <th>Grand Total</th>
-                                            <th class="text-center">
-                                                <i class="fas fa-cogs"></i>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>

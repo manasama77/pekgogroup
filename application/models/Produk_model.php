@@ -358,14 +358,13 @@ class Produk_model extends CI_Model
     public function get_product_request($field, $key)
     {
         $this->db->select(array(
-            'product_request_params.id',
+            'requests.id',
             'requests.name',
             'requests.cost',
         ));
-        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
         $this->db->where($field, $key);
-        $this->db->where('product_request_params.deleted_at', null);
-        $exec = $this->db->get('product_request_params');
+        $this->db->where('requests.deleted_at', null);
+        $exec = $this->db->get('requests');
         return $exec;
     }
 

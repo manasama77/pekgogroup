@@ -31,8 +31,12 @@ class Order extends CI_Controller
     public function index()
     {
         $filter_product_id = ($this->input->get('filter_product_id')) ?? null;
+        $filter_customer_id = ($this->input->get('filter_customer_id')) ?? null;
+        $filter_order_via = ($this->input->get('filter_order_via')) ?? null;
+        $filter_status_order = ($this->input->get('filter_status_order')) ?? null;
+        $filter_status_pembayaran = ($this->input->get('filter_status_pembayaran')) ?? null;
 
-        $list            = $this->Order_model->get_all_data($filter_product_id);
+        $list            = $this->Order_model->get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran);
 
         $products        = $this->Produk_model->get_all_data();
         $customers       = $this->Customer_model->get_all_data();
@@ -42,18 +46,22 @@ class Order extends CI_Controller
         $admin_finances  = $this->Admin_model->get_admin('finance');
 
         $data = array(
-            'title'             => 'Order',
-            'page'              => 'order/main',
-            'vitamin'           => 'order/main_vitamin',
-            'list'              => $list,
-            'products'          => $products,
-            'customers'         => $customers,
-            'admin_orders'      => $admin_orders,
-            'admin_produksis'   => $admin_produksis,
-            'admin_css'         => $admin_css,
-            'admin_finances'    => $admin_finances,
-            'filter_product_id' => $filter_product_id,
-            'error'             => null,
+            'title'                    => 'Order',
+            'page'                     => 'order/main',
+            'vitamin'                  => 'order/main_vitamin',
+            'list'                     => $list,
+            'products'                 => $products,
+            'customers'                => $customers,
+            'admin_orders'             => $admin_orders,
+            'admin_produksis'          => $admin_produksis,
+            'admin_css'                => $admin_css,
+            'admin_finances'           => $admin_finances,
+            'filter_product_id'        => $filter_product_id,
+            'filter_customer_id'       => $filter_customer_id,
+            'filter_status_order'      => $filter_status_order,
+            'filter_status_pembayaran' => $filter_status_pembayaran,
+            'filter_order_via'         => $filter_order_via,
+            'error'                    => null,
         );
         $this->theme->render($data);
     }
@@ -371,7 +379,7 @@ class Order extends CI_Controller
     {
         $order_id   = $this->input->post('order_id');
         $request_id = $this->input->post('request_id');
-        $exec       = $this->Produk_model->get_product_request('product_request_params.id', $request_id);
+        $exec       = $this->Produk_model->get_product_request('requests.id', $request_id);
         $cost       = $exec->row()->cost;
 
         $data = array(

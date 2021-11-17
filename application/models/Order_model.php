@@ -64,7 +64,7 @@ class Order_model extends CI_Model
         );
     }
 
-    public function get_all_data($filter_product_id)
+    public function get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran)
     {
         $this->db->select($this->select);
         $this->db->from('orders');
@@ -81,6 +81,22 @@ class Order_model extends CI_Model
 
         if ($filter_product_id != 'all') {
             $this->db->where('orders.product_id', $filter_product_id);
+        }
+
+        if ($filter_customer_id != 'all') {
+            $this->db->where('orders.customer_id', $filter_customer_id);
+        }
+
+        if ($filter_order_via != 'all') {
+            $this->db->where('orders.order_via', $filter_order_via);
+        }
+
+        if ($filter_status_order != 'all') {
+            $this->db->where('orders.status_order', $filter_status_order);
+        }
+
+        if ($filter_status_pembayaran != 'all') {
+            $this->db->where('orders.status_pembayaran', $filter_status_pembayaran);
         }
 
         $this->db->order_by('orders.id', 'desc');
@@ -316,8 +332,7 @@ class Order_model extends CI_Model
             'requests.cost',
         ));
         $this->db->from('order_requests');
-        $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
-        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->join('requests', 'requests.id = order_requests.request_id', 'left');
         $this->db->where('order_requests.order_id', $order_id);
         $exec = $this->db->get();
 
@@ -709,11 +724,11 @@ class Order_model extends CI_Model
                 $data['orders']['batas_waktu_transfer']  = $order->batas_waktu_transfer;
                 $data['orders']['estimasi_selesai']      = $order->estimasi_selesai;
                 $data['orders']['order_via']             = strtoupper($order->order_via);
-                $data['orders']['customer_name']      = $order->customer_name;
-                $data['orders']['whatsapp']      = $order->whatsapp;
-                $data['orders']['id_tokped']      = $order->id_tokped;
-                $data['orders']['id_shopee']      = $order->id_shopee;
-                $data['orders']['id_instagram']      = $order->id_instagram;
+                $data['orders']['customer_name']         = $order->customer_name;
+                $data['orders']['whatsapp']              = $order->whatsapp;
+                $data['orders']['id_tokped']             = $order->id_tokped;
+                $data['orders']['id_shopee']             = $order->id_shopee;
+                $data['orders']['id_instagram']          = $order->id_instagram;
                 $data['orders']['product_name']          = ucwords($order->product_name);
                 $data['orders']['color_name']            = ucwords($order->color_name);
                 $data['orders']['size_name']             = ucwords($order->size_name);
@@ -735,8 +750,7 @@ class Order_model extends CI_Model
         $this->db->select([
             'requests.name',
         ]);
-        $this->db->join('product_request_params', 'product_request_params.id = order_requests.request_id', 'left');
-        $this->db->join('requests', 'requests.id = product_request_params.request_id', 'left');
+        $this->db->join('requests', 'requests.id = order_requests.request_id', 'left');
         $this->db->where('order_requests.order_id', $order_id);
         $this->db->where('order_requests.deleted_at', null);
         $requests = $this->db->get('order_requests');
