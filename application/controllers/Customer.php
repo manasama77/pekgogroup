@@ -228,7 +228,7 @@ class Customer extends CI_Controller
 
     public function show($id)
     {
-        $exec = $this->Customer_model->get_single_data('id', $id);
+        $exec = $this->Customer_model->get_single_data_can_order($id);
 
         if (!$exec) {
             $return = [

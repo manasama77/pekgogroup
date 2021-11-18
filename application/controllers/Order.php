@@ -11,6 +11,7 @@ class Order extends CI_Controller
         parent::__construct();
         $this->load->library('Admin_auth', null, 'auth');
         $this->load->library('Admin_template', null, 'theme');
+        $this->load->library("pagination");
         $this->auth->check_session();
         $this->load->model('Order_model');
         $this->load->model('Project_model');
@@ -28,15 +29,14 @@ class Order extends CI_Controller
         }
     }
 
-    public function index()
+    public function index($offset = null)
     {
-        $filter_product_id = ($this->input->get('filter_product_id')) ?? null;
-        $filter_customer_id = ($this->input->get('filter_customer_id')) ?? null;
-        $filter_order_via = ($this->input->get('filter_order_via')) ?? null;
-        $filter_status_order = ($this->input->get('filter_status_order')) ?? null;
+        $filter_product_id        = ($this->input->get('filter_product_id')) ?? null;
+        $filter_customer_id       = ($this->input->get('filter_customer_id')) ?? null;
+        $filter_order_via         = ($this->input->get('filter_order_via')) ?? null;
+        $filter_status_order      = ($this->input->get('filter_status_order')) ?? null;
         $filter_status_pembayaran = ($this->input->get('filter_status_pembayaran')) ?? null;
-
-        $list            = $this->Order_model->get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran);
+        $filter_sales_invoice     = ($this->input->get('filter_sales_invoice')) ?? null;
 
         $products        = $this->Produk_model->get_all_data();
         $customers       = $this->Customer_model->get_all_data();
@@ -45,10 +45,44 @@ class Order extends CI_Controller
         $admin_css       = $this->Admin_model->get_admin('cs');
         $admin_finances  = $this->Admin_model->get_admin('finance');
 
+        $limit = 10;
+
+        $config["base_url"]           = base_url() . "order/index";
+        $config["total_rows"]         = $this->Order_model->get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran, $filter_sales_invoice)->num_rows();
+        $config["per_page"]           = $limit;
+        $config["uri_segment"]        = 3;
+        $config["reuse_query_string"] = true;
+
+        $config['full_tag_open']   = '<ul class="pagination">';
+        $config['full_tag_close']  = '</ul>';
+        $config['attributes']      = ['class' => 'page-link'];
+        $config['first_link']      = false;
+        $config['last_link']       = false;
+        $config['first_tag_open']  = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_link']       = '&laquo';
+        $config['prev_tag_open']   = '<li class="page-item">';
+        $config['prev_tag_close']  = '</li>';
+        $config['next_link']       = '&raquo';
+        $config['next_tag_open']   = '<li class="page-item">';
+        $config['next_tag_close']  = '</li>';
+        $config['last_tag_open']   = '<li class="page-item">';
+        $config['last_tag_close']  = '</li>';
+        $config['cur_tag_open']    = '<li class="page-item active"><a href="#" class="page-link">';
+        $config['cur_tag_close']   = '<span class="sr-only">(current)</span></a></li>';
+        $config['num_tag_open']    = '<li class="page-item">';
+        $config['num_tag_close']   = '</li>';
+
+        $this->pagination->initialize($config);
+
+        $offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $list = $this->Order_model->get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran, $filter_sales_invoice, $limit, $offset);
+
         $data = array(
             'title'                    => 'Order',
             'page'                     => 'order/main',
             'vitamin'                  => 'order/main_vitamin',
+            'total_data'               => $config["total_rows"],
             'list'                     => $list,
             'products'                 => $products,
             'customers'                => $customers,

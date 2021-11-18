@@ -13,9 +13,11 @@ class Admin_template
     public function render($data)
     {
         $this->CI->load->model('Project_model');
+        $this->CI->load->model('Sidebar_model');
         $project_data = $this->CI->Project_model->get_single_data(APP_ABBR);
         $data['theme_name'] = $project_data['name'];
         $data['theme_logo'] = $project_data['logo'];
+        $data['sdb']        = $this->CI->Sidebar_model->get();
         $this->CI->load->view('admin_template', $data);
     }
 }

@@ -68,6 +68,30 @@ class Customer_model extends CI_Model
         return $exec;
     }
 
+    public function get_single_data_can_order($customer_id)
+    {
+        $sql = "
+        SELECT
+            customers.*,
+            (
+            SELECT
+                count(*) 
+            FROM
+                orders 
+            WHERE
+                orders.customer_id = customers.id 
+                AND orders.status_order NOT IN ( 'selesai', 'order dibatalkan', 'retur pending', 'retur terkirim', 'refund' ) 
+                AND orders.STATUS = 'active' 
+            ) AS active_order 
+        FROM
+            customers 
+        WHERE
+            customers.id = $customer_id
+        ";
+        $exec = $this->db->query($sql);
+        return $exec;
+    }
+
     public function store($data)
     {
         return $this->db->insert('customers', $data);

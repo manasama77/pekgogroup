@@ -122,16 +122,29 @@
                     toast: true
                 })
             } else if (e.code == 200) {
-                $.each(e.data, (i, k) => {
-                    let xwhatsapp = k.whatsapp
-                    let xid_tokped = k.id_tokped
-                    let xid_shopee = k.id_shopee
-                    let xid_instagram = k.id_instagram
-                    whatsapp.val(xwhatsapp)
-                    id_tokped.val(xid_tokped)
-                    id_shopee.val(xid_shopee)
-                    id_instagram.val(xid_instagram)
-                })
+                console.log(e)
+                if (e.data[0].active_order > 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: `Customer ${$('#customer_id :selected').text()}  tidak dapat melakukan order`,
+                        text: 'Dikarekan ada order yang aktif',
+                        toast: false
+                    }).then(() => {
+                        $('#save_order').attr('disabled', true)
+                    })
+                } else {
+                    $('#save_order').attr('disabled', false)
+                    $.each(e.data, (i, k) => {
+                        let xwhatsapp = k.whatsapp
+                        let xid_tokped = k.id_tokped
+                        let xid_shopee = k.id_shopee
+                        let xid_instagram = k.id_instagram
+                        whatsapp.val(xwhatsapp)
+                        id_tokped.val(xid_tokped)
+                        id_shopee.val(xid_shopee)
+                        id_instagram.val(xid_instagram)
+                    })
+                }
             }
         })
     }

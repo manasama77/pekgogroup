@@ -27,6 +27,33 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/adminlte.min.css">
     <!-- Bootstrap Color Picker -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <style>
+        .pagination>li>a {
+            background-color: white;
+            color: #5A4181 !important;
+        }
+
+        .pagination>li>a:focus,
+        .pagination>li>a:hover,
+        .pagination>li>span:focus,
+        .pagination>li>span:hover {
+            color: #5a5a5a !important;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+
+        .pagination>.active>a {
+            color: white !important;
+            background-color: #6F42C1 !Important;
+            border: solid 1px #6F42C1 !Important;
+        }
+
+        .pagination>.active>a:hover {
+            background-color: #522d97 !Important;
+            border: solid 1px #522d97;
+            color: white !important;
+        }
+    </style>
 </head>
 
 <body class="control-sidebar-slide-open layout-fixed sidebar-mini text-sm accent-orange sidebar-collapse">
@@ -39,9 +66,9 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar elevation-4 sidebar-dark-purple">
             <!-- Brand Logo -->
-            <a href="<?= base_url('dashboard'); ?>" class="brand-link navbar-purple">
-                <img src="<?= $theme_logo; ?>" alt="<?= $theme_name; ?>" class="brand-image" style="opacity: .8; width: 45px; height: 25px; margin-left: .45rem">
-                <span class="brand-text font-weight-light"><?= $theme_name; ?></span>
+            <a href="<?= base_url('dashboard'); ?>" class="brand-link logo-switch navbar-purple">
+                <img src="<?= $theme_logo; ?>" alt="<?= $theme_name; ?>" class="brand-image-xl logo-xs" style="width: 50px; height: 25px; margin-left: -0.2rem; margin-top: 1px;">
+                <span class="brand-text font-weight-bold"><?= $theme_name; ?></span>
             </a>
 
             <!-- Admin Info -->

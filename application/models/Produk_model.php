@@ -368,6 +368,20 @@ class Produk_model extends CI_Model
         return $exec;
     }
 
+    public function get_product_request_2($field, $key)
+    {
+        $this->db->select(array(
+            'requests.id',
+            'requests.name',
+            'requests.cost',
+        ));
+        $this->db->join('product_request_params', 'product_request_params.product_id = requests.id', 'left');
+        $this->db->where($field, $key);
+        $this->db->where('requests.deleted_at', null);
+        $exec = $this->db->get('requests');
+        return $exec;
+    }
+
     public function count_all($f_size = null)
     {
         $this->db->join('product_size_params', 'product_size_params.product_id = products.id', 'left');

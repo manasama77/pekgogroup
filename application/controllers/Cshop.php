@@ -211,7 +211,7 @@ class Cshop extends CI_Controller
         $exec        = $this->order_model->get_temp_order($customer_id);
 
         $projects = $this->project_model->get_single_data('PKG');
-        $requests = $this->produk_model->get_product_request('product_request_params.product_id', $exec->row()->product_id);
+        $requests = $this->produk_model->get_product_request_2('product_request_params.product_id', $exec->row()->product_id);
 
         $data = [
             'page_title' => 'Shop',
@@ -253,7 +253,7 @@ class Cshop extends CI_Controller
 
         $order_id   = $orders->row()->id;
         $request_id = $this->input->post('request_id');
-        $exec       = $this->produk_model->get_product_request('product_request_params.id', $request_id);
+        $exec       = $this->produk_model->get_product_request('requests.id', $request_id);
         $cost       = $exec->row()->cost;
 
         $cur_date_obj = new DateTime('now');

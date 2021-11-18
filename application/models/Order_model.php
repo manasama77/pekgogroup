@@ -64,10 +64,9 @@ class Order_model extends CI_Model
         );
     }
 
-    public function get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran)
+    public function get_all_data($filter_product_id, $filter_customer_id, $filter_order_via, $filter_status_order, $filter_status_pembayaran, $filter_sales_invoice, $limit = null, $offset = null)
     {
         $this->db->select($this->select);
-        $this->db->from('orders');
         $this->db->join('products', 'products.id = orders.product_id', 'left');
         $this->db->join('colors', 'colors.id = orders.color_id', 'left');
         $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
@@ -99,8 +98,13 @@ class Order_model extends CI_Model
             $this->db->where('orders.status_pembayaran', $filter_status_pembayaran);
         }
 
+        if ($filter_sales_invoice != null) {
+            $this->db->like('orders.sales_invoice', $filter_sales_invoice, 'both');
+        }
+
+
         $this->db->order_by('orders.id', 'desc');
-        $exec = $this->db->get();
+        $exec = $this->db->get('orders', $limit, $offset);
 
         // echo $this->db->last_query();
         // echo '<pre>' . print_r($exec->result(), 1) . '</pre>';

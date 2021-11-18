@@ -143,7 +143,7 @@
                             <div class="form-group">
                                 <label for="customer_id">CUSTOMER</label>
                                 <div class="input-group">
-                                    <select class="form-control form-control-sm select2" id="customer_id" name="customer_id" data-placeholder="Pilih Customer" required>
+                                    <select class="form-control form-control-sm select2" id="customer_id" name="customer_id" data-placeholder="Pilih Customer" autocomplete="off" required>
                                         <option value=""></option>
                                         <?php foreach ($customers->result() as $customer) { ?>
                                             <option value="<?= $customer->id; ?>"><?= $customer->name; ?></option>
@@ -191,7 +191,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="product_id">PRODUK</label>
-                                <select class="form-control form-control-sm select2" id="product_id" name="product_id" data-placeholder="Pilih Produk" required>
+                                <select class="form-control form-control-sm select2" id="product_id" name="product_id" data-placeholder="Pilih Produk" autocomplete="off" required>
                                     <option value=""></option>
                                     <?php for ($i = 0; $i < $products['num_rows']; $i++) { ?>
                                         <option value="<?= $products['data'][$i]['id']; ?>"><?= $products['data'][$i]['name']; ?> - Rp.<?= number_format($products['data'][$i]['price'], 0); ?></option>
@@ -201,14 +201,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="color_id">WARNA</label>
-                                <select class="form-control form-control-sm" id="color_id" name="color_id" data-placeholder="Pilih Warna" required>
+                                <select class="form-control form-control-sm" id="color_id" name="color_id" data-placeholder="Pilih Warna" autocomplete="off" required>
                                     <option value=""></option>
                                 </select>
                                 <?= form_error('color_id'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="size_id">UKURAN</label>
-                                <select class="form-control form-control-sm" id="size_id" name="size_id" data-placeholder="Pilih Ukuran" required>
+                                <select class="form-control form-control-sm" id="size_id" name="size_id" data-placeholder="Pilih Ukuran" autocomplete="off" required>
                                     <option value=""></option>
                                 </select>
                                 <?= form_error('size_id'); ?>
@@ -233,7 +233,7 @@
                         <div class="card-body bg-gradient-orange">
                             <div class="form-group">
                                 <label for="request_id">JENIS REQUEST</label>
-                                <select class="form-control form-control-sm select2" id="request_id" name="request_id" data-placeholder="Pilih Request">
+                                <select class="form-control form-control-sm select2" id="request_id" name="request_id" autocomplete="off" data-placeholder="Pilih Request">
                                     <option value=""></option>
                                 </select>
                             </div>
@@ -313,7 +313,7 @@
                     <input type="hidden" id="grand_total_order" name="grand_total_order" value="0" />
                     <input type="hidden" id="dp_order" name="dp_order" value="0" />
                     <input type="hidden" id="lunas_order" name="lunas_order" value="0" />
-                    <button type="submit" class="btn btn-primary btn-block btn-flat font-weight-bold">Save Order</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat font-weight-bold" id="save_order">Save Order</button>
                     <a href="<?= base_url('order/index'); ?>" class="btn btn-secondary btn-block btn-flat font-weight-bold">Kembali Ke Order List</a>
                 </div>
             </div>

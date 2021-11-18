@@ -88,6 +88,7 @@ $route['pengiriman/store']               = 'pengiriman/store';
 $route['pengiriman/track']               = 'pengiriman/track';
 $route['pengiriman/selesai']             = 'pengiriman/selesai';
 
+$route['customer/index/(:num)']             = 'customer/index/$1';
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';
 $route['customer/add']                      = 'customer/add';

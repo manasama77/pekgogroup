@@ -151,6 +151,10 @@
                                             <option value="refund selesai" <?= ($filter_status_pembayaran == "refund selesai") ? "selected" : null; ?>>REFUND SELESAI</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="filter_sales_invoice">SALES INVOICE</label>
+                                        <input type="text" class="form-control" id="filter_sales_invoice" name="filter_sales_invoice" minlength="1" maxlength="15" value="<?= ($this->input->get('filter_sales_invoice')) ? $this->input->get('filter_sales_invoice') : null; ?>" placeholder="Sales Invoice">
+                                    </div>
                                     <!-- <div class="form-group">
                                         <label for="field">CARI BERDASARKAN</label>
                                         <select class="form-control" id="field" name="field" required>
@@ -190,7 +194,7 @@
             <div class="col-sm-12 col-lg-3">
                 <blockquote class="elevation-2">
                     <p>
-                        Total Data: <?= number_format($list->num_rows(), 0); ?> Data
+                        Total Data: <?= number_format($total_data, 0); ?> Data
                     </p>
                 </blockquote>
             </div>
@@ -265,7 +269,7 @@
                                             <tr>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button class="btn btn-primary btn-flat dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-boundary="viewport">
+                                                        <button class="btn btn-primary btn-sm btn-flat dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-boundary="viewport">
                                                             Action
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -300,6 +304,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <?= $this->pagination->create_links(); ?>
                         <?php } ?>
                     </div>
                 </div>
