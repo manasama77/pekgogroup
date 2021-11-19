@@ -44,8 +44,8 @@
                             $i = 0;
                             foreach ($sizes->result() as $size) {
                                 $selected = null;
-                                if (isset($f_size[$i])) {
-                                    $selected = ($f_size[$i] == $size->id) ? "checked" : null;
+                                if ($f_size) {
+                                    $selected = (in_array($size->id, $f_size)) ? "checked" : null;
                                 }
                             ?>
                                 <label for="<?= $size->id; ?>" class="d-flex">
