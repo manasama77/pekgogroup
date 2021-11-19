@@ -29,6 +29,11 @@ class Cli extends CI_Controller
         //     echo "Access Denied" . PHP_EOL;
         // }
     }
+
+    public function test()
+    {
+        $exec = $this->Cli_model->test();
+    }
 }
         
     /* End of file  Cli.php */

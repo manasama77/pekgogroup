@@ -127,6 +127,11 @@ class Cli_model extends CI_Model
             }
         }
     }
+
+    public function test()
+    {
+        $this->db->insert('test', ['name' => 'test' . date('Y-m-d H:i:s')]);
+    }
 }
                         
 /* End of file Cli_model.php */
