@@ -60,6 +60,7 @@
                                         <td>
                                             <?= ucwords($order->status_pembayaran); ?><br />
                                             <?php if ($order->status_pembayaran == "menunggu pembayaran") { ?>
+                                                <?= $order->batas_waktu_transfer; ?><br />
                                                 <button type="button" class="btn btn-warning btn-sm" onclick="showModalDP(<?= $order->id; ?>, '<?= $order->sales_invoice; ?>');">Upload Pembayaran DP</button>
                                             <?php } ?>
                                             <?php if ($order->status_pembayaran == "partial") { ?>
