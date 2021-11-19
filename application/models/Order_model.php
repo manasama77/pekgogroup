@@ -628,7 +628,7 @@ class Order_model extends CI_Model
             'orders.id',
             'products.path_image',
             'orders.created_at',
-            'orders.estimasi_selesai',
+            'orders.batas_waktu_transfer',
             'orders.sales_invoice',
             'products.name as product_name',
             'colors.name as color_name',
