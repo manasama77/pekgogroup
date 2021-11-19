@@ -17,12 +17,18 @@ class Dashboard extends CI_Controller
 
     public function index()
     {
-        $total_order = $this->Dashboard_model->get_total_order();
+        $total_order          = $this->Dashboard_model->get_total_order_this_month();
+        $pendapatan           = $this->Dashboard_model->get_pendapatan_this_month();
+        $total_customers      = $this->Dashboard_model->get_total_customers();
+        $customers_this_month = $this->Dashboard_model->get_total_customers_this_month();
 
         $data = array(
-            'title'       => 'Dashboard',
-            'page'        => 'dashboard/main',
-            'total_order' => $total_order,
+            'title'                => 'Dashboard',
+            'page'                 => 'dashboard/main',
+            'total_order'          => $total_order,
+            'pendapatan'           => $pendapatan,
+            'total_customers'      => $total_customers,
+            'customers_this_month' => $customers_this_month,
         );
         $this->theme->render($data);
     }
