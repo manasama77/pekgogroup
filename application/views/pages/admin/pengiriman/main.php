@@ -309,7 +309,7 @@
                         </div>
                         <div class="form-group">
                             <label for="alamat_pengiriman">Alamat Pengiriman</label>
-                            <input type="text" class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" minlength="3" required />
+                            <textarea class="form-control" id="alamat_pengiriman" name="alamat_pengiriman" minlength="3" required></textarea>
                         </div>
                     </div>
                 </div>
