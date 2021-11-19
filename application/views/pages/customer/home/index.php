@@ -1,4 +1,4 @@
-<div class="site-blocks-cover" style="background-image: url(<?= base_url(); ?>assets/img/banner/hero_1.png);" data-aos="fade">
+<div class="site-blocks-cover" style="background-image: url(<?= base_url(); ?>assets/img/banner/hero_1.png); background-repeat:no-repeat; background-size:cover; background-position:left;" data-aos="fade">
     <div class="container">
         <div class="row align-items-start align-items-md-center justify-content-end">
             <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
