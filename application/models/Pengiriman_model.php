@@ -69,10 +69,8 @@ class Pengiriman_model extends CI_Model
         $this->db->select($this->select);
         $this->db->from('orders');
         $this->db->join('products', 'products.id = orders.product_id', 'left');
-        $this->db->join('product_color_params', 'product_color_params.id = orders.color_id', 'left');
-        $this->db->join('colors', 'colors.id = product_color_params.color_id', 'left');
-        $this->db->join('product_size_params', 'product_size_params.id = orders.size_id', 'left');
-        $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
+        $this->db->join('colors', 'colors.id = orders.color_id', 'left');
+        $this->db->join('sizes', 'sizes.id = orders.size_id', 'left');
         $this->db->join('customers', 'customers.id = orders.customer_id', 'left');
         $this->db->join('admins as admin_order', 'admin_order.id = orders.admin_order', 'left');
         $this->db->join('admins as admin_produksi', 'admin_produksi.id = orders.admin_produksi', 'left');

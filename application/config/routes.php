@@ -55,7 +55,8 @@ $route['customer/logout'] = 'clogin/logout';
 $route['login'] = 'login/index';
 $route['logout'] = 'login/logout';
 
-$route['dashboard'] = 'dashboard/index';
+$route['dashboard']            = 'dashboard/index';
+$route['dashboard/show_track'] = 'dashboard/show_track';
 
 $route['order/index']                 = 'order/index';
 $route['order/add']                   = 'order/add';
@@ -66,6 +67,7 @@ $route['order/copy_order']            = 'order/copy_order';
 $route['order/show_request']          = 'order/show_request';
 $route['order/invoice/(:num)']        = 'order/invoice/$1';
 $route['order/show_detail']           = 'order/show_detail';
+
 
 $route['pembayaran/index']                    = 'pembayaran/index';
 $route['pembayaran/verifikasi_dp']            = 'pembayaran/verifikasi_dp';

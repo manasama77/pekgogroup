@@ -25,12 +25,21 @@ class Dashboard extends CI_Controller
         $data = array(
             'title'                => 'Dashboard',
             'page'                 => 'dashboard/main',
+            'vitamin'              => 'dashboard/main_vitamin',
             'total_order'          => $total_order,
             'pendapatan'           => $pendapatan,
             'total_customers'      => $total_customers,
             'customers_this_month' => $customers_this_month,
         );
         $this->theme->render($data);
+    }
+
+    public function show_track()
+    {
+        $sales_invoice = $this->input->get('sales_invoice');
+        $data          = $this->Dashboard_model->get_track($sales_invoice);
+
+        echo json_encode(['data' => $data]);
     }
 }
         
