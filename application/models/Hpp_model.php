@@ -26,7 +26,7 @@ class Hpp_model extends CI_Model
         $this->db->from('hpps');
         $this->db->join('units', 'units.id = hpps.unit_id', 'left');
         $this->db->where('hpps.deleted_at', null);
-        $this->db->order_by('hpps.id', 'asc');
+        $this->db->order_by('hpps.name', 'asc');
         $exec = $this->db->get();
         return $exec;
     }
