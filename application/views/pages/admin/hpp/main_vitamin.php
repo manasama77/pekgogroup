@@ -1,7 +1,7 @@
 <script>
     function modalEdit(id, name, cost, unit_id) {
         $('#xid').val(id)
-        $('#xname').val(name)
+        $('#xname').val(urldecode(name))
         $('#xcost').val(cost)
         $('#xunit_id').val(unit_id)
         $('#modal_edit').modal('show')
@@ -10,7 +10,7 @@
     function destroy(id, name) {
         Swal.fire({
             icon: 'question',
-            title: `Delete ${name}`,
+            title: `Delete ${urldecode(name)}`,
             showDenyButton: false,
             showCancelButton: true,
             confirmButtonText: 'Delete',

@@ -80,8 +80,8 @@
                                         <td><?= $key->unit_name; ?></td>
                                         <td><?= $key->supplier; ?></td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= $key->name; ?>', <?= $key->cost; ?>, '<?= $key->unit_id; ?>')">EDIT</button>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>')">DELETE</button>
+                                            <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->name); ?>', <?= $key->cost; ?>, '<?= $key->unit_id; ?>')">EDIT</button>
+                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">DELETE</button>
                                         </td>
                                     </tr>
                                 <?php } ?>
