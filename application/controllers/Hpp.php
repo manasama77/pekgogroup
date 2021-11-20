@@ -25,6 +25,7 @@ class Hpp extends CI_Controller
         $this->form_validation->set_rules('name', 'NAMA HPP', 'required');
         $this->form_validation->set_rules('cost', 'HPP', 'required|numeric');
         $this->form_validation->set_rules('unit_id', 'SATUAN', 'required');
+        $this->form_validation->set_rules('supplier', 'SUPPLIER', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
@@ -50,14 +51,16 @@ class Hpp extends CI_Controller
 
     protected function store()
     {
-        $name    = $this->input->post('name');
-        $cost    = $this->input->post('cost');
-        $unit_id = $this->input->post('unit_id');
+        $name     = $this->input->post('name');
+        $cost     = $this->input->post('cost');
+        $unit_id  = $this->input->post('unit_id');
+        $supplier = $this->input->post('supplier');
 
         $data = array(
             'name'       => $name,
             'cost'       => $cost,
             'unit_id'    => $unit_id,
+            'supplier'   => $supplier,
             'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'created_by' => $this->session->userdata(SESS_ADM . 'id'),

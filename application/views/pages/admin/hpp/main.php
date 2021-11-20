@@ -64,6 +64,7 @@
                                     <th>NAMA HPP</th>
                                     <th>HPP</th>
                                     <th>SATUAN</th>
+                                    <th>SUPPLIER</th>
                                     <th class="text-center"><i class="fas fa-cogs"></i></th>
                                 </tr>
                             </thead>
@@ -77,6 +78,7 @@
                                         <td><?= $key->name; ?></td>
                                         <td>Rp.<?= number_format($key->cost, 0); ?></td>
                                         <td><?= $key->unit_name; ?></td>
+                                        <td><?= $key->supplier; ?></td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= $key->name; ?>', <?= $key->cost; ?>, '<?= $key->unit_id; ?>')">EDIT</button>
                                             <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>')">DELETE</button>
@@ -120,6 +122,11 @@
                                     <?php } ?>
                                 </select>
                                 <?= form_error('cost'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier">SUPPLIER</label>
+                                <input type="text" class="form-control" id="supplier" name="supplier" placeholder="SUPPLIER" minlength="3" maxlength="50" value="<?= set_value('supplier'); ?>" required>
+                                <?= form_error('supplier'); ?>
                             </div>
                         </div>
                         <div class="card-footer">
