@@ -157,7 +157,7 @@
                                 <button type="button" class="btn btn-danger btn-sm" title="Delete" onclick="destroyHPP(${k.id});"><i class="fas fa-trash"></i></button>
                             </td>
                             <td>${k.name}</td>
-                            <td class="text-right">${parseInt(k.qty)} ${k.unit_name}</td>
+                            <td class="text-right">${parseFloat(k.qty)} ${k.unit_name}</td>
                             <td class="text-right">${vTotalPrice}</td>
                         </tr>
                         `

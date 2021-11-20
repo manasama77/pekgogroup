@@ -14,7 +14,7 @@
                 <i class="nav-icon fas fa-shopping-cart"></i>
                 <p>
                     Order
-                    <i class="right fas fa-angle-left"></i> <span class="badge badge-pill badge-primary"><?= $sdb; ?></span>
+                    <i class="right fas fa-angle-left"></i> <span class="badge badge-pill badge-primary"><?= $sdb['order']; ?></span>
                 </p>
             </a>
             <ul class="nav nav-treeview">
@@ -33,19 +33,19 @@
                 <li class="nav-item">
                     <a href="<?= base_url('pembayaran/index'); ?>" class="nav-link <?= (uri_string() == "pembayaran/index") ? "active" : null; ?>">
                         <i class="fas fa-money-bill nav-icon"></i>
-                        <p>Pembayaran</p>
+                        <p>Pembayaran <span class="badge badge-pill badge-primary"><?= $sdb['pembayaran']; ?></span></p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?= base_url('produksi/index'); ?>" class="nav-link <?= (uri_string() == "produksi/index") ? "active" : null; ?>">
                         <i class="fas fa-cut nav-icon"></i>
-                        <p>Produksi</p>
+                        <p>Produksi <span class="badge badge-pill badge-primary"><?= $sdb['produksi']; ?></span></p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?= base_url('pengiriman/index'); ?>" class="nav-link <?= (uri_string() == "pengiriman/index") ? "active" : null; ?>">
                         <i class="fas fa-truck nav-icon"></i>
-                        <p>Pengiriman</p>
+                        <p>Pengiriman <span class="badge badge-pill badge-primary"><?= $sdb['pengiriman']; ?></span></p>
                     </a>
                 </li>
             </ul>

@@ -459,7 +459,7 @@ class Produk extends CI_Controller
         $qty        = $this->input->post('qty_hpp');
 
         $basic_price = $this->Hpp_model->get_single_data('hpps.id', $hpp_id)->row()->cost;
-        $total_price = $basic_price * $qty;
+        $total_price = floatval($basic_price) * floatval($qty);
 
         $data  = array(
             'product_id'  => $product_id,

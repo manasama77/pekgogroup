@@ -1,0 +1,24 @@
+Dam note aja nanti di hpp klo bisa tambain kolom supplier
+
+Hpp
+
+Potong Panjang Baju
+20000
+
+Tambah Panjang Baju
+25000
+
+Busui
+25000
+
+Wudhu
+25000
+
+Bumil (pinggang naikan 3 cm)
+30000
+
+Request Size (LD)
+35000
+
+Request Size Custom
+100000
