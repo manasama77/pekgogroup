@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pekgo Group | <?= $title; ?></title>
+    <title>Pekgo Apparel | <?= $title; ?></title>
     <link rel="icon" href="<?= base_url('favicon.ico'); ?>" sizes="any"><!-- 32×32 -->
     <link rel="icon" href="<?= base_url('icon.svg'); ?>" type="image/svg+xml">
     <link rel="apple-touch-icon" href="<?= base_url('apple-touch-icon.png'); ?>"><!-- 180×180 -->
