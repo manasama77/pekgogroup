@@ -169,6 +169,10 @@
                                 <?php } ?>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="xsupplier">SUPPLIER</label>
+                            <input type="text" class="form-control" id="xsupplier" name="xsupplier" placeholder="SUPPLIER" minlength="3" maxlength="50" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

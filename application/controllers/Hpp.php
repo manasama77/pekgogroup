@@ -81,15 +81,17 @@ class Hpp extends CI_Controller
 
     public function update()
     {
-        $id      = $this->input->post('xid');
-        $name    = $this->input->post('xname');
-        $cost    = $this->input->post('xcost');
-        $unit_id = $this->input->post('xunit_id');
+        $id       = $this->input->post('xid');
+        $name     = $this->input->post('xname');
+        $cost     = $this->input->post('xcost');
+        $unit_id  = $this->input->post('xunit_id');
+        $supplier = $this->input->post('xsupplier');
 
         $data = array(
             'name'       => $name,
             'cost'       => $cost,
             'unit_id'    => $unit_id,
+            'supplier'   => $supplier,
             'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
