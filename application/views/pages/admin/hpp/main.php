@@ -106,7 +106,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">NAMA HPP</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA HPP" minlength="3" maxlength="20" value="<?= set_value('name'); ?>" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA HPP" minlength="3" maxlength="50" value="<?= set_value('name'); ?>" required>
                                 <?= form_error('name'); ?>
                             </div>
                             <div class="form-group">
@@ -155,7 +155,7 @@
                     <div class="container-fluid">
                         <div class="form-group">
                             <label for="xname">NAMA HPP</label>
-                            <input type="text" class="form-control" id="xname" name="xname" placeholder="NAMA HPP" minlength="3" maxlength="20" required>
+                            <input type="text" class="form-control" id="xname" name="xname" placeholder="NAMA HPP" minlength="3" maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label for="xcost">HPP</label>

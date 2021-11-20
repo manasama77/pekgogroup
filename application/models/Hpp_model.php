@@ -15,6 +15,7 @@ class Hpp_model extends CI_Model
             'hpps.name',
             'hpps.cost',
             'hpps.unit_id',
+            'hpps.supplier',
             'units.name as unit_name',
         );
     }
