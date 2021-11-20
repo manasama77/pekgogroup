@@ -378,12 +378,12 @@ $config['encryption_key'] = 'タイムスリップ';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'pkg_session';
-$config['sess_expiration'] = 0;
-$config['sess_save_path'] = FCPATH . 'session';
-$config['sess_match_ip'] = TRUE;
-$config['sess_time_to_update'] = 86400;
+$config['sess_driver']             = 'files';
+$config['sess_cookie_name']        = 'pkg_session';
+$config['sess_expiration']         = 0;
+$config['sess_save_path']          = FCPATH . 'session';
+$config['sess_match_ip']           = FALSE;
+$config['sess_time_to_update']     = 86400;
 $config['sess_regenerate_destroy'] = TRUE;
 
 /*

@@ -61,12 +61,10 @@ class Request extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Tambah Request Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/request', 'location');
         }
 
         $this->session->set_flashdata('success', 'Tambah Request Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/request', 'location');
     }
 
@@ -105,12 +103,10 @@ class Request extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Request Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/request', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Request Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/request', 'location');
     }
 

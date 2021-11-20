@@ -70,12 +70,10 @@ class Hpp extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Tambah Hpp Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/hpp', 'location');
         }
 
         $this->session->set_flashdata('success', 'Tambah Hpp Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/hpp', 'location');
     }
 
@@ -103,7 +101,6 @@ class Hpp extends CI_Controller
         }
 
         $this->session->set_flashdata('success', 'Update HPP Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/hpp', 'location');
     }
 

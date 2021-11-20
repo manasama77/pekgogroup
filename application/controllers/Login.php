@@ -35,7 +35,6 @@ class Login extends CI_Controller
                 SESS_ADM . 'role'     => $role,
             );
             $this->session->set_userdata($sesi_admin);
-            session_write_close();
             redirect('dashboard');
         }
     }
@@ -72,7 +71,6 @@ class Login extends CI_Controller
         $this->session->unset_userdata(SESS_ADM . 'whatsapp');
         $this->session->unset_userdata(SESS_ADM . 'name');
         $this->session->unset_userdata(SESS_ADM . 'role');
-        session_write_close();
         redirect('login');
     }
 }

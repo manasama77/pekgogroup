@@ -83,7 +83,6 @@ class Admin extends CI_Controller
         }
 
         $this->session->set_flashdata('success', 'Tambah Admin Berhasil');
-        session_write_close();
         redirect(base_url() . 'admin/index', 'location');
     }
 
@@ -125,12 +124,10 @@ class Admin extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Admin Gagal');
-            session_write_close();
             redirect(base_url() . 'admin/index', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Admin Berhasil');
-        session_write_close();
         redirect(base_url() . 'admin/index', 'location');
     }
 

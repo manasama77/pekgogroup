@@ -93,7 +93,7 @@ class Produk extends CI_Controller
 
         $config['upload_path']   = './assets/img/products/';
         $config['allowed_types'] = 'jpeg|jpg|png';
-        $config['max_size']      = 2048;
+        // $config['max_size']      = 2048;
         $config['max_width']     = 0;
         $config['max_height']    = 0;
         $config['encrypt_name']  = true;
@@ -103,8 +103,8 @@ class Produk extends CI_Controller
         if (!$this->upload->do_upload('path_image')) {
             $error = $this->upload->display_errors();
             $this->session->set_flashdata('error', $error);
-            session_write_close();
-            redirect(base_url() . 'produk/add', 'location');
+            redirect(base_url('produk/add'));
+            exit;
         } else {
             $image_data = $this->upload->data();
             $path_image = $image_data['file_name'];
@@ -113,8 +113,8 @@ class Produk extends CI_Controller
                 if (!$this->upload->do_upload('path_image_2')) {
                     $error = $this->upload->display_errors();
                     $this->session->set_flashdata('error', $error);
-                    session_write_close();
-                    redirect(base_url() . 'produk/add', 'location');
+                    redirect(base_url() . 'produk/add');
+                    exit;
                 }
             } else {
                 $image_data_2 = $this->upload->data();
@@ -125,8 +125,8 @@ class Produk extends CI_Controller
                 if (!$this->upload->do_upload('path_image_3')) {
                     $error = $this->upload->display_errors();
                     $this->session->set_flashdata('error', $error);
-                    session_write_close();
-                    redirect(base_url() . 'produk/add', 'location');
+                    redirect(base_url() . 'produk/add');
+                    exit;
                 }
             } else {
                 $image_data_3 = $this->upload->data();
@@ -148,6 +148,7 @@ class Produk extends CI_Controller
 
             if (!$exec) {
                 echo "Tambah Produk gagal, silahkan coba kembali!";
+                exit;
             }
 
             $data = array(
@@ -159,6 +160,7 @@ class Produk extends CI_Controller
 
             if (!$exec) {
                 echo "Tambah HPP Produk gagal, silahkan coba kembali!";
+                exit;
             }
 
             for ($i = 0; $i < count($color_id); $i++) {
@@ -173,6 +175,7 @@ class Produk extends CI_Controller
                 $exec  = $this->Produk_model->store('product_color_params', $data);
                 if (!$exec) {
                     echo "Tambah Warna Produk gagal, silahkan coba kembali!";
+                    exit;
                 }
             }
 
@@ -188,6 +191,7 @@ class Produk extends CI_Controller
                 $exec  = $this->Produk_model->store('product_size_params', $data);
                 if (!$exec) {
                     echo "Tambah Ukuran Produk gagal, silahkan coba kembali!";
+                    exit;
                 }
             }
 
@@ -203,12 +207,12 @@ class Produk extends CI_Controller
                 $exec  = $this->Produk_model->store('product_request_params', $data);
                 if (!$exec) {
                     echo "Tambah Request Produk gagal, silahkan coba kembali!";
+                    exit;
                 }
             }
 
             $this->session->set_flashdata('success', 'Tambah Produk Berhasil');
-            session_write_close();
-            redirect(base_url() . 'produk/index', 'location');
+            redirect(base_url() . 'produk/index', 'auto');
         }
     }
 
@@ -281,7 +285,6 @@ class Produk extends CI_Controller
             if (!$this->upload->do_upload('path_image')) {
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
-                session_write_close();
                 redirect(base_url() . 'produk/edit/' . $id, 'location');
                 exit;
             } else {
@@ -294,7 +297,6 @@ class Produk extends CI_Controller
             if (!$this->upload->do_upload('path_image_2')) {
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
-                session_write_close();
                 redirect(base_url() . 'produk/edit/' . $id, 'location');
             }
         } else {
@@ -306,7 +308,6 @@ class Produk extends CI_Controller
             if (!$this->upload->do_upload('path_image_3')) {
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
-                session_write_close();
                 redirect(base_url() . 'produk/add', 'location');
             }
         } else {
@@ -406,7 +407,6 @@ class Produk extends CI_Controller
         }
 
         $this->session->set_flashdata('success', 'Update Produk Berhasil');
-        session_write_close();
         redirect(base_url() . 'produk/index', 'location');
     }
 

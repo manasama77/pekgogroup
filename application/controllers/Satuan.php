@@ -58,12 +58,10 @@ class Satuan extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Tambah Satuan Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/satuan', 'refresh');
         }
 
         $this->session->set_flashdata('success', 'Tambah Satuan Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/satuan', 'refresh');
     }
 
@@ -98,12 +96,10 @@ class Satuan extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Satuan Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/satuan', 'refresh');
         }
 
         $this->session->set_flashdata('success', 'Edit Satuan Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/satuan', 'refresh');
     }
 

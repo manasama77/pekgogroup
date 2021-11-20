@@ -16,7 +16,8 @@
                         <strong>
                             <?= $this->session->flashdata('success'); ?>
                             <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('success'); ?>
+                            <?php //$this->session->unset_userdata('success'); 
+                            ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -30,7 +31,8 @@
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
                             <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('error'); ?>
+                            <?php //$this->session->unset_userdata('error'); 
+                            ?>
                         </strong>
                     </div>
                 <?php } ?>

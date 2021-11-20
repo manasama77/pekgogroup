@@ -260,7 +260,6 @@ class Order extends CI_Controller
         $exec = $this->Order_model->update_customer($customer_id, $grand_total);
 
         $this->session->set_flashdata('success', 'Tambah Order Berhasil');
-        session_write_close();
         redirect(base_url('order/add'));
     }
 
@@ -303,12 +302,10 @@ class Order extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Order Gagal');
-            session_write_close();
             redirect(base_url() . 'order/index', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Order Berhasil');
-        session_write_close();
         redirect(base_url() . 'order/index', 'location');
     }
 

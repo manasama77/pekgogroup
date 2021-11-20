@@ -162,7 +162,6 @@ class Corder extends CI_Controller
         $exec = $this->Order_model->update_customer($customer_id, $grand_total);
 
         $this->session->set_flashdata('success', 'Tambah Order Berhasil');
-        session_write_close();
         redirect(base_url() . 'corder/index', 'location');
     }
 
@@ -336,7 +335,6 @@ class Corder extends CI_Controller
             }
 
             $this->session->set_flashdata('success', 'Upload Bukti Pembayaran DP Berhasil');
-            session_write_close();
             redirect(base_url() . 'corder/index', 'location');
         }
     }
@@ -390,7 +388,6 @@ class Corder extends CI_Controller
             }
 
             $this->session->set_flashdata('success', 'Upload Bukti Pembayaran Pelunasan Berhasil');
-            session_write_close();
             redirect(base_url() . 'corder/index', 'location');
         }
     }

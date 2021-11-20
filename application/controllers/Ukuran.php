@@ -61,12 +61,10 @@ class Ukuran extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Tambah Ukuran Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/ukuran', 'location');
         }
 
         $this->session->set_flashdata('success', 'Tambah Ukuran Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/ukuran', 'location');
     }
 
@@ -105,12 +103,10 @@ class Ukuran extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Ukuran Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/ukuran', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Ukuran Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/ukuran', 'location');
     }
 

@@ -498,7 +498,6 @@ class Cshop extends CI_Controller
 
             $this->db->trans_commit();
             $this->session->set_flashdata('success', 'Upload Bukti Pembayaran DP Berhasil');
-            session_write_close();
             redirect(base_url() . 'shop/list_order', 'location');
         }
     }
@@ -565,7 +564,6 @@ class Cshop extends CI_Controller
 
             $this->db->trans_commit();
             $this->session->set_flashdata('success', 'Upload Bukti Pembayaran Pelunasan Berhasil');
-            session_write_close();
             redirect(base_url() . 'shop/list_order', 'location');
         }
     }

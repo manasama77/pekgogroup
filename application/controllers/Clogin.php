@@ -33,7 +33,6 @@ class Clogin extends CI_Controller
                 'name'     => $name,
             );
             $this->session->set_userdata($sesi_customer);
-            session_write_close();
             redirect(base_url());
         }
     }
@@ -67,7 +66,6 @@ class Clogin extends CI_Controller
     public function logout()
     {
         $this->session->sess_destroy();
-        session_write_close();
         redirect(base_url());
     }
 }

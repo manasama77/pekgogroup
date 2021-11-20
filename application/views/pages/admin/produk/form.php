@@ -15,8 +15,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('error'); ?>
                         </strong>
                     </div>
                 <?php } ?>

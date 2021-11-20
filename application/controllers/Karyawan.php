@@ -58,7 +58,6 @@ class Karyawan extends CI_Controller
         if (!$this->upload->do_upload('path_photo')) {
             $error = $this->upload->display_errors();
             $this->session->set_flashdata('error', $error);
-            session_write_close();
             redirect(base_url() . 'setup/karyawan', 'location');
         } else {
             $image_data = $this->upload->data();
@@ -83,7 +82,6 @@ class Karyawan extends CI_Controller
             }
 
             $this->session->set_flashdata('success', 'Tambah Karyawan Berhasil');
-            session_write_close();
             redirect(base_url() . 'setup/karyawan', 'location');
         }
     }
@@ -107,7 +105,6 @@ class Karyawan extends CI_Controller
             if (!$this->upload->do_upload('xpath_photo')) {
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
-                session_write_close();
                 redirect(base_url() . 'setup/karyawan', 'location');
             } else {
                 $image_data = $this->upload->data();
@@ -139,7 +136,7 @@ class Karyawan extends CI_Controller
         }
 
         $this->session->set_flashdata('success', 'Update Karyawan Berhasil');
-        session_write_close();
+
         redirect(base_url() . 'setup/karyawan', 'location');
     }
 

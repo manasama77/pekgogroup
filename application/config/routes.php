@@ -55,6 +55,9 @@ $route['customer/logout'] = 'clogin/logout';
 $route['login'] = 'login/index';
 $route['logout'] = 'login/logout';
 
+$route['test'] = 'test/index';
+$route['upload'] = 'test/upload';
+
 $route['dashboard']            = 'dashboard/index';
 $route['dashboard/show_track'] = 'dashboard/show_track';
 

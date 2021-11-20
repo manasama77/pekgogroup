@@ -110,7 +110,6 @@ class Customer extends CI_Controller
         }
 
         $this->session->set_flashdata('success', 'Tambah Customer Berhasil');
-        session_write_close();
         redirect(base_url() . 'customer/index', 'location');
     }
 
@@ -153,12 +152,10 @@ class Customer extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Customer Gagal');
-            session_write_close();
             redirect(base_url() . 'customer/index', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Customer Berhasil');
-        session_write_close();
         redirect(base_url() . 'customer/index', 'location');
     }
 
@@ -193,12 +190,10 @@ class Customer extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Update status customer Gagal');
-            session_write_close();
             redirect($_SERVER['HTTP_REFERER'], 'location');
         }
 
         $this->session->set_flashdata('success', 'Update status customer Berhasil');
-        session_write_close();
         redirect($_SERVER['HTTP_REFERER'], 'location');
     }
 

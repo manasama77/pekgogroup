@@ -61,12 +61,10 @@ class Warna extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Tambah Warna Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/warna', 'location');
         }
 
         $this->session->set_flashdata('success', 'Tambah Warna Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/warna', 'location');
     }
 
@@ -108,12 +106,10 @@ class Warna extends CI_Controller
 
         if (!$exec) {
             $this->session->set_flashdata('error', 'Edit Warna Gagal');
-            session_write_close();
             redirect(base_url() . 'setup/parameter/warna', 'location');
         }
 
         $this->session->set_flashdata('success', 'Edit Warna Berhasil');
-        session_write_close();
         redirect(base_url() . 'setup/parameter/warna', 'location');
     }
 
