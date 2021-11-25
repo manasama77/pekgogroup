@@ -15,8 +15,9 @@ class Hpp_model extends CI_Model
             'hpps.name',
             'hpps.cost',
             'hpps.unit_id',
-            'hpps.supplier',
+            'hpps.supplier_id',
             'units.name as unit_name',
+            'supplier.name as supplier_name',
         );
     }
 
@@ -25,6 +26,7 @@ class Hpp_model extends CI_Model
         $this->db->select($this->select);
         $this->db->from('hpps');
         $this->db->join('units', 'units.id = hpps.unit_id', 'left');
+        $this->db->join('supplier', 'supplier.id = hpps.supplier_id', 'left');
         $this->db->where('hpps.deleted_at', null);
         $this->db->order_by('hpps.name', 'asc');
         $exec = $this->db->get();

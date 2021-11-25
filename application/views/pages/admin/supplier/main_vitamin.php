@@ -1,10 +1,8 @@
 <script>
-    function modalEdit(id, name, cost, unit_id, supplier_id) {
+    function modalEdit(id, name, location, unit_id) {
         $('#xid').val(id)
         $('#xname').val(urldecode(name))
-        $('#xcost').val(cost)
-        $('#xunit_id').val(unit_id)
-        $('#xsupplier_id').val(supplier_id)
+        $('#xlocation').val(location)
         $('#modal_edit').modal('show')
     }
 
@@ -18,7 +16,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `<?= base_url(); ?>hpp/destroy/${id}`,
+                    url: `<?= base_url(); ?>supplier/destroy/${id}`,
                     type: 'delete',
                     dataType: 'json',
                     data: {
@@ -38,7 +36,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('setup/hpp'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('setup/supplier'); ?>'))
                     } else if (e.code == 200) {
                         Swal.fire({
                             position: 'top-end',
@@ -47,7 +45,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('setup/hpp'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('setup/supplier'); ?>'))
                     }
                 })
             }

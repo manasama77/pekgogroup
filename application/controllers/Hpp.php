@@ -14,6 +14,7 @@ class Hpp extends CI_Controller
         $this->auth->check_session();
         $this->load->model('Hpp_model');
         $this->load->model('Satuan_model');
+        $this->load->model('Supplier_model');
         $this->cur_datetime = new DateTime('now');
         if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
@@ -25,23 +26,26 @@ class Hpp extends CI_Controller
         $this->form_validation->set_rules('name', 'NAMA HPP', 'required');
         $this->form_validation->set_rules('cost', 'HPP', 'required|numeric');
         $this->form_validation->set_rules('unit_id', 'SATUAN', 'required');
-        $this->form_validation->set_rules('supplier', 'SUPPLIER', 'required');
+        $this->form_validation->set_rules('supplier_id', 'SUPPLIER', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
-            $list  = $this->Hpp_model->get_all_data();
-            $units = $this->Satuan_model->get_all_data();
+            $list     = $this->Hpp_model->get_all_data();
+            $units    = $this->Satuan_model->get_all_data();
+            $supplier = $this->Supplier_model->get_all_data();
+
             $data = array(
-                'title'   => 'HPP',
-                'page'    => 'hpp/main',
-                'vitamin' => 'hpp/main_vitamin',
-                'csrf'    => $csrf,
-                'list'    => $list,
-                'units'   => $units,
-                'error'   => null,
+                'title'    => 'HPP',
+                'page'     => 'hpp/main',
+                'vitamin'  => 'hpp/main_vitamin',
+                'csrf'     => $csrf,
+                'list'     => $list,
+                'units'    => $units,
+                'supplier' => $supplier,
+                'error'    => null,
             );
             $this->theme->render($data);
         } else {
@@ -51,20 +55,20 @@ class Hpp extends CI_Controller
 
     protected function store()
     {
-        $name     = $this->input->post('name');
-        $cost     = $this->input->post('cost');
-        $unit_id  = $this->input->post('unit_id');
-        $supplier = $this->input->post('supplier');
+        $name        = $this->input->post('name');
+        $cost        = $this->input->post('cost');
+        $unit_id     = $this->input->post('unit_id');
+        $supplier_id = $this->input->post('supplier_id');
 
         $data = array(
-            'name'       => $name,
-            'cost'       => $cost,
-            'unit_id'    => $unit_id,
-            'supplier'   => $supplier,
-            'created_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by' => $this->session->userdata(SESS_ADM . 'id'),
-            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
+            'name'        => $name,
+            'cost'        => $cost,
+            'unit_id'     => $unit_id,
+            'supplier_id' => $supplier_id,
+            'created_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'created_by'  => $this->session->userdata(SESS_ADM . 'id'),
+            'updated_by'  => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec = $this->Hpp_model->store($data);
 
@@ -79,19 +83,19 @@ class Hpp extends CI_Controller
 
     public function update()
     {
-        $id       = $this->input->post('xid');
-        $name     = $this->input->post('xname');
-        $cost     = $this->input->post('xcost');
-        $unit_id  = $this->input->post('xunit_id');
-        $supplier = $this->input->post('xsupplier');
+        $id          = $this->input->post('xid');
+        $name        = $this->input->post('xname');
+        $cost        = $this->input->post('xcost');
+        $unit_id     = $this->input->post('xunit_id');
+        $supplier_id = $this->input->post('xsupplier_id');
 
         $data = array(
-            'name'       => $name,
-            'cost'       => $cost,
-            'unit_id'    => $unit_id,
-            'supplier'   => $supplier,
-            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
+            'name'        => $name,
+            'cost'        => $cost,
+            'unit_id'     => $unit_id,
+            'supplier_id' => $supplier_id,
+            'updated_at'  => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'  => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec = $this->Hpp_model->update($data, $where);

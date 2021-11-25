@@ -137,6 +137,10 @@ $route['setup/hpp']                    = 'hpp/index';
 $route['hpp/update']                   = 'hpp/update';
 $route['hpp/destroy/(:num)']['delete'] = 'hpp/destroy/$1';
 
+$route['setup/supplier']                    = 'supplier/index';
+$route['supplier/update']                   = 'supplier/update';
+$route['supplier/destroy/(:num)']['delete'] = 'supplier/destroy/$1';
+
 $route['setup/parameter/satuan']                  = 'satuan/index';
 $route['setup/parameter/satuan/(:num)']['delete'] = 'satuan/destroy/$1';
 $route['setup/parameter/satuan/(:num)']['post']   = 'satuan/edit/$1';

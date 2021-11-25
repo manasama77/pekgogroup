@@ -147,6 +147,12 @@
                             <p>HPP</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('setup/supplier'); ?>" class="nav-link <?= (uri_string() == "setup/supplier") ? "active" : null; ?>">
+                            <i class="fas fa-warehouse nav-icon"></i>
+                            <p>Supplier</p>
+                        </a>
+                    </li>
                     <li class="nav-item <?= (in_array($this->uri->segment(1), ['setup']) && in_array($this->uri->segment(2), ['parameter'])) ? "menu-open" : null; ?>">
                         <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['setup']) && in_array($this->uri->segment(2), ['parameter'])) ? "active" : null; ?>">
                             <i class="nav-icon fas fa-tools"></i>
