@@ -36,8 +36,8 @@ class Dashboard extends CI_Controller
 
     public function show_track()
     {
-        $sales_invoice = $this->input->get('sales_invoice');
-        $data          = $this->Dashboard_model->get_track($sales_invoice);
+        $keyword = $this->input->get('keyword');
+        $data    = $this->Dashboard_model->get_track($keyword);
 
         echo json_encode(['data' => $data]);
     }

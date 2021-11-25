@@ -12,7 +12,7 @@
             type: 'get',
             dataType: 'json',
             data: {
-                sales_invoice: $('#sales_invoice').val()
+                keyword: $('#keyword').val()
             },
             beforeSend: () => $.blockUI({
                 message: `<i class="fas fa-spinner fa-spin"></i>`

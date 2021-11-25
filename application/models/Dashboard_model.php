@@ -49,7 +49,7 @@ class Dashboard_model extends CI_Model
         return $exec->num_rows();
     }
 
-    public function get_track($sales_invoice)
+    public function get_track($keyword)
     {
         $this->db->select([
             'orders.id',
@@ -111,7 +111,9 @@ class Dashboard_model extends CI_Model
         $this->db->join('admins as admin_cs', 'admin_cs.id = orders.admin_cs', 'left');
         $this->db->join('admins as admin_finance', 'admin_finance.id = orders.admin_finance', 'left');
 
-        $this->db->like('orders.sales_invoice', $sales_invoice);
+        $this->db->like('orders.sales_invoice', $keyword);
+        $this->db->or_like('orders.whatsapp', $keyword);
+        $this->db->or_like('customers.name', $keyword);
         $this->db->where('orders.status', 'active');
         $this->db->where('orders.deleted_at', null);
         $exec = $this->db->get('orders');

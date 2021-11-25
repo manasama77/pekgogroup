@@ -60,8 +60,8 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="sales_invoice">Sales Invoice</label>
-                                <input type="text" class="form-control" id="sales_invoice" name="sales_invoice" placeholder="Sales Invoice" required>
+                                <label for="keyword">Keyword</label>
+                                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Keyword" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Search</button>
                         </div>
