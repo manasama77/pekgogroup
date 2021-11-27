@@ -122,7 +122,29 @@ $route['produk/destroy_hpp/(:num)']['delete'] = 'produk/destroy_hpp/$1';
 $route['produk/destroy/(:num)']['delete']     = 'produk/destroy/$1';
 $route['produk/edit/(:num)']['post']          = 'produk/edit/$1';
 $route['produk/edit/(:num)']['get']           = 'produk/edit/$1';
-$route['produk/hpp/render_active']['get']            = 'produk/render_hpp_active';
+$route['produk/hpp/render_active']['get']     = 'produk/render_hpp_active';
+
+$route['inventory/index']                      = 'inventory/index';
+$route['inventory/add']                      = 'inventory/add';
+$route['inventory/store']                    = 'inventory/store';
+$route['inventory/store_supplier']           = 'inventory/store_supplier';
+$route['inventory/get_supplier_temp']        = 'inventory/get_supplier_temp';
+$route['inventory/destroy_supplier']         = 'inventory/destroy_supplier';
+$route['inventory/edit/(:num)']              = 'inventory/edit/$1';
+$route['inventory/get_supplier/(:num)']      = 'inventory/get_supplier/$1';
+$route['inventory/store_supplier_fix']       = 'inventory/store_supplier_fix';
+$route['inventory/update']                   = 'inventory/update';
+$route['inventory/destroy/(:num)']['delete'] = 'inventory/destroy/$1';
+
+$route['pembelian/index']           = 'pembelian/index';
+$route['pembelian/add']             = 'pembelian/add';
+$route['pembelian/get_barang_list'] = 'pembelian/get_barang_list';
+$route['pembelian/get_kode_list']   = 'pembelian/get_kode_list';
+$route['pembelian/store_barang']    = 'pembelian/store_barang';
+$route['pembelian/get_barang_temp'] = 'pembelian/get_barang_temp';
+$route['pembelian/destroy_barang']  = 'pembelian/destroy_barang';
+$route['pembelian/store']           = 'pembelian/store';
+$route['pembelian/detail']          = 'pembelian/detail';
 
 // setup
 $route['setup/project']                    = 'project/index';
@@ -160,6 +182,14 @@ $route['setup/parameter/request']                  = 'request/index';
 $route['setup/parameter/request/(:num)']['delete'] = 'request/destroy/$1';
 $route['setup/parameter/request/(:num)']['post']   = 'request/edit/$1';
 $route['setup/parameter/request/(:num)']['get']    = 'request/edit/$1';
+
+$route['setup/parameter/kategori']                          = 'kategori/index';
+$route['setup/parameter/kategori/update']                   = 'kategori/update';
+$route['setup/parameter/kategori/destroy/(:num)']['delete'] = 'kategori/destroy/$1';
+
+$route['setup/parameter/merk']                          = 'merk/index';
+$route['setup/parameter/merk/update']                   = 'merk/update';
+$route['setup/parameter/merk/destroy/(:num)']['delete'] = 'merk/destroy/$1';
 
 // init
 $route['init/admin'] = 'init/admin';

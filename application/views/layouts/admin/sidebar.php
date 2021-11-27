@@ -97,6 +97,41 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item <?= (in_array($this->uri->segment(1), ['inventory', 'pembelian'])) ? "menu-open" : null; ?>">
+                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['inventory', 'pembelian'])) ? "active" : null; ?>">
+                    <i class="nav-icon fab fa-dropbox"></i>
+                    <p>
+                        Inventory
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="<?= base_url('inventory/index'); ?>" class="nav-link <?= (uri_string() == "inventory/index") ? "active" : null; ?>">
+                            <i class="fas fa-scroll nav-icon"></i>
+                            <p>List Barang</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('inventory/add'); ?>" class="nav-link <?= (uri_string() == "inventory/add") ? "active" : null; ?>">
+                            <i class="fas fa-plus-circle nav-icon"></i>
+                            <p>Tambah Barang</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('pembelian/index'); ?>" class="nav-link <?= (uri_string() == "pembelian/index") ? "active" : null; ?>">
+                            <i class="fas fa-scroll nav-icon"></i>
+                            <p>List Pembelian</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('pembelian/add'); ?>" class="nav-link <?= (uri_string() == "pembelian/add") ? "active" : null; ?>">
+                            <i class="fas fa-plus-circle nav-icon"></i>
+                            <p>Tambah Pembelian</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item <?= (in_array($this->uri->segment(1), ['admin'])) ? "menu-open" : null; ?>">
                 <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['admin'])) ? "active" : null; ?>">
                     <i class="nav-icon fas fa-user-secret"></i>
@@ -184,6 +219,18 @@
                                 <a href="<?= base_url('setup/parameter/request'); ?>" class="nav-link <?= (uri_string() == "setup/parameter/request") ? "active" : null; ?>">
                                     <i class="fas fa-circle nav-icon"></i>
                                     <p>Request</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('setup/parameter/kategori'); ?>" class="nav-link <?= (uri_string() == "setup/parameter/kategori") ? "active" : null; ?>">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>Kategori</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('setup/parameter/merk'); ?>" class="nav-link <?= (uri_string() == "setup/parameter/merk") ? "active" : null; ?>">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>Merk</p>
                                 </a>
                             </li>
                         </ul>

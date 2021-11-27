@@ -11,7 +11,7 @@
  Target Server Version : 100421
  File Encoding         : 65001
 
- Date: 25/11/2021 11:59:53
+ Date: 28/11/2021 05:11:21
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `admins`  (
 -- ----------------------------
 -- Records of admins
 -- ----------------------------
-INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam PM', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-11-25 11:59:20', NULL, 1, 1, NULL);
+INSERT INTO `admins` VALUES (1, '082114578976', '$2y$10$wEoESyhVVXF2Et22AeejK.C3GlPrsnfvyR4046pTsm.gb1XiC9i0W', 'Adam PM', 'developer', 'aktif', '2021-10-22 20:57:51', '2021-11-28 05:10:55', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (2, '085603355799', '$2y$10$kiMo3KzzWPZEnKcPoFJ2JOoro6I9de6HnxEg6trQmQfzFET5YaTrC', 'Nurul', 'order', 'aktif', '2021-10-25 22:48:17', '2021-10-25 22:48:17', NULL, 1, 1, NULL);
 INSERT INTO `admins` VALUES (3, '081248892735', '$2y$10$8kPtP3F1sNMMIuUN.p7kXOl/nIcKMoFcKTvczlk2lNTVe6Uikodgu', 'Isanda', 'owner', 'aktif', '2021-10-30 05:10:38', '2021-11-01 17:09:21', NULL, 1, 3, NULL);
 INSERT INTO `admins` VALUES (4, '081111111111', '$2y$10$LJM7vcllW5DDMcy8jjxEBe33PrrDduCriHxEJdbVGItKeJiqy2cn2', 'Admin CS', 'cs', 'aktif', '2021-10-30 08:53:16', '2021-10-30 08:53:16', NULL, 3, 3, NULL);
@@ -48,6 +48,55 @@ INSERT INTO `admins` VALUES (5, '082222222222', '$2y$10$x7NjiaR/zLJvXfBPupyydu00
 INSERT INTO `admins` VALUES (6, '083333333333', '$2y$10$5QVSj.UXFezjgdgfnQW17uuv0vmBkU2J3.mYIk.cUXCZm4zwHMcF2', 'Admin Produksi', 'produksi', 'aktif', '2021-10-30 08:54:04', '2021-10-30 08:54:04', NULL, 3, 3, NULL);
 INSERT INTO `admins` VALUES (7, '084444444444', '$2y$10$6wZdIeFMQtvq3tffagDcBuEnXQRdsbKjrOPV9oWzRJEnJwxk1exf2', 'Admin Finance', 'finance', 'aktif', '2021-10-30 08:57:09', '2021-11-13 22:01:12', NULL, 3, 7, NULL);
 INSERT INTO `admins` VALUES (8, '123456789', '$2y$10$c0isU/CanbSzJl9toPPKhefHw0WtDNINAP/1LZ5f7kdXGUT0Ux5mu', 'test', 'cs', 'aktif', '2021-11-13 21:08:44', '2021-11-13 21:08:44', '2021-11-13 21:10:02', 1, 1, 1);
+
+-- ----------------------------
+-- Table structure for barangs
+-- ----------------------------
+DROP TABLE IF EXISTS `barangs`;
+CREATE TABLE `barangs`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kategori_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `merk_id` int(10) UNSIGNED NOT NULL,
+  `color_id` int(10) UNSIGNED NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `stock` decimal(19, 4) NOT NULL DEFAULT 0.0000,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of barangs
+-- ----------------------------
+INSERT INTO `barangs` VALUES (1, 1, 'Test Barang', 1, 1, 1, 34.0000, 1, 1, NULL, '2021-11-26 19:38:44', '2021-11-28 04:38:05', NULL);
+INSERT INTO `barangs` VALUES (2, 1, 'test2', 1, 2, 1, 5.0000, 1, 1, NULL, '2021-11-26 19:40:40', '2021-11-28 04:38:41', NULL);
+
+-- ----------------------------
+-- Table structure for categories
+-- ----------------------------
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of categories
+-- ----------------------------
+INSERT INTO `categories` VALUES (1, 'test1', 1, 1, NULL, '2021-11-25 16:51:55', '2021-11-25 16:52:11', NULL);
+INSERT INTO `categories` VALUES (2, 'test1', 1, 1, 1, '2021-11-25 16:56:17', '2021-11-25 16:56:56', '2021-11-25 16:57:00');
 
 -- ----------------------------
 -- Table structure for colors
@@ -161,6 +210,27 @@ INSERT INTO `hpps` VALUES (2, 'Kain', 300000.0000, 3, 1, '2021-11-07 08:45:44', 
 INSERT INTO `hpps` VALUES (3, 'Mute', 2000.0000, 1, 1, '2021-11-07 08:46:01', '2021-11-25 11:59:10', NULL, 1, 1, NULL);
 INSERT INTO `hpps` VALUES (4, 'test \"', 1.0000, 1, 1, '2021-11-20 14:40:48', '2021-11-25 11:59:13', NULL, 1, 1, NULL);
 INSERT INTO `hpps` VALUES (5, 'test', 1.0000, 1, 1, '2021-11-25 11:59:20', '2021-11-25 11:59:20', NULL, 1, 1, NULL);
+
+-- ----------------------------
+-- Table structure for merks
+-- ----------------------------
+DROP TABLE IF EXISTS `merks`;
+CREATE TABLE `merks`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of merks
+-- ----------------------------
+INSERT INTO `merks` VALUES (1, 'Armani', 1, 1, NULL, '2021-11-25 17:01:29', '2021-11-25 17:01:34', NULL);
 
 -- ----------------------------
 -- Table structure for order_payments
@@ -299,6 +369,34 @@ CREATE TABLE `orders`  (
 -- Records of orders
 -- ----------------------------
 INSERT INTO `orders` VALUES (1, 1, 'PKG.19.11.21001', '3', '2021-11-20 00:21:03', '2021-12-19', 'web', 1, 1000000.0000, 1, 1, 0.0000, 'standard', 0.0000, 'test catatan', 1001, '082114578976', 'adampm77', 'adampm77', 'adampm77', 'order dibuat', 'menunggu pembayaran', 'antrian', 1000000.0000, 1, 1000001.00000, '30', 300000.3000, 700000.7000, 0.0000, NULL, NULL, NULL, 'test alamat', 0, 0, 0, 0, 'no', 'no', 'no', 'active', '2021-11-19 21:21:03', '2021-11-19 21:21:13', NULL, 1001, 1001, NULL);
+
+-- ----------------------------
+-- Table structure for pembelian
+-- ----------------------------
+DROP TABLE IF EXISTS `pembelian`;
+CREATE TABLE `pembelian`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tanggal_pembelian` date NOT NULL,
+  `supplier_id` int(10) UNSIGNED NOT NULL,
+  `no_invoice` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `total` decimal(19, 4) UNSIGNED NOT NULL,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pembelian
+-- ----------------------------
+INSERT INTO `pembelian` VALUES (1, '2021-11-28', 1, '123', 0.0000, 1, 1, NULL, '2021-11-28 04:11:10', '2021-11-28 04:11:10', NULL);
+INSERT INTO `pembelian` VALUES (2, '2021-11-28', 1, '123', 0.0000, 1, 1, NULL, '2021-11-28 04:14:40', '2021-11-28 04:14:40', NULL);
+INSERT INTO `pembelian` VALUES (3, '2021-11-28', 1, '111', 0.0000, 1, 1, NULL, '2021-11-28 04:16:40', '2021-11-28 04:16:40', NULL);
+INSERT INTO `pembelian` VALUES (4, '2021-11-28', 1, '123', 500000.0000, 1, 1, NULL, '2021-11-28 04:38:05', '2021-11-28 04:38:05', NULL);
+INSERT INTO `pembelian` VALUES (5, '2021-11-28', 1, '333', 500000.0000, 1, 1, NULL, '2021-11-28 04:38:41', '2021-11-28 04:38:41', NULL);
 
 -- ----------------------------
 -- Table structure for product_color_params
@@ -461,7 +559,7 @@ CREATE TABLE `products`  (
   `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
   `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of products
@@ -472,7 +570,7 @@ INSERT INTO `products` VALUES (3, 'P.07.11.21003', 'Dian Reborn', 1200000.0000, 
 INSERT INTO `products` VALUES (4, 'P.09.11.21001', '', 0.0000, NULL, NULL, NULL, NULL, 'temp', 0, '2021-11-09 09:43:37', '2021-11-09 09:43:37', NULL, 1001, 1001, NULL);
 INSERT INTO `products` VALUES (6, 'P.16.11.21001', 'test', 1.0000, '7f9f3b4fcd2c70a6f179193d3150c171.jpg', '7f9f3b4fcd2c70a6f179193d3150c171.jpg', '7f9f3b4fcd2c70a6f179193d3150c171.jpg', NULL, 'active', 0, '2021-11-16 01:00:34', '2021-11-16 01:01:03', '2021-11-16 01:01:54', 1, 1, 1);
 INSERT INTO `products` VALUES (81, 'P.20.11.21074', 'test', 1.0000, '9bf5f67d975949aa437f9d2b1f1ce79a.jpg', NULL, NULL, NULL, 'active', 0, '2021-11-20 21:23:43', '2021-11-20 21:25:10', NULL, 1, 1, NULL);
-INSERT INTO `products` VALUES (82, 'P.20.11.21075', '', 0.0000, NULL, NULL, NULL, NULL, 'temp', 0, '2021-11-20 21:30:42', '2021-11-20 21:30:42', NULL, 1, 1, NULL);
+INSERT INTO `products` VALUES (83, 'P.25.11.21001', '', 0.0000, NULL, NULL, NULL, NULL, 'temp', 0, '2021-11-25 12:20:29', '2021-11-25 12:20:29', NULL, 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for projects
@@ -547,7 +645,7 @@ CREATE TABLE `sequence_products`  (
   `sequence` int(10) UNSIGNED NOT NULL,
   `created_at` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sequence_products
@@ -558,6 +656,7 @@ INSERT INTO `sequence_products` VALUES (3, 1, '2021-11-13');
 INSERT INTO `sequence_products` VALUES (4, 1, '2021-11-16');
 INSERT INTO `sequence_products` VALUES (5, 1, '2021-11-18');
 INSERT INTO `sequence_products` VALUES (6, 75, '2021-11-20');
+INSERT INTO `sequence_products` VALUES (7, 1, '2021-11-25');
 
 -- ----------------------------
 -- Table structure for sizes
@@ -585,6 +684,66 @@ INSERT INTO `sizes` VALUES (3, 'L', 0.0000, '2021-10-24 23:06:01', '2021-10-24 2
 INSERT INTO `sizes` VALUES (4, 'XL', 50000.0000, '2021-11-02 20:31:12', '2021-11-02 20:31:12', NULL, 1, 1, NULL);
 INSERT INTO `sizes` VALUES (5, 'XXL', 100000.0000, '2021-11-02 20:31:18', '2021-11-02 20:31:18', NULL, 1, 1, NULL);
 INSERT INTO `sizes` VALUES (6, 'test1', 1.0000, '2021-11-13 20:48:40', '2021-11-13 20:48:40', '2021-11-13 20:48:53', 1, 1, 1);
+
+-- ----------------------------
+-- Table structure for sub_barangs
+-- ----------------------------
+DROP TABLE IF EXISTS `sub_barangs`;
+CREATE TABLE `sub_barangs`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `barang_id` int(10) UNSIGNED NULL DEFAULT NULL,
+  `supplier_id` int(10) UNSIGNED NOT NULL,
+  `kode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `harga` decimal(19, 4) UNSIGNED NOT NULL,
+  `stock` decimal(19, 4) NULL DEFAULT NULL,
+  `temp_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sub_barangs
+-- ----------------------------
+INSERT INTO `sub_barangs` VALUES (13, 1, 1, '111', 100000.0000, 29.0000, NULL, 1, 1, NULL, '2021-11-26 19:38:44', '2021-11-28 04:38:05', NULL);
+INSERT INTO `sub_barangs` VALUES (16, 2, 1, '222', 100000.0000, 5.0000, NULL, 1, 1, NULL, '2021-11-26 19:40:41', '2021-11-28 04:38:41', NULL);
+INSERT INTO `sub_barangs` VALUES (17, 2, 1, '333', 50000.0000, 0.0000, NULL, 1, 1, NULL, '2021-11-26 19:40:41', '2021-11-26 19:40:41', NULL);
+INSERT INTO `sub_barangs` VALUES (21, 1, 1, '555', 50000.0000, 5.0000, NULL, 1, 1, NULL, '2021-11-27 22:12:56', '2021-11-28 04:18:27', NULL);
+
+-- ----------------------------
+-- Table structure for sub_pembelian
+-- ----------------------------
+DROP TABLE IF EXISTS `sub_pembelian`;
+CREATE TABLE `sub_pembelian`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pembelian_id` int(11) NULL DEFAULT NULL,
+  `barang_id` int(11) NULL DEFAULT NULL,
+  `sub_barang_id` int(11) NULL DEFAULT NULL,
+  `harga` decimal(19, 4) NULL DEFAULT NULL,
+  `qty` int(11) NULL DEFAULT NULL,
+  `total` decimal(19, 4) NULL DEFAULT NULL,
+  `temp_by` int(11) UNSIGNED NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `created_at` datetime NULL DEFAULT NULL,
+  `updated_at` datetime NULL DEFAULT NULL,
+  `deleted_at` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sub_pembelian
+-- ----------------------------
+INSERT INTO `sub_pembelian` VALUES (8, 1, 1, 13, 100000.0000, 1, 100000.0000, NULL, 1, 1, NULL, '2021-11-28 04:11:10', '2021-11-28 04:11:10', NULL);
+INSERT INTO `sub_pembelian` VALUES (9, 2, 1, 13, 100000.0000, 1, 100000.0000, NULL, 1, 1, NULL, '2021-11-28 04:14:40', '2021-11-28 04:14:40', NULL);
+INSERT INTO `sub_pembelian` VALUES (10, 3, 1, 21, 50000.0000, 1, 50000.0000, NULL, 1, 1, NULL, '2021-11-28 04:16:40', '2021-11-28 04:16:40', NULL);
+INSERT INTO `sub_pembelian` VALUES (15, 4, 1, 13, 100000.0000, 5, 500000.0000, NULL, 1, 1, NULL, '2021-11-28 04:38:05', '2021-11-28 04:38:05', NULL);
+INSERT INTO `sub_pembelian` VALUES (16, 5, 2, 16, 100000.0000, 5, 500000.0000, NULL, 1, 1, NULL, '2021-11-28 04:38:41', '2021-11-28 04:38:41', NULL);
 
 -- ----------------------------
 -- Table structure for supplier
