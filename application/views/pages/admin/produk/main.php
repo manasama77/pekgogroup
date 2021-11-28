@@ -63,7 +63,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" style="width: 100%;">
+                                <table class="table table-bordered datatables" style="width: 100%;">
                                     <thead>
                                         <tr>
                                             <th class="text-center">#</th>
@@ -81,34 +81,28 @@
                                     <tbody>
                                         <?php
                                         $itteration = 1;
-                                        if ($list['num_rows'] == 0) {
-                                            echo '<tr>';
-                                            echo '<td class="text-center" colspan="10">Tidak ada data</td>';
-                                            echo '</td>';
-                                        } else {
-                                            for ($i = 0; $i < $list['num_rows']; $i++) {
+                                        for ($i = 0; $i < $list['num_rows']; $i++) {
                                         ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $itteration++; ?></td>
-                                                    <td class="text-center">
-                                                        <img class="img-thumbnail" src="<?= base_url('assets/img/products/' . $list['data'][$i]['path_image']); ?>" alt="<?= $list['data'][$i]['path_image']; ?>" style="width: 100px;">
-                                                    </td>
-                                                    <td><?= $list['data'][$i]['code']; ?></td>
-                                                    <td><?= $list['data'][$i]['name']; ?></td>
-                                                    <td>Rp.<?= number_format($list['data'][$i]['price'], 0); ?></td>
-                                                    <td><?= $list['data'][$i]['colors']; ?></td>
-                                                    <td><?= $list['data'][$i]['sizes']; ?></td>
-                                                    <td><?= $list['data'][$i]['requests']; ?></td>
-                                                    <td><?= $list['data'][$i]['hpps']; ?></td>
-                                                    <td class="text-center">
-                                                        <div class="btn-group">
-                                                            <a href="<?= base_url('produk/edit/' . $list['data'][$i]['id']); ?>" class="btn btn-info btn-sm">EDIT</a>
-                                                            <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $list['data'][$i]['id']; ?>, '<?= $list['data'][$i]['name']; ?>');">DELETE</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td class="text-center"><?= $itteration++; ?></td>
+                                                <td class="text-center">
+                                                    <img class="img-thumbnail" src="<?= base_url('assets/img/products/' . $list['data'][$i]['path_image']); ?>" alt="<?= $list['data'][$i]['path_image']; ?>" style="width: 100px;">
+                                                </td>
+                                                <td><?= $list['data'][$i]['code']; ?></td>
+                                                <td><?= $list['data'][$i]['name']; ?></td>
+                                                <td>Rp.<?= number_format($list['data'][$i]['price'], 0); ?></td>
+                                                <td><?= $list['data'][$i]['colors']; ?></td>
+                                                <td><?= $list['data'][$i]['sizes']; ?></td>
+                                                <td><?= $list['data'][$i]['requests']; ?></td>
+                                                <td><?= $list['data'][$i]['hpps']; ?></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <a href="<?= base_url('produk/edit/' . $list['data'][$i]['id']); ?>" class="btn btn-info btn-sm">EDIT</a>
+                                                        <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $list['data'][$i]['id']; ?>, '<?= $list['data'][$i]['name']; ?>');">DELETE</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         <?php
-                                            }
                                         }
                                         ?>
                                     </tbody>

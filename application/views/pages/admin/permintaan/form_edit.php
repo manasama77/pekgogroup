@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">TAMBAH PEMBELIAN</h1>
+                <h1 class="m-0">EDIT PEMBELIAN</h1>
             </div>
         </div>
         <div class="row">
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card card-warning">
                         <div class="card-header">
                             <h3 class="card-title">Tambah Barang</h3>
@@ -107,12 +107,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="qty">Qty</label>
-                                <div class="input-group">
-                                    <input type="number" class="form-control" id="qty" name="qty" placeholder="Qty" min="1" maxlength="1000000000" autocomplete="off">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="satuan">-</span>
-                                    </div>
-                                </div>
+                                <input type="number" class="form-control" id="qty" name="qty" placeholder="Qty" min="1" maxlength="1000000000" autocomplete="off">
                             </div>
                         </div>
                         <div class="card-footer">
@@ -136,7 +131,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" style="width: 70px;">
+                                            <th class="text-center" style="width: 110px;">
                                                 <i class="fas fa-cog"></i>
                                             </th>
                                             <th>Barang</th>

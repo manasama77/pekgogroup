@@ -1,5 +1,7 @@
 <script>
     $(document).ready(() => {
+        $('.datatables').DataTable()
+
         $('#form_blokir').on('submit', e => {
             e.preventDefault();
             $.ajax({

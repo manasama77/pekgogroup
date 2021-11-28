@@ -1,4 +1,8 @@
 <script>
+    $(document).ready(() => {
+        $('.datatables').DataTable()
+    })
+
     function detail(id) {
         $.ajax({
             url: `<?= base_url(); ?>pembelian/detail`,

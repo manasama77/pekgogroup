@@ -56,9 +56,9 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body px-1">
+                    <div class="card-body p-2">
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered datatables">
                                 <thead class="bg-dark">
                                     <tr>
                                         <th class="text-center">#</th>

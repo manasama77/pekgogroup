@@ -141,10 +141,16 @@ class Pembelian_model extends CI_Model
         $sql = "
         SELECT
             barangs.*,
-            sub_barangs.supplier_id 
+            sub_barangs.supplier_id, 
+            merks.name as nama_merk,
+            colors.name as nama_warna,
+            units.name as nama_satuan
         FROM
             barangs
             LEFT JOIN sub_barangs ON sub_barangs.barang_id = barangs.id 
+            LEFT JOIN merks ON merks.id = barangs.merk_id
+            LEFT JOIN colors ON colors.id = barangs.color_id
+            LEFT JOIN units ON units.id = barangs.unit_id
         WHERE
             barangs.deleted_at IS NULL 
         GROUP BY
@@ -155,8 +161,11 @@ class Pembelian_model extends CI_Model
         $exec_barang = $this->db->query($sql);
 
         foreach ($exec_barang->result() as $a) {
-            $nested['id']   = $a->id;
-            $nested['name'] = $a->name;
+            $nested['id']          = $a->id;
+            $nested['name']        = $a->name;
+            $nested['nama_merk']   = $a->nama_merk;
+            $nested['nama_warna']  = $a->nama_warna;
+            $nested['nama_satuan'] = $a->nama_satuan;
 
             array_push($data, $nested);
         }
@@ -245,8 +254,14 @@ class Pembelian_model extends CI_Model
             'sub_pembelian.total',
             'barangs.name as nama_barang',
             'sub_barangs.kode as kode_barang',
+            'merks.name as nama_merk',
+            'colors.name as nama_warna',
+            'units.name as nama_satuan',
         ]);
         $this->db->join('barangs', 'barangs.id = sub_pembelian.barang_id', 'left');
+        $this->db->join('merks', 'merks.id = barangs.merk_id', 'left');
+        $this->db->join('colors', 'colors.id = barangs.color_id', 'left');
+        $this->db->join('units', 'units.id = barangs.unit_id', 'left');
         $this->db->join('sub_barangs', 'sub_barangs.id = sub_pembelian.sub_barang_id', 'left');
         $this->db->where('sub_pembelian.deleted_at', null);
         $this->db->where('sub_pembelian.temp_by', $admin_id);
@@ -261,6 +276,9 @@ class Pembelian_model extends CI_Model
                 $nested['barang_id']     = $key->barang_id;
                 $nested['sub_barang_id'] = $key->sub_barang_id;
                 $nested['nama_barang']   = $key->nama_barang;
+                $nested['nama_merk']     = $key->nama_merk;
+                $nested['nama_warna']    = $key->nama_warna;
+                $nested['nama_satuan']   = $key->nama_satuan;
                 $nested['kode_barang']   = $key->kode_barang;
                 $nested['harga']         = "Rp." . number_format($key->harga, 0);
                 $nested['xharga']        = $key->harga;

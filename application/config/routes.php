@@ -147,6 +147,20 @@ $route['pembelian/store']                    = 'pembelian/store';
 $route['pembelian/detail']                   = 'pembelian/detail';
 $route['pembelian/destroy/(:num)']['delete'] = 'pembelian/destroy/$1';
 
+$route['pengurangan/index']                    = 'pengurangan/index';
+$route['pengurangan/add']                      = 'pengurangan/add';
+$route['pengurangan/get_barang_list']          = 'pengurangan/get_barang_list';
+$route['pengurangan/get_kode_list']            = 'pengurangan/get_kode_list';
+$route['pengurangan/store']                    = 'pengurangan/store';
+$route['pengurangan/destroy/(:num)']['delete'] = 'pengurangan/destroy/$1';
+
+$route['permintaan/index']                    = 'permintaan/index';
+$route['permintaan/get_kode_list']            = 'permintaan/get_kode_list';
+$route['permintaan/store']                    = 'permintaan/store';
+$route['permintaan/pending_to_order']         = 'permintaan/pending_to_order';
+$route['permintaan/order_to_selesai']         = 'permintaan/order_to_selesai';
+$route['permintaan/destroy/(:num)']['delete'] = 'permintaan/destroy/$1';
+
 // setup
 $route['setup/project']                    = 'project/index';
 $route['project/update']                   = 'project/update';

@@ -97,8 +97,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item <?= (in_array($this->uri->segment(1), ['inventory', 'pembelian'])) ? "menu-open" : null; ?>">
-                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['inventory', 'pembelian'])) ? "active" : null; ?>">
+            <li class="nav-item <?= (in_array($this->uri->segment(1), ['inventory', 'pembelian', 'pengurangan', 'permintaan'])) ? "menu-open" : null; ?>">
+                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['inventory', 'pembelian', 'pengurangan', 'permintaan'])) ? "active" : null; ?>">
                     <i class="nav-icon fab fa-dropbox"></i>
                     <p>
                         Inventory
@@ -128,6 +128,30 @@
                         <a href="<?= base_url('pembelian/add'); ?>" class="nav-link <?= (uri_string() == "pembelian/add") ? "active" : null; ?>">
                             <i class="fas fa-plus-circle nav-icon"></i>
                             <p>Tambah Pembelian</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('pengurangan/index'); ?>" class="nav-link <?= (uri_string() == "pengurangan/index") ? "active" : null; ?>">
+                            <i class="fas fa-scroll nav-icon"></i>
+                            <p>List Pengurangan</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('pengurangan/add'); ?>" class="nav-link <?= (uri_string() == "pengurangan/add") ? "active" : null; ?>">
+                            <i class="fas fa-minus-circle nav-icon"></i>
+                            <p>Pengurangan Stock</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('permintaan/index'); ?>" class="nav-link <?= (uri_string() == "permintaan/index") ? "active" : null; ?>">
+                            <i class="fas fa-scroll nav-icon"></i>
+                            <p>List Permintaan</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('permintaan/add'); ?>" class="nav-link <?= (uri_string() == "permintaan/add") ? "active" : null; ?>">
+                            <i class="fas fa-plus-circle nav-icon"></i>
+                            <p>Tambah Permintaan</p>
                         </a>
                     </li>
                 </ul>

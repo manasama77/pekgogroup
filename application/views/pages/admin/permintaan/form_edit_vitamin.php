@@ -36,7 +36,7 @@
                             let default_barang = '<option value=""></option>'
 
                             $.each(e.data, (i, k) => {
-                                default_barang += `<option value="${k.id}" data-satuan="${k.nama_satuan}">${k.name} - ${k.nama_merk} - ${k.nama_warna}</option>`
+                                default_barang += `<option value="${k.id}">${k.name}</option>`
                             })
                             $('#barang_id').html(default_barang).attr('disabled', false)
                         }
@@ -45,7 +45,6 @@
             } else {
                 $("#barang_id").html('<option value=""></option>').attr('disabled', true)
                 $("#sub_barang_id").html('<option value=""></option>').attr('disabled', true)
-                $('#satuan').text('-')
             }
         })
 
@@ -76,7 +75,6 @@
                     } else if (e.code == 200) {
                         if (e.data.length == 0) {
                             $('#sub_barang_id').html('<option value=""></option>').attr('disabled', true)
-                            $('#satuan').text('-')
                         } else {
                             let default_sub_barang = '<option value=""></option>'
 
@@ -85,13 +83,10 @@
                             })
                             $('#sub_barang_id').html(default_sub_barang).attr('disabled', false)
                         }
-
-                        $('#satuan').text($('#barang_id :selected').data('satuan'))
                     }
                 })
             } else {
                 $("#sub_barang_id").html('<option value=""></option>').attr('disabled', true)
-                $('#satuan').text('-')
             }
         })
 
@@ -295,13 +290,13 @@
                     <tr>
                         <td class="text-center">
                             <button type="button" class="btn btn-danger btn-sm" onclick="deleteBarang(${k.id});" title="Delete">
-                                <i class="fas fa-trash fa-fw"></i>
+                                <i class="fas fa-trash fa-fw"></i> Delete
                             </button>
                         </td>
-                        <td>${k.nama_barang} - ${k.nama_merk} - ${k.nama_warna}</td>
+                        <td>${k.nama_barang}</td>
                         <td>${k.kode_barang}</td>
                         <td class="text-right">${k.harga}</td>
-                        <td class="text-right">${k.qty} ${k.nama_satuan}</td>
+                        <td class="text-right">${k.qty}</td>
                         <td class="text-right">${k.total}</td>
                     </tr>
                     `

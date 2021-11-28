@@ -3,13 +3,6 @@
         $('.datatables').DataTable()
     })
 
-    function modalEdit(id, name, location, unit_id) {
-        $('#xid').val(id)
-        $('#xname').val(urldecode(name))
-        $('#xlocation').val(location)
-        $('#modal_edit').modal('show')
-    }
-
     function destroy(id, name) {
         Swal.fire({
             icon: 'question',
@@ -20,7 +13,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `<?= base_url(); ?>inventory/destroy/${id}`,
+                    url: `<?= base_url(); ?>pengurangan/destroy/${id}`,
                     type: 'delete',
                     dataType: 'json',
                     data: {
@@ -39,7 +32,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('inventory/index'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('pengurangan/index'); ?>'))
                     } else if (e.code == 200) {
                         Swal.fire({
                             position: 'top-end',
@@ -48,7 +41,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('inventory/index'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('pengurangan/index'); ?>'))
                     }
                 })
             }
