@@ -136,15 +136,16 @@ $route['inventory/store_supplier_fix']       = 'inventory/store_supplier_fix';
 $route['inventory/update']                   = 'inventory/update';
 $route['inventory/destroy/(:num)']['delete'] = 'inventory/destroy/$1';
 
-$route['pembelian/index']           = 'pembelian/index';
-$route['pembelian/add']             = 'pembelian/add';
-$route['pembelian/get_barang_list'] = 'pembelian/get_barang_list';
-$route['pembelian/get_kode_list']   = 'pembelian/get_kode_list';
-$route['pembelian/store_barang']    = 'pembelian/store_barang';
-$route['pembelian/get_barang_temp'] = 'pembelian/get_barang_temp';
-$route['pembelian/destroy_barang']  = 'pembelian/destroy_barang';
-$route['pembelian/store']           = 'pembelian/store';
-$route['pembelian/detail']          = 'pembelian/detail';
+$route['pembelian/index']                    = 'pembelian/index';
+$route['pembelian/add']                      = 'pembelian/add';
+$route['pembelian/get_barang_list']          = 'pembelian/get_barang_list';
+$route['pembelian/get_kode_list']            = 'pembelian/get_kode_list';
+$route['pembelian/store_barang']             = 'pembelian/store_barang';
+$route['pembelian/get_barang_temp']          = 'pembelian/get_barang_temp';
+$route['pembelian/destroy_barang']           = 'pembelian/destroy_barang';
+$route['pembelian/store']                    = 'pembelian/store';
+$route['pembelian/detail']                   = 'pembelian/detail';
+$route['pembelian/destroy/(:num)']['delete'] = 'pembelian/destroy/$1';
 
 // setup
 $route['setup/project']                    = 'project/index';

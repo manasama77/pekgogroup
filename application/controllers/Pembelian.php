@@ -206,13 +206,13 @@ class Pembelian extends CI_Controller
 
     public function destroy($id)
     {
-        $data_barang = [
+        $data_pembelian = [
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         ];
-        $where_barang     = ['id' => $id];
-        $where_sub_barang = ['barang_id' => $id];
-        $exec = $this->Inventory_model->destroy($data_barang, $where_barang, $where_sub_barang);
+        $where_pembelian     = ['id' => $id];
+        $where_sub_pembelian = ['barang_id' => $id];
+        $exec = $this->Pembelian_model->destroy($data_pembelian, $where_pembelian, $where_sub_pembelian, $id);
         $code = ($exec) ? 200 : 500;
         echo json_encode(['code' => $code]);
     }

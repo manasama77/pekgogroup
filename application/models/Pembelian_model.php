@@ -206,8 +206,24 @@ class Pembelian_model extends CI_Model
         return $this->db->update('pembelian', $data, $where);
     }
 
-    public function destroy($data, $where, $where_sub)
+    public function destroy($data, $where, $where_sub, $id)
     {
+        // pembalikan stock
+        $this->db->select('sub_barang_id, qty');
+        $this->db->where('pembelian_id', $id);
+        $exec = $this->db->get('sub_pembelian');
+
+        foreach ($exec->result() as $key) {
+            $sub_barang_id = $key->sub_barang_id;
+            $qty           = $key->qty;
+
+            $this->db->set('stock', 'stock - ' . $qty, false);
+            $this->db->set('updated_by', $this->session->userdata(SESS_ADM . 'id'));
+            $this->db->set('updated_at', date('Y-m-d H:i:s'));
+            $this->db->where('id', $sub_barang_id);
+            $this->db->update('sub_barangs');
+        }
+
         $this->db->update('pembelian', $data, $where);
         return $this->db->update('sub_pembelian', $data, $where_sub);
     }

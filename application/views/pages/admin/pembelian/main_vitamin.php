@@ -58,7 +58,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `<?= base_url(); ?>inventory/destroy/${id}`,
+                    url: `<?= base_url(); ?>pembelian/destroy/${id}`,
                     type: 'delete',
                     dataType: 'json',
                     data: {
@@ -77,7 +77,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('inventory/index'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('pembelian/index'); ?>'))
                     } else if (e.code == 200) {
                         Swal.fire({
                             position: 'top-end',
@@ -86,7 +86,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('inventory/index'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('pembelian/index'); ?>'))
                     }
                 })
             }
