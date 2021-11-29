@@ -161,6 +161,10 @@ $route['permintaan/pending_to_order']         = 'permintaan/pending_to_order';
 $route['permintaan/order_to_selesai']         = 'permintaan/order_to_selesai';
 $route['permintaan/destroy/(:num)']['delete'] = 'permintaan/destroy/$1';
 
+$route['account/index']                    = 'account/index';
+$route['account/update']                   = 'account/update';
+$route['account/destroy/(:num)']['delete'] = 'account/destroy/$1';
+
 // setup
 $route['setup/project']                    = 'project/index';
 $route['project/update']                   = 'project/update';

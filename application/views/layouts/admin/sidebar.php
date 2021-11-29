@@ -179,6 +179,23 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item <?= (in_array($this->uri->segment(1), ['accounting'])) ? "menu-open" : null; ?>">
+                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['accounting'])) ? "active" : null; ?>">
+                    <i class="nav-icon fas fa-balance-scale"></i>
+                    <p>
+                        Accounting
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="<?= base_url('account/index'); ?>" class="nav-link <?= (uri_string() == "account/index") ? "active" : null; ?>">
+                            <i class="fas fa-list nav-icon"></i>
+                            <p>Akun</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item mb-3 <?= (in_array($this->uri->segment(1), ['setup'])) ? "menu-open" : null; ?>">
                 <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['setup'])) ? "active" : null; ?>">
                     <i class="nav-icon fas fa-cogs"></i>

@@ -90,7 +90,7 @@ class Supplier extends CI_Controller
             echo "Update data gagal, silahkan coba kembali!";
         }
 
-        $this->session->set_flashdata('success', 'Update HPP Berhasil');
+        $this->session->set_flashdata('success', 'Update Supplier Berhasil');
         redirect(base_url() . 'setup/supplier', 'location');
     }
 
