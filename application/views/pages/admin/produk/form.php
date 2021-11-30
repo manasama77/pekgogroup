@@ -137,7 +137,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="code">JENIS HPP</label>
-                                        <select class="form-control" id="id_hpp" name="id_hpp">
+                                        <select class="form-control select2" id="id_hpp" name="id_hpp" autocomplete="off" data-placeholder="Pilih Jenis HPP">
                                             <?php foreach ($hpps->result() as $hpp) { ?>
                                                 <option value="<?= $hpp->id; ?>"><?= $hpp->name; ?></option>
                                             <?php } ?>

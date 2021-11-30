@@ -1,4 +1,10 @@
 <script>
+    $(document).ready(() => {
+        $('.select2').select2({
+            allowClear: true
+        })
+    })
+
     let formProduk = $('#form_produk')
     let id_product = $('#id_product')
     let id_hpp = $('#id_hpp')
