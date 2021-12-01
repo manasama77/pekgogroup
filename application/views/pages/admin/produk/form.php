@@ -146,6 +146,7 @@
                                     <div class="form-group">
                                         <label for="qty_hpp">QTY KEBUTUHAN HPP</label>
                                         <input type="number" class="form-control" id="qty_hpp" name="qty_hpp" placeholder="QTY KEBUTUHAN HPP" step="0.01" minlength="1" maxlength="1000">
+                                        <div class="text-muted">Pemisah Desimal menggunakan titik</div>
                                     </div>
                                 </div>
                                 <div class="card-footer">

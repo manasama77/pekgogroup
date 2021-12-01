@@ -274,7 +274,7 @@ class Produk extends CI_Controller
 
         $config['upload_path']   = './assets/img/products/';
         $config['allowed_types'] = 'jpeg|jpg|png';
-        $config['max_size']      = 2048;
+        // $config['max_size']      = 2048;
         $config['max_width']     = 0;
         $config['max_height']    = 0;
         $config['encrypt_name']  = true;
