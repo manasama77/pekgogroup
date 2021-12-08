@@ -2,19 +2,19 @@
     <div class="container">
         <div class="row align-items-start align-items-md-center justify-content-end">
             <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
-                <h1 class="mb-2">PEKGO APPAREL</h1>
-                <div class="intro-text text-center text-md-left">
+                <!-- <h1 class="mb-2">PEKGO APPAREL</h1> -->
+                <!-- <div class="intro-text text-center text-md-left">
                     <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla. </p>
                     <p>
                         <a href="<?= base_url('shop/index'); ?>" class="btn btn-sm btn-warning">Shop Now</a>
                     </p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </div>
 
-<div class="site-section site-section-sm site-blocks-1">
+<!-- <div class="site-section site-section-sm site-blocks-1">
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="">
@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="site-section block-3 site-blocks-2 bg-light">
     <div class="container">

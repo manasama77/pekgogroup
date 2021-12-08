@@ -35,6 +35,17 @@
     .blockOverlay {
       z-index: 2000 !important;
     }
+
+    .icon-before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 20px;
+      line-height: 1;
+      color: #dd9e22;
+      width: 20px;
+      height: 20px;
+    }
   </style>
 
 </head>

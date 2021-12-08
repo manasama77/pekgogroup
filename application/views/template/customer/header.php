@@ -64,7 +64,7 @@
             ?>
             <ul class="site-menu js-clone-nav d-none d-md-block">
                 <li class="<?= $home_active; ?>"><a href="<?= base_url(); ?>">Home</a></li>
-                <li class="<?= $about_active; ?>"><a href="<?= base_url('about/index'); ?>">About Us</a></li>
+                <!-- <li class="<?= $about_active; ?>"><a href="<?= base_url('about/index'); ?>">About Us</a></li> -->
                 <li class="<?= $shop_active; ?>"><a href="<?= base_url('shop/index'); ?>">Shop</a></li>
                 <li class="<?= $contact_active; ?>"><a href="<?= base_url('contact/index'); ?>">Contact</a></li>
                 <?php
