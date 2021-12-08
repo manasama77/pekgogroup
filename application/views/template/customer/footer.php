@@ -19,9 +19,12 @@
                 <div class="block-5 mb-5">
                     <h3 class="footer-heading mb-4">Contact Info</h3>
                     <ul class="list-unstyled">
-                        <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-                        <li class="phone"><a href="<?= base_url(); ?>assets/shoppers/tel://23923929210">+2 392 3929 210</a></li>
-                        <li class="email">emailaddress@domain.com</li>
+                        <li class="address">Tangerang Selatan</li>
+                        <li class="phone"><a href="https://wa.me/+6287872223199" target="_blank">+62 8787 222 3199</a></li>
+                        <li class="email"><a href="mailto:pekgoapparel8@gmail.com" target="_blank">pekgoapparel8@gmail.com</a></li>
+                        <li><a href="https://shopee.co.id/pekgo_official" target="_blank">Shopee</a></li>
+                        <li><a href="https://www.tokopedia.com/pekgoofficial" target="_blank">Tokopedia</a></li>
+                        <li><a href="https://www.instagram.com/pekgo_apparel/?hl=en" target="_blank">Instagram</a></li>
                     </ul>
                 </div>
             </div>

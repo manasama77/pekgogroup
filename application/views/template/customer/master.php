@@ -59,7 +59,7 @@
   <script src="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.all.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/jquery.blockUI.js"></script>
   <script src="<?= base_url(); ?>assets/plugins/moment/moment.min.js"></script>
-  <script src="<?= base_url(); ?>assets/js/adam_helper.js"></script>
+  <script src="<?= base_url(); ?>assets/js/adam_helpers.js"></script>
 
 </body>
 

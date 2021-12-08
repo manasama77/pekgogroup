@@ -2,7 +2,7 @@
     <div class="container">
 
         <div class="row mb-5">
-            <div class="col-md-9 order-2">
+            <div class="col-12 order-1">
 
                 <div class="row">
                     <div class="col-md-12 mb-5">
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3 order-1 mb-5 mb-md-0">
+            <!-- <div class="col-md-3 order-1 mb-5 mb-md-0">
                 <form action="<?= current_url(); ?>" method="get">
                     <div class="border p-4 rounded mb-4 shadow-sm">
                         <div class="mb-4">
@@ -58,21 +58,12 @@
                             ?>
                         </div>
 
-                        <!-- <div class="mb-4">
-                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-                        <?php foreach ($colors->result() as $color) { ?>
-                            <a href="https://example.com/no-js-login" class="d-flex color-item align-items-center ignore-click" onclick="filterColor('<?= $color->name; ?>');">
-                                <span class="color d-inline-block rounded-circle mr-2" style="background-color: <?= $color->hex; ?>"></span> <span class="text-black"><?= $color->name; ?></span>
-                            </a>
-                        <?php } ?>
-                    </div> -->
-
                         <button type="submit" class="btn btn-primary btn-block btn-sm"><i class="fas fa-filter"></i> Filter</button>
                         <a href="<?= base_url('shop/index'); ?>" class="btn btn-secondary btn-block btn-sm"><i class="fas fa-redo"></i> Reset</a>
 
                     </div>
                 </form>
-            </div>
+            </div> -->
 
 
 

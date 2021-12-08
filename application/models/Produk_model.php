@@ -375,7 +375,7 @@ class Produk_model extends CI_Model
             'requests.name',
             'requests.cost',
         ));
-        $this->db->join('product_request_params', 'product_request_params.product_id = requests.id', 'left');
+        $this->db->join('product_request_params', 'product_request_params.request_id = requests.id', 'left');
         $this->db->where($field, $key);
         $this->db->where('requests.deleted_at', null);
         $exec = $this->db->get('requests');
