@@ -24,23 +24,23 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="whatsapp">WHATSAPP</label>
+                                <label for="whatsapp">WHATSAPP <span class="text-danger" title="wajib diisi">*</span></label>
                                 <input type="tel" class="form-control" id="whatsapp" name="whatsapp" placeholder="WHATSAPP" minlength="8" maxlength="16" value="<?= set_value('whatsapp'); ?>" autocomplete="tel" required>
                                 <?= form_error('whatsapp'); ?>
                             </div>
                             <div class="form-group">
-                                <label for="password">PASSWORD</label>
+                                <label for="password">PASSWORD <span class="text-danger" title="wajib diisi">*</span></label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="PASSWORD" minlength="4" maxlength="20" value="<?= set_value('password'); ?>" autocomplete="new-password" required>
                                 <?= form_error('password'); ?>
                             </div>
                             <div class="form-group">
-                                <label for="password_verifikasi">PASSWORD VERIFIKASI</label>
+                                <label for="password_verifikasi">PASSWORD VERIFIKASI <span class="text-danger" title="wajib diisi">*</span></label>
                                 <input type="password" class="form-control" id="password_verifikasi" name="password_verifikasi" placeholder="PASSWORD VERIFIKASI" minlength="4" maxlength="20" value="<?= set_value('password_verifikasi'); ?>" autocomplete="new-password" required>
                                 <?= form_error('password_verifikasi'); ?>
                             </div>
                             <hr />
                             <div class="form-group">
-                                <label for="name">NAMA</label>
+                                <label for="name">NAMA <span class="text-danger" title="wajib diisi">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="NAMA" minlength="2" maxlength="100" value="<?= set_value('name'); ?>" autocomplete="name" required>
                                 <?= form_error('name'); ?>
                             </div>

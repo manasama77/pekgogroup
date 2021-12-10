@@ -15,8 +15,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('success'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('success'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -29,8 +27,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('error'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -116,7 +112,7 @@
                                 <th>ID Tokped</th>
                                 <th>ID Shopee</th>
                                 <th>ID Instagram</th>
-                                <th>Status</th>
+                                <th class="text-center">Status</th>
                                 <th>Jumlah Order</th>
                                 <th>Grand Total Order</th>
                                 <th>Pembatalan Order</th>
@@ -136,8 +132,12 @@
                                         <td><?= $key->id_tokped; ?></td>
                                         <td><?= $key->id_shopee; ?></td>
                                         <td><?= $key->id_instagram; ?></td>
-                                        <td>
-                                            <?= strtoupper($key->status); ?>
+                                        <td class="text-center text-uppercase">
+                                            <?php if ($key->status == "aktif") { ?>
+                                                <span class="badge badge-success">Aktif</span>
+                                            <?php } else { ?>
+                                                <span class="badge badge-danger">Tidak Aktif</span>
+                                            <?php } ?>
                                             <?php if ($key->status == 'tidak aktif') { ?>
                                                 <br />
                                                 (<?= $key->reason_inactive; ?>)

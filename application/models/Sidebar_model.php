@@ -24,7 +24,8 @@ class Sidebar_model extends CI_Model
         $pembayarans = $this->db->get('order_payments');
         $data['pembayaran'] = $pembayarans->num_rows();
 
-        $this->db->where('status_order', 'naik produksi');
+        $this->db->where_in('status_order', ['order dibuat', 'naik produksi']);
+        $this->db->where('status_pembayaran', 'partial');
         $this->db->where('status', 'active');
         $this->db->where('deleted_at', null);
         $orders = $this->db->get('orders');

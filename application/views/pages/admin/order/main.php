@@ -296,8 +296,8 @@
                                                 <th><?= $key->nama_warna; ?></th>
                                                 <th><?= $key->nama_ukuran; ?></th>
                                                 <th><?= strtoupper($key->pilih_jahitan); ?></th>
-                                                <th><?= strtoupper($key->status_order); ?></th>
-                                                <th><?= strtoupper($key->status_pembayaran); ?></th>
+                                                <th class="text-center"><?= strtoupper($key->status_order); ?></th>
+                                                <th class="text-center"><?= strtoupper($key->status_pembayaran); ?></th>
                                                 <th>Rp <?= number_format($key->grand_total, 2); ?></th>
                                             </tr>
                                         <?php } ?>

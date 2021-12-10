@@ -15,8 +15,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('success'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('success'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -29,8 +27,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('error'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -101,7 +97,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">NAMA KARYAWAN</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA KARYAWAN" minlength="4" maxlength="16" value="<?= set_value('name'); ?>" required>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA KARYAWAN" minlength="3" maxlength="50" value="<?= set_value('name'); ?>" required>
                                 <?= form_error('name'); ?>
                             </div>
                             <div class="form-group">

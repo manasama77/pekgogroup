@@ -291,7 +291,6 @@ class Produk extends CI_Controller
 
         $config['upload_path']   = './assets/img/products/';
         $config['allowed_types'] = 'jpeg|jpg|png';
-        // $config['max_size']      = 2048;
         $config['max_width']     = 0;
         $config['max_height']    = 0;
         $config['encrypt_name']  = true;
@@ -315,10 +314,10 @@ class Produk extends CI_Controller
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
                 redirect(base_url() . 'produk/edit/' . $id, 'location');
+            } else {
+                $image_data_2 = $this->upload->data();
+                $path_image_2 = $image_data_2['file_name'];
             }
-        } else {
-            $image_data_2 = $this->upload->data();
-            $path_image_2 = $image_data_2['file_name'];
         }
 
         if ($_FILES['path_image_3']['size'] > 0) {
@@ -326,10 +325,10 @@ class Produk extends CI_Controller
                 $error = $this->upload->display_errors();
                 $this->session->set_flashdata('error', $error);
                 redirect(base_url() . 'produk/add', 'location');
+            } else {
+                $image_data_3 = $this->upload->data();
+                $path_image_3 = $image_data_3['file_name'];
             }
-        } else {
-            $image_data_3 = $this->upload->data();
-            $path_image_3 = $image_data_3['file_name'];
         }
 
         $data = array(

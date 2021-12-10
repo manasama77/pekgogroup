@@ -5,9 +5,16 @@
 <link rel="stylesheet" media="print" href="<?= base_url(); ?>assets/css/adminlte.css">
 
 <style media="print" type="text/css">
-    .table-bordered td,
-    th {
+    .table-bordered .table-striped thead tbody tr td th {
         border: 1px solid #000 !important;
+    }
+
+    .table-bordered .table-striped tr th {
+        color: #fff !important;
+    }
+
+    .table-striped {
+        color: #000 !important;
     }
 </style>
 
@@ -61,7 +68,7 @@
     </div>
     <div class="row d-flex justify-content-between">
         <div class="col-4 d-flex justify-content-start">
-            <table class="table table-bordered small table-sm">
+            <table class="table table-bordered table-striped small table-sm">
                 <tr>
                     <th colspan="2" style="background-color: black !important; color: white;">INFORMASI PRODUK</th>
                 </tr>
@@ -93,7 +100,7 @@
         </div>
         <div class="col-1"></div>
         <div class="col-4 text-right">
-            <table class="table table-bordered small table-sm">
+            <table class="table table-bordered table-striped small table-sm">
                 <tr>
                     <th style="background-color: black !important; color: white;">CATATAN</th>
                 </tr>
@@ -118,8 +125,8 @@
                 <tbody>
                     <?php foreach ($data_hpps as $key) { ?>
                         <tr>
-                            <td><?= $key->name; ?></td>
-                            <td class="text-right">
+                            <td style="border: 1px solid #000;"><?= $key->name; ?></td>
+                            <td class="text-right" style="border: 1px solid #000;">
                                 <?= number_format($key->qty, 0); ?> <?= $key->satuan_unit; ?>
                             </td>
                         </tr>
