@@ -261,7 +261,7 @@ class Order_model extends CI_Model
         return $this->db->update($table, $data, $where);
     }
 
-    public function render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan)
+    public function render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $pilih_jahitan)
     {
         $data = array(
             'product_id' => $product_id,
@@ -324,6 +324,7 @@ class Order_model extends CI_Model
         } elseif ($pilih_jahitan == "super urgent") {
             $harga_jahitan = 150000;
         }
+
         $nama_jahitan = ucwords($pilih_jahitan);
         $html .= '<tr>';
         $html .= '<td>Jahitan: ' . $nama_jahitan . '</td>';

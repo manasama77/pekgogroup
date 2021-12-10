@@ -51,6 +51,11 @@
                                 <?= form_error('name'); ?>
                             </div>
                             <div class="form-group">
+                                <label for="description">DESKRIPSI</label>
+                                <textarea class="form-control" id="description" name="description" placeholder="DESKRIPSI" required><?= $products->row()->description; ?></textarea>
+                                <?= form_error('description'); ?>
+                            </div>
+                            <div class="form-group">
                                 <label for="price">HARGA</label>
                                 <?php
                                 $product_price = number_format($products->row()->price, 0, '', '');
@@ -107,6 +112,43 @@
                                     <?php } ?>
                                 </div>
                                 <?= form_error('request_id[]'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label>JENIS JAHITAN</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="standard" id="standard" value="1" <?= ($products->row()->standard == 1) ? "checked" : null; ?> required disabled>
+                                            <label class="form-check-label" for="standard">
+                                                STANDARD
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="express" id="express" value="1" <?= ($products->row()->express == 1) ? "checked" : null; ?>>
+                                            <label class="form-check-label" for="express">
+                                                EXPRESS
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="urgent" id="urgent" value="1" <?= ($products->row()->urgent == 1) ? "checked" : null; ?>>
+                                            <label class="form-check-label" for="urgent">
+                                                URGENT
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="super_urgent" id="super_urgent" value="1" <?= ($products->row()->super_urgent == 1) ? "checked" : null; ?>>
+                                            <label class="form-check-label" for="super_urgent">
+                                                SUPER URGENT
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="path_image">GAMBAR PRODUK 1</label>

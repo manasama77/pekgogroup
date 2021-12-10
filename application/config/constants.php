@@ -93,3 +93,5 @@ define('APP_YEAR', '2021');
 define('SESS_ADM', 'ミライ');
 
 define('RAJAONGKIR_API_KEY', '3132beaaebb0accd7cfa69c55e93125e');
+
+define('REKENING_MANDIRI', 'Bank Mandiri 1010011619853 a/n PT. Pekgo Laguna Indonesia');

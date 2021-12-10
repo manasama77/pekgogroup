@@ -59,7 +59,6 @@
                             <div class="col-md-12">
                                 <label for="jenis_dp" class="text-black">Jenis DP <span class="text-danger">*</span></label>
                                 <select class="form-control" id="jenis_dp" name="jenis_dp" required>
-                                    <option value="30">30%</option>
                                     <option value="50">50%</option>
                                     <option value="100">100%</option>
                                 </select>
@@ -141,16 +140,21 @@
                                 </div>
 
                                 <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank"><i class="fas fa-exclamation-circle fa-fw"></i> Cara Pembayaran</a></h3>
+                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank"><i class="fas fa-exclamation-circle fa-fw"></i> Cara Pembayaran </a></h3>
 
                                     <div class="collapse" id="collapsebank">
                                         <div class="py-2">
-                                            <p class="mb-0" <b>
-                                                <i class="fas fa-exclamation-triangle fa-2x fa-fw text-danger"></i>
-                                                Transfer ke <b><u>BANK BCA 4980312297 an Isanda Lirian</u></b><br>
-                                                Pembayaran harus sesuai nominal jika tidak akan direfund ( artinya tercancel )<br />
-                                                Konfirmasi pembayaran sebelum jam yang sudah di tentukan.<br />
-                                                Lebih baik 15 menit sebelum batas waktu menghindari trafic website. Karna jika telat maka tercancel</b>
+                                            <p class="mb-0">
+                                                <b>
+                                                    Pembayaran harus sesuai nominal jika tidak akan direfund ( artinya tercancel )<br />
+                                                    Konfirmasi pembayaran sebelum jam yang sudah di tentukan.<br />
+                                                    Lebih baik 15 menit sebelum batas waktu menghindari trafic website. Karna jika telat maka otomatis tercancel.
+                                                    <hr />
+                                                    Untuk transfer silahkan transfer ke nomor rekening berikut:
+                                                    <ul>
+                                                        <li><?= REKENING_MANDIRI; ?></li>
+                                                    </ul>
+                                                </b>
                                             </p>
                                         </div>
                                     </div>

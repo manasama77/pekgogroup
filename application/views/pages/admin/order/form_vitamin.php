@@ -174,6 +174,7 @@
                     toast: true
                 })
             } else if (e.code == 200) {
+                console.log(e)
                 let vColors = `<option value=""></option>`
                 $.each(e.data.colors, (i, k) => {
                     vColors += `<option value="${k.id}">${k.name}</option>`
@@ -191,6 +192,24 @@
                     vRequests += `<option value="${k.id}">${k.name}</option>`
                 })
                 requestId.html(vRequests)
+
+                let listJahitan = `<option value="standard">Standard (4 Minggu Jadi) Rp.0,-</option>`;
+
+                if (e.data.express == "1") {
+                    listJahitan += `<option value="express">Express (2 Minggu Jadi) Rp.50.000,-</option>`;
+                }
+
+                if (e.data.urgent == "1") {
+                    listJahitan += `<option value="urgent">Urgent (1 Minggu Jadi) Rp.100.000,-</option>`;
+                }
+
+                if (e.data.super_urgent == "1") {
+                    listJahitan += `<option value="super_urgent">Super Urgent (3 Hari Jadi) Rp.150.000,-</option>`;
+                }
+
+                console.log("listJahitan", listJahitan)
+
+                $('#pilih_jahitan').html(listJahitan)
 
                 renderDetail()
             }
@@ -272,7 +291,6 @@
         grandTotalOrder.val(dGrandTotal)
         dpOrder.val(dDp)
         lunasOrder.val(dLunas)
-        //adam
     }
 
     function renderDetail() {
@@ -281,13 +299,12 @@
             type: 'get',
             dataType: 'json',
             data: {
-                order_id: idOrder.val(),
-                product_id: productId.val(),
-                color_id: colorId.val(),
-                size_id: sizeId.val(),
-                kode_unik: kodeUnik.text(),
-                jenis_dp: jenisDp.text(),
-                pilih_jahitan: pilihJahitan.val(),
+                order_id: $('#id_order').val(),
+                product_id: $('#product_id').val(),
+                color_id: $("#color_id").val(),
+                size_id: $("#size_id").val(),
+                kode_unik: $("#kode_unik").text(),
+                pilih_jahitan: $("#pilih_jahitan").val(),
             },
             beforeSend: () => $.blockUI({
                 message: `<i class="fas fa-spinner fa-spin"></i>`

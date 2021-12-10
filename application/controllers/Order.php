@@ -442,10 +442,9 @@ class Order extends CI_Controller
         $color_id      = $this->input->get('color_id');
         $size_id       = $this->input->get('size_id');
         $kode_unik     = $this->input->get('kode_unik');
-        $jenis_dp      = $this->input->get('jenis_dp');
         $pilih_jahitan = $this->input->get('pilih_jahitan');
 
-        $exec  = $this->Order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan);
+        $exec  = $this->Order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $pilih_jahitan);
 
         echo json_encode([
             'code' => 200,

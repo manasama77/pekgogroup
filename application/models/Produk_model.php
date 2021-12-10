@@ -20,6 +20,10 @@ class Produk_model extends CI_Model
             'products.path_image_2',
             'products.path_image_3',
             'products.description',
+            'products.standard',
+            'products.express',
+            'products.urgent',
+            'products.super_urgent',
         );
     }
 
@@ -147,17 +151,23 @@ class Produk_model extends CI_Model
 
     public function get_detail_for_order($id)
     {
-        $this->db->select('products.path_image');
+        $this->db->select('products.path_image, products.express, products.urgent, products.super_urgent');
         $this->db->where('products.id', $id);
         $p = $this->db->get('products');
 
-        $images = ($p->row()->path_image != null || $p->row()->path_image != "") ? $p->row()->path_image : 'default.jpg';
+        $images       = ($p->row()->path_image != null || $p->row()->path_image != "") ? $p->row()->path_image : 'default.jpg';
+        $express      = $p->row()->express;
+        $urgent       = $p->row()->urgent;
+        $super_urgent = $p->row()->super_urgent;
 
         $return = array(
-            'image'    => $images,
-            'colors'   => array(),
-            'sizes'    => array(),
-            'requests' => array(),
+            'image'        => $images,
+            'express'      => $express,
+            'urgent'       => $urgent,
+            'super_urgent' => $super_urgent,
+            'colors'       => array(),
+            'sizes'        => array(),
+            'requests'     => array(),
         );
 
         $this->db->select(array(
@@ -413,6 +423,8 @@ class Produk_model extends CI_Model
         $this->db->where('products.status', 'active');
         $this->db->where('products.deleted_at', null);
         $this->db->where('product_size_params.deleted_at', null);
+        $this->db->order_by('products.id', 'desc');
+
         return $this->db->get('products', $limit, $offset);
     }
 
@@ -446,6 +458,10 @@ class Produk_model extends CI_Model
                 $path_image_2 = $key->path_image_2;
                 $path_image_3 = $key->path_image_3;
                 $description  = $key->description;
+                $standard     = $key->standard;
+                $express      = $key->express;
+                $urgent       = $key->urgent;
+                $super_urgent = $key->super_urgent;
 
                 $return['data'][$itteraion]['id']           = $id;
                 $return['data'][$itteraion]['code']         = $code;
@@ -455,6 +471,10 @@ class Produk_model extends CI_Model
                 $return['data'][$itteraion]['path_image_2'] = $path_image_2;
                 $return['data'][$itteraion]['path_image_3'] = $path_image_3;
                 $return['data'][$itteraion]['description']  = $description;
+                $return['data'][$itteraion]['standard']     = $standard;
+                $return['data'][$itteraion]['express']      = $express;
+                $return['data'][$itteraion]['urgent']       = $urgent;
+                $return['data'][$itteraion]['super_urgent'] = $super_urgent;
 
                 $this->db->select('colors.id, colors.name');
                 $this->db->from('product_color_params');
@@ -469,7 +489,7 @@ class Produk_model extends CI_Model
                     $return['data'][$itteraion]['colors'] = $exec_color->result_array();
                 }
 
-                $this->db->select('sizes.id, sizes.name');
+                $this->db->select('sizes.id, sizes.name, sizes.cost');
                 $this->db->from('product_size_params');
                 $this->db->join('sizes', 'sizes.id = product_size_params.size_id', 'left');
                 $this->db->where('product_size_params.product_id', $id);
@@ -520,7 +540,7 @@ class Produk_model extends CI_Model
         $this->db->where('status', 'active');
         $this->db->where('deleted_at', null);
         $this->db->order_by('sold', 'desc');
-        return $this->db->get('products', 5);
+        return $this->db->get('products', 10);
     }
 
     public function get_product_colors($product_id)

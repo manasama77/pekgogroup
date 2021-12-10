@@ -53,6 +53,7 @@
 
                     <div class="row">
                         <div class="col-12 mt-3">
+                            <input type="hidden" name="reff" value="<?= $reff; ?>" required />
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                             <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-sign-in-alt"></i> Log In</button>
                         </div>

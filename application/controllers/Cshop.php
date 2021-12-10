@@ -238,7 +238,7 @@ class Cshop extends CI_Controller
         $pilih_jahitan = $orders->row()->pilih_jahitan;
         $jenis_dp      = $this->input->get('jenis_dp');
 
-        $exec  = $this->order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $jenis_dp, $pilih_jahitan);
+        $exec  = $this->order_model->render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $pilih_jahitan);
 
         echo json_encode([
             'code' => 200,

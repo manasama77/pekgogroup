@@ -20,9 +20,11 @@ class Clogin extends CI_Controller
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
+            $data['reff'] = ($this->agent->referrer() == base_url('customer/login')) ? base_url() : $this->agent->referrer();
             $this->load->view('clogin', $data);
         } else {
             $whatsapp = $this->input->post('whatsapp');
+            $reff     = $this->input->post('reff');
             $exec     = $this->Customer_model->get_single_data('whatsapp', $whatsapp);
             $id       = $exec->row()->id;
             $name     = $exec->row()->name;
@@ -33,7 +35,7 @@ class Clogin extends CI_Controller
                 'name'     => $name,
             );
             $this->session->set_userdata($sesi_customer);
-            redirect(base_url());
+            redirect($reff);
         }
     }
 
@@ -65,7 +67,9 @@ class Clogin extends CI_Controller
 
     public function logout()
     {
-        $this->session->sess_destroy();
+        $this->session->unset_userdata('id');
+        $this->session->unset_userdata('whatsapp');
+        $this->session->unset_userdata('name');
         redirect(base_url());
     }
 }

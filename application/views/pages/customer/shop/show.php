@@ -49,20 +49,22 @@
 
                 <form action="<?= base_url('shop/checkout/' . $products['data'][0]['id']); ?>" method="post">
                     <h2 class="text-black"><?= $products['data'][0]['name']; ?></h2>
-                    <p><?= $products['data'][0]['description']; ?></p>
+                    <h5><?= $products['data'][0]['description']; ?></h5>
                     <p><strong class="text-primary h4">Rp.<?= number_format($products['data'][0]['price'], 0, ',', '.'); ?>,-</strong></p>
 
                     <h5 class="mt-4">Size</h5>
-                    <div class="mb-1 d-flex">
-                        <?php for ($i = 0; $i < count($products['data'][0]['sizes']); $i++) { ?>
-                            <div class="form-check form-check-inline mr-5">
-                                <input class="form-check-input" type="radio" name="size_id" id="size_<?= $products['data'][0]['sizes'][$i]['id']; ?>" value="<?= $products['data'][0]['sizes'][$i]['id']; ?>">
-                                <label class="form-check-label" for="size_<?= $products['data'][0]['sizes'][$i]['id']; ?>">
-                                    <?= $products['data'][0]['sizes'][$i]['name']; ?>
-                                </label>
+                    <?php for ($i = 0; $i < count($products['data'][0]['sizes']); $i++) { ?>
+                        <div class="mb-1">
+                            <div class="form-group">
+                                <div class="form-check mr-5">
+                                    <input class="form-check-input" type="radio" name="size_id" id="size_<?= $products['data'][0]['sizes'][$i]['id']; ?>" value="<?= $products['data'][0]['sizes'][$i]['id']; ?>">
+                                    <label class="form-check-label" for="size_<?= $products['data'][0]['sizes'][$i]['id']; ?>">
+                                        <?= $products['data'][0]['sizes'][$i]['name']; ?> &mdash; (+Rp.<?= number_format($products['data'][0]['sizes'][$i]['cost'], 0); ?>,-)
+                                    </label>
+                                </div>
                             </div>
-                        <?php } ?>
-                    </div>
+                        </div>
+                    <?php } ?>
 
                     <h5 class="mt-4">Color</h5>
                     <div class="mb-1 d-flex">
@@ -73,44 +75,59 @@
                         </select>
                     </div>
 
-                    <h5 class="mt-4">Jahitan</h5>
+                    <?php if ($products['data'][0]['standard'] == 1 || $products['data'][0]['express'] == 1 || $products['data'][0]['urgent'] == 1 || $products['data'][0]['super_urgent'] == 1) { ?>
+                        <h5 class="mt-4">Jahitan</h5>
+                    <?php } ?>
                     <div class="mb-1">
                         <div class="form-group">
                             <div class="form-check mr-5">
-                                <input class="form-check-input" type="radio" name="pilih_jahitan" id="standard" value="standard" checked>
+                                <input class="form-check-input" type="radio" name="pilih_jahitan" id="standard" value="standard" autocomplete="off" checked>
                                 <label class="form-check-label" for="standard">
-                                    Standard - 4 Minggu Jadi (+Rp.0,-)
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check mr-5">
-                                <input class="form-check-input" type="radio" name="pilih_jahitan" id="express" value="express">
-                                <label class="form-check-label" for="express">
-                                    Express - 2 Minggu Jadi (+Rp.50.000,-)
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check mr-5">
-                                <input class="form-check-input" type="radio" name="pilih_jahitan" id="urgent" value="urgent">
-                                <label class="form-check-label" for="urgent">
-                                    Urgent - 1 Minggu Jadi (+Rp.100.000,-)
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check mr-5">
-                                <input class="form-check-input" type="radio" name="pilih_jahitan" id="super_urgent" value="super urgent">
-                                <label class="form-check-label" for="super_urgent">
-                                    Super Urgent - 3 Hari Jadi (+Rp.150.000,-)
+                                    Standard &mdash; 4 Minggu Jadi (+Rp.0,-)
                                 </label>
                             </div>
                         </div>
 
+                        <?php if ($products['data'][0]['express'] == 1) { ?>
+                            <div class="form-group">
+                                <div class="form-check mr-5">
+                                    <input class="form-check-input" type="radio" name="pilih_jahitan" id="express" value="express" autocomplete="off">
+                                    <label class="form-check-label" for="express">
+                                        Express &mdash; 2 Minggu Jadi (+Rp.50.000,-)
+                                    </label>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+                        <?php if ($products['data'][0]['urgent'] == 1) { ?>
+                            <div class="form-group">
+                                <div class="form-check mr-5">
+                                    <input class="form-check-input" type="radio" name="pilih_jahitan" id="urgent" value="urgent" autocomplete="off">
+                                    <label class="form-check-label" for="urgent">
+                                        Urgent &mdash; 1 Minggu Jadi (+Rp.100.000,-)
+                                    </label>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+                        <?php if ($products['data'][0]['super_urgent'] == 1) { ?>
+                            <div class="form-group">
+                                <div class="form-check mr-5">
+                                    <input class="form-check-input" type="radio" name="pilih_jahitan" id="super_urgent" value="super urgent" autocomplete="off">
+                                    <label class="form-check-label" for="super_urgent">
+                                        Super Urgent &mdash; 3 Hari Jadi (+Rp.150.000,-)
+                                    </label>
+                                </div>
+                            </div>
+                        <?php } ?>
+
                         <?php if ($this->session->userdata('id') && $this->session->userdata('whatsapp') && $this->session->userdata('name')) { ?>
                             <div class="mt-4">
                                 <button type="submit" class="buy-now btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i> Buy</button>
+                            </div>
+                        <?php } else { ?>
+                            <div class="mt-4">
+                                <a href="<?= base_url('customer/login'); ?>" class="buy-now btn btn-sm btn-warning"><i class="fas fa-sign-in-alt"></i> Login to Buy</a>
                             </div>
                         <?php } ?>
                 </form>
@@ -124,7 +141,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-7 site-section-heading text-center pt-4">
-                <h2>Top Products</h2>
+                <h2>Popular Products</h2>
             </div>
         </div>
         <div class="row">

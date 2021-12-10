@@ -103,16 +103,6 @@
                                 <?= form_error('batas_waktu_transfer'); ?>
                             </div>
                             <div class="form-group">
-                                <label for="pilih_jahitan">JAHITAN</label>
-                                <select class="form-control form-control-sm" id="pilih_jahitan" name="pilih_jahitan" required>
-                                    <option value="standard">Standard (4 Minggu Jadi) Rp.0,-</option>
-                                    <option value="express">Express (2 Minggu Jadi) +Rp.50,000,-</option>
-                                    <option value="urgent">URGENT (1 Minggu Jadi) +Rp.100,000,-</option>
-                                    <option value="super urgent">SUPER URGENT (3 Hari Jadi) +Rp.150,000,-</option>
-                                </select>
-                                <?= form_error('pilih_jahitan'); ?>
-                            </div>
-                            <div class="form-group">
                                 <label for="estimasi_selesai">ESTIMASI SELESAI</label>
                                 <input type="text" class="form-control form-control-sm" id="estimasi_selesai" name="estimasi_selesai" placeholder="ESTIMASI SELESAI" value="<?= $estimasi_selesai; ?>" readonly required>
                                 <?= form_error('estimasi_selesai'); ?>
@@ -120,7 +110,6 @@
                             <div class="form-group">
                                 <label for="jenis_dp">JENIS DP</label>
                                 <select class="form-control form-control-sm" id="jenis_dp" name="jenis_dp" onchange="updateDP()" required>
-                                    <option value="30">30%</option>
                                     <option value="50">50%</option>
                                     <option value="100">100%</option>
                                 </select>
@@ -212,6 +201,13 @@
                                     <option value=""></option>
                                 </select>
                                 <?= form_error('size_id'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="pilih_jahitan">JAHITAN</label>
+                                <select class="form-control form-control-sm" id="pilih_jahitan" name="pilih_jahitan" required>
+                                    <option value="standard">Standard (4 Minggu Jadi) Rp.0,-</option>
+                                </select>
+                                <?= form_error('pilih_jahitan'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="catatan">CATATAN TAMBAHAN</label>
@@ -307,7 +303,7 @@
             <div class="row">
                 <div class="col-12">
                     <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
-                    <input type="hidden" id="id_order" name="id_order" value="<?= $id_order; ?>" />
+                    <input type="text" id="id_order" name="id_order" value="<?= $id_order; ?>" />
                     <input type="hidden" id="sub_total_order" name="sub_total_order" value="0" />
                     <input type="hidden" id="kode_unik_order" name="kode_unik_order" value="<?= $kode_unik; ?>" />
                     <input type="hidden" id="grand_total_order" name="grand_total_order" value="0" />

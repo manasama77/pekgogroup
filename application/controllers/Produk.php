@@ -41,6 +41,7 @@ class Produk extends CI_Controller
     {
         $this->form_validation->set_rules('code', 'KODE PRODUK', 'required');
         $this->form_validation->set_rules('name', 'NAMA PRODUK', 'required');
+        $this->form_validation->set_rules('description', 'DESKRIPSI', 'required');
         $this->form_validation->set_rules('color_id[]', 'WARNA', 'required');
         $this->form_validation->set_rules('size_id[]', 'UKURAN', 'required');
         $this->form_validation->set_rules('request_id[]', 'REQUEST', 'required');
@@ -83,13 +84,18 @@ class Produk extends CI_Controller
 
     protected function store()
     {
-        $id_product = $this->input->post('id_product');
-        $code       = $this->input->post('code');
-        $name       = $this->input->post('name');
-        $price      = $this->input->post('price');
-        $color_id   = $this->input->post('color_id');
-        $size_id    = $this->input->post('size_id');
-        $request_id = $this->input->post('request_id');
+        $id_product   = $this->input->post('id_product');
+        $code         = $this->input->post('code');
+        $name         = $this->input->post('name');
+        $description  = $this->input->post('description');
+        $price        = $this->input->post('price');
+        $color_id     = $this->input->post('color_id');
+        $size_id      = $this->input->post('size_id');
+        $request_id   = $this->input->post('request_id');
+        $standard     = 1;
+        $express      = ($this->input->post('express') == 1) ? 1 : 0;
+        $urgent       = ($this->input->post('urgent') == 1) ? 1 : 0;
+        $super_urgent = ($this->input->post('super_urgent') == 1) ? 1 : 0;
 
         $config['upload_path']   = './assets/img/products/';
         $config['allowed_types'] = 'jpeg|jpg|png';
@@ -135,11 +141,16 @@ class Produk extends CI_Controller
 
             $data = array(
                 'name'         => $name,
+                'description'  => $description,
                 'price'        => $price,
                 'path_image'   => $path_image,
                 'path_image_2' => $path_image_2,
                 'path_image_3' => $path_image_3,
                 'status'       => 'active',
+                'standard'     => $standard,
+                'express'      => $express,
+                'urgent'       => $urgent,
+                'super_urgent' => $super_urgent,
                 'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
                 'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
             );
@@ -220,6 +231,7 @@ class Produk extends CI_Controller
     {
         $this->form_validation->set_rules('code', 'KODE PRODUK', 'required');
         $this->form_validation->set_rules('name', 'NAMA PRODUK', 'required');
+        $this->form_validation->set_rules('description', 'DESKRIPSI', 'required');
         $this->form_validation->set_rules('color_id[]', 'WARNA', 'required');
         $this->form_validation->set_rules('size_id[]', 'UKURAN', 'required');
         $this->form_validation->set_rules('request_id[]', 'REQUEST', 'required');
@@ -264,6 +276,7 @@ class Produk extends CI_Controller
     {
         $id_product   = $id;
         $name         = $this->input->post('name');
+        $description  = $this->input->post('description');
         $price        = $this->input->post('price');
         $color_id     = $this->input->post('color_id');
         $size_id      = $this->input->post('size_id');
@@ -271,6 +284,10 @@ class Produk extends CI_Controller
         $path_image   = null;
         $path_image_2 = null;
         $path_image_3 = null;
+        $standard     = 1;
+        $express      = ($this->input->post('express') == 1) ? 1 : 0;
+        $urgent       = ($this->input->post('urgent') == 1) ? 1 : 0;
+        $super_urgent = ($this->input->post('super_urgent') == 1) ? 1 : 0;
 
         $config['upload_path']   = './assets/img/products/';
         $config['allowed_types'] = 'jpeg|jpg|png';
@@ -316,11 +333,16 @@ class Produk extends CI_Controller
         }
 
         $data = array(
-            'name'       => $name,
-            'price'      => $price,
-            'status'     => 'active',
-            'updated_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by' => $this->session->userdata(SESS_ADM . 'id'),
+            'name'         => $name,
+            'description'  => $description,
+            'price'        => $price,
+            'status'       => 'active',
+            'standard'     => $standard,
+            'express'      => $express,
+            'urgent'       => $urgent,
+            'super_urgent' => $super_urgent,
+            'updated_at'   => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'   => $this->session->userdata(SESS_ADM . 'id'),
         );
 
         if ($path_image != null) {
