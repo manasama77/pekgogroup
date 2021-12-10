@@ -61,15 +61,16 @@ $route['upload'] = 'test/upload';
 $route['dashboard']            = 'dashboard/index';
 $route['dashboard/show_track'] = 'dashboard/show_track';
 
-$route['order/index']                 = 'order/index';
-$route['order/add']                   = 'order/add';
-$route['order/store_request']['post'] = 'order/store_request';
-$route['order/render_detail']         = 'order/render_detail';
-$route['order/remove_request']        = 'order/remove_request';
-$route['order/copy_order']            = 'order/copy_order';
-$route['order/show_request']          = 'order/show_request';
-$route['order/invoice/(:num)']        = 'order/invoice/$1';
-$route['order/show_detail']           = 'order/show_detail';
+$route['order/index']                    = 'order/index';
+$route['order/add']                      = 'order/add';
+$route['order/store_request']['post']    = 'order/store_request';
+$route['order/render_detail']            = 'order/render_detail';
+$route['order/remove_request']           = 'order/remove_request';
+$route['order/copy_order']               = 'order/copy_order';
+$route['order/show_request']             = 'order/show_request';
+$route['order/invoice/(:num)']           = 'order/invoice/$1';
+$route['order/show_detail']              = 'order/show_detail';
+$route['order/destroy/(:num)']['delete'] = 'order/destroy/$1';
 
 
 $route['pembayaran/index']                    = 'pembayaran/index';

@@ -15,8 +15,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('success'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('success'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -29,8 +27,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('error'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -274,8 +270,12 @@
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <button type="button" class="dropdown-item" onclick="showDetail(<?= $key->id; ?>, '<?= $key->sales_invoice; ?>')"><i class="fas fa-eye fa-fw"></i> Detail</button>
-                                                            <button type="button" class="dropdown-item" onclick="comingSoon();"><i class="fas fa-pencil-alt fa-fw"></i> EDIT</button>
-                                                            <button type="button" class="dropdown-item" onclick="comingSoon();"><i class="fas fa-trash fa-fw"></i> HAPUS</button>
+                                                            <!-- <button type="button" class="dropdown-item" onclick="comingSoon();"><i class="fas fa-pencil-alt fa-fw"></i> EDIT</button> -->
+
+                                                            <?php if ($key->status_order == "order dibuat" && $key->status_pembayaran == "menunggu pembayaran") { ?>
+                                                                <button type="button" class="dropdown-item" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->sales_invoice); ?>');"><i class="fas fa-trash fa-fw"></i> HAPUS</button>
+                                                            <?php } ?>
+
                                                             <button type="button" class="dropdown-item" onclick="copyOrder(<?= $key->id; ?>, <?= $key->product_id; ?>, <?= $key->color_id; ?>, <?= $key->size_id; ?>, <?= $key->kode_unik; ?>, <?= $key->jenis_dp; ?>, '<?= $key->pilih_jahitan; ?>');"><i class="fas fa-copy fa-fw"></i> COPY DETAIL ORDER</button>
                                                             <a href="<?= base_url('order/invoice/' . $key->id); ?>" class="dropdown-item" target="_blank"><i class="fas fa-print fa-fw"></i> PRINT INVOICE</a>
                                                             <hr />

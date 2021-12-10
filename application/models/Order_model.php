@@ -261,6 +261,11 @@ class Order_model extends CI_Model
         return $this->db->update($table, $data, $where);
     }
 
+    public function destroy($data, $where)
+    {
+        return $this->db->update('orders', $data, $where);
+    }
+
     public function render_detail($order_id, $product_id, $color_id, $size_id, $kode_unik, $pilih_jahitan)
     {
         $data = array(

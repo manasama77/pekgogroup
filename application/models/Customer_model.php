@@ -82,6 +82,7 @@ class Customer_model extends CI_Model
                 orders.customer_id = customers.id 
                 AND orders.status_order NOT IN ( 'selesai', 'order dibatalkan', 'retur pending', 'retur terkirim', 'refund' ) 
                 AND orders.STATUS = 'active' 
+                AND orders.deleted_at IS NULL
             ) AS active_order 
         FROM
             customers 
@@ -158,6 +159,16 @@ class Customer_model extends CI_Model
         );
         $this->db->set($data);
         $this->db->where('customers.whatsapp', $whatsapp);
+        $this->db->update('customers');
+    }
+
+    public function reduce_order($customer_id, $price)
+    {
+        $this->db->set('customers.order_created', 'customers.order_created - 1', false);
+        $this->db->set('customers.order_total', 'customers.order_total - ' . $price, false);
+        $this->db->set('updated_at', date('Y-m-d H:i:s'));
+        $this->db->set('updated_by', $this->session->userdata(SESS_ADM, 'id'));
+        $this->db->where('id', $customer_id);
         $this->db->update('customers');
     }
 }

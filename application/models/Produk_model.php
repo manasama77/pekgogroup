@@ -614,6 +614,24 @@ class Produk_model extends CI_Model
         $this->db->where('product_id', $product_id);
         $this->db->delete('product_request_params');
     }
+
+    public function update_sold($product_id)
+    {
+        $this->db->set('sold', 'sold + 1', false);
+        $this->db->set('updated_at', date('Y-m-d H:i:s'));
+        $this->db->set('updated_by', $this->session->userdata(SESS_ADM, 'id'));
+        $this->db->where('id', $product_id);
+        $this->db->update('products');
+    }
+
+    public function reduce_sold($product_id)
+    {
+        $this->db->set('sold', 'sold - 1', false);
+        $this->db->set('updated_at', date('Y-m-d H:i:s'));
+        $this->db->set('updated_by', $this->session->userdata(SESS_ADM, 'id'));
+        $this->db->where('id', $product_id);
+        $this->db->update('products');
+    }
 }
                         
 /* End of file Produk_model.php */

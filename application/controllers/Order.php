@@ -259,6 +259,8 @@ class Order extends CI_Controller
 
         $exec = $this->Order_model->update_customer($customer_id, $grand_total);
 
+        $this->Produk_model->update_sold($product_id);
+
         $this->session->set_flashdata('success', 'Tambah Order Berhasil');
         redirect(base_url('order/add'));
     }
@@ -311,11 +313,23 @@ class Order extends CI_Controller
 
     public function destroy($id)
     {
+        $single      = $this->Order_model->show_data('orders.id', $id);
+        $product_id  = $single->row()->product_id;
+        $customer_id = $single->row()->customer_id;
+        $grand_total = $single->row()->grand_total;
+
+        $this->Produk_model->reduce_sold($product_id);
+        $this->Customer_model->reduce_order($customer_id, $grand_total);
+
         $data  = array(
             'deleted_at' => $this->cur_datetime->format('Y-m-d H:i:s'),
             'deleted_by' => $this->session->userdata(SESS_ADM . 'id'),
         );
-        $where = array('id' => $id);
+        $where = array(
+            'id'                => $id,
+            'status_order'      => 'order dibuat',
+            'status_pembayaran' => 'menunggu pembayaran',
+        );
         $exec  = $this->Order_model->destroy($data, $where);
 
         if (!$exec) {

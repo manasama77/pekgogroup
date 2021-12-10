@@ -15,8 +15,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('success'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_flashdata('success'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -29,8 +27,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_flashdata('error'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -303,7 +299,7 @@
             <div class="row">
                 <div class="col-12">
                     <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
-                    <input type="text" id="id_order" name="id_order" value="<?= $id_order; ?>" />
+                    <input type="hidden" id="id_order" name="id_order" value="<?= $id_order; ?>" />
                     <input type="hidden" id="sub_total_order" name="sub_total_order" value="0" />
                     <input type="hidden" id="kode_unik_order" name="kode_unik_order" value="<?= $kode_unik; ?>" />
                     <input type="hidden" id="grand_total_order" name="grand_total_order" value="0" />
