@@ -179,8 +179,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item <?= (in_array($this->uri->segment(1), ['account', 'account_group'])) ? "menu-open" : null; ?>">
-                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['account', 'account_group'])) ? "active" : null; ?>">
+            <li class="nav-item <?= (in_array($this->uri->segment(1), ['account', 'account_group', 'cashflow_kas_cash'])) ? "menu-open" : null; ?>">
+                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['account', 'account_group', 'cashflow_kas_cash'])) ? "active" : null; ?>">
                     <i class="nav-icon fas fa-balance-scale"></i>
                     <p>
                         Accounting
@@ -198,6 +198,12 @@
                         <a href="<?= base_url('account_group/index'); ?>" class="nav-link <?= (uri_string() == "account_group/index") ? "active" : null; ?>">
                             <i class="fas fa-list nav-icon"></i>
                             <p>Kelompok Akun</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('cashflow_kas_cash/index'); ?>" class="nav-link <?= (uri_string() == "cashflow_kas_cash/index") ? "active" : null; ?>">
+                            <i class="fas fa-square-full nav-icon"></i>
+                            <p>Cash Flow Kas Cash</p>
                         </a>
                     </li>
                 </ul>

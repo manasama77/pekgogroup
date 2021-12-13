@@ -170,6 +170,12 @@ $route['account_group/index']                    = 'account_group/index';
 $route['account_group/update']                   = 'account_group/update';
 $route['account_group/destroy/(:num)']['delete'] = 'account_group/destroy/$1';
 
+$route['cashflow_kas_cash/index']                    = 'cashflow_kas_cash/index';
+$route['cashflow_kas_cash/add']                      = 'cashflow_kas_cash/add';
+$route['cashflow_kas_cash/store']                    = 'cashflow_kas_cash/store';
+$route['cashflow_kas_cash/render']                   = 'cashflow_kas_cash/render';
+$route['cashflow_kas_cash/destroy/(:num)']['delete'] = 'cashflow_kas_cash/destroy/$1';
+
 // setup
 $route['setup/project']                    = 'project/index';
 $route['project/update']                   = 'project/update';

@@ -11,28 +11,26 @@
  Target Server Version : 100421
  File Encoding         : 65001
 
- Date: 14/12/2021 04:06:20
+ Date: 14/12/2021 04:06:27
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for accounts
+-- Table structure for account_groups
 -- ----------------------------
-DROP TABLE IF EXISTS `accounts`;
-CREATE TABLE `accounts`  (
+DROP TABLE IF EXISTS `account_groups`;
+CREATE TABLE `account_groups`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `no_akun` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `nama_akun` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `account_group_id` int(11) NULL DEFAULT NULL,
-  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
-  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
-  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NULL DEFAULT NULL,
   `updated_at` datetime NULL DEFAULT NULL,
   `deleted_at` datetime NULL DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `updated_by` int(10) UNSIGNED NULL DEFAULT NULL,
+  `deleted_by` int(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

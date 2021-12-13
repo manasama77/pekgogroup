@@ -51,7 +51,7 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="status">STATUS MEMBER <?= $this->input->get('status'); ?></label>
+                                <label for="status">STATUS MEMBER</label>
                                 <select class="form-control" id="status" name="status" autocomplete="off" required>
                                     <option value="aktif" <?= ($this->input->get('status') == "aktif") ? "selected" : null; ?>>AKTIF</option>
                                     <option value="tidak aktif" <?= ($this->input->get('status') == "tidak aktif") ? "selected" : null; ?>>TIDAK AKTIF</option>
