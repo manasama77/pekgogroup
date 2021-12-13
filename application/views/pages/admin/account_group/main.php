@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">AKUN</h1>
+                <h1 class="m-0">KELOMPOK AKUN</h1>
             </div>
         </div>
         <div class="row">
@@ -15,8 +15,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('success'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('success'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -29,8 +27,6 @@
                         </button>
                         <strong>
                             <?= $this->session->flashdata('error'); ?>
-                            <!-- repair bug php 8 -->
-                            <?php $this->session->unset_userdata('error'); ?>
                         </strong>
                     </div>
                 <?php } ?>
@@ -45,7 +41,7 @@
             <div class="col-lg-8">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">AKUN List</h3>
+                        <h3 class="card-title">KELOMPOK AKUN List</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
@@ -62,9 +58,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>NO AKUN</th>
-                                        <th>NAMA AKUN</th>
-                                        <th>KELOMPOK AKUN</th>
+                                        <th>NAMA KELOMPOK AKUN</th>
                                         <th class="text-center"><i class="fas fa-cogs"></i></th>
                                     </tr>
                                 </thead>
@@ -75,12 +69,10 @@
                                     ?>
                                         <tr>
                                             <td><?= $itteration++; ?></td>
-                                            <td><?= $key->no_akun; ?></td>
-                                            <td><?= $key->nama_akun; ?></td>
-                                            <td class="text-uppercase"><?= $key->kelompok_akun; ?></td>
+                                            <td><?= $key->name; ?></td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->no_akun); ?>', '<?= urlencode($key->nama_akun); ?>', '<?= urlencode($key->account_group_id); ?>')">EDIT</button>
-                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->nama_akun); ?>')">DELETE</button>
+                                                <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">EDIT</button>
+                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">DELETE</button>
                                             </td>
                                         </tr>
                                     <?php } ?>
@@ -92,10 +84,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <form action="<?= base_url('account/index'); ?>" method="post">
+                <form action="<?= base_url('account_group/index'); ?>" method="post">
                     <div class="card card-dark">
                         <div class="card-header">
-                            <h3 class="card-title">Tambah AKUN</h3>
+                            <h3 class="card-title">Tambah KELOMPOK AKUN</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -105,23 +97,9 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="no_akun">NO AKUN</label>
-                                <input type="text" class="form-control" id="no_akun" name="no_akun" placeholder="NO AKUN" minlength="3" maxlength="5" value="<?= set_value('no_akun'); ?>" required>
-                                <?= form_error('no_akun'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="nama_akun">NAMA AKUN</label>
-                                <input type="text" class="form-control" id="nama_akun" name="nama_akun" placeholder="NAMA AKUN" minlength="3" maxlength="255" value="<?= set_value('nama_akun'); ?>" required>
-                                <?= form_error('nama_akun'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="account_group_id">KELOMPOK AKUN</label>
-                                <select class="form-control" id="account_group_id" name="account_group_id" autocomplete="off" required>
-                                    <?php foreach ($account_groups->result() as $key) { ?>
-                                        <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
-                                    <?php } ?>
-                                </select>
-                                <?= form_error('account_group_id'); ?>
+                                <label for="name">NAMA KELOMPOK AKUN</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="NAMA KELOMPOK AKUN" minlength="3" maxlength="50" value="<?= set_value('name'); ?>" required>
+                                <?= form_error('name'); ?>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -136,12 +114,12 @@
 </div>
 
 <!-- Modal -->
-<form id="form_edit" action="<?= base_url('account/update'); ?>" method="post">
+<form id="form_edit" action="<?= base_url('account_group/update'); ?>" method="post">
     <div class="modal fade" id="modal_edit" tabindex="-1" data-backdrop="static" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit AKUN</h5>
+                    <h5 class="modal-title">Edit KELOMPOK AKUN</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -149,20 +127,8 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group">
-                            <label for="xno_akun">NO AKUN</label>
-                            <input type="text" class="form-control" id="xno_akun" name="xno_akun" placeholder="NO AKUN" minlength="3" maxlength="5" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="xnama_akun">NAMA AKUN</label>
-                            <input type="text" class="form-control" id="xnama_akun" name="xnama_akun" placeholder="NAMA AKUN" minlength="3" maxlength="255" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="xaccount_group_id">KELOMPOK AKUN</label>
-                            <select class="form-control" id="xaccount_group_id" name="xaccount_group_id" autocomplete="off" required>
-                                <?php foreach ($account_groups->result() as $key) { ?>
-                                    <option value="<?= $key->id; ?>"><?= $key->name; ?></option>
-                                <?php } ?>
-                            </select>
+                            <label for="xname">NO AKUN</label>
+                            <input type="text" class="form-control" id="xname" name="xname" placeholder="NAMA KELOMPOK AKUN" minlength="3" maxlength="50" required>
                         </div>
                     </div>
                 </div>

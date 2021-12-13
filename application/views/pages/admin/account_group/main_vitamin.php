@@ -3,25 +3,23 @@
         $('.datatables').DataTable()
     })
 
-    function modalEdit(id, no_akun, nama_akun, account_group_id) {
+    function modalEdit(id, name) {
         $('#xid').val(id)
-        $('#xno_akun').val(urldecode(no_akun))
-        $('#xnama_akun').val(urldecode(nama_akun))
-        $('#xaccount_group_id').val(urldecode(account_group_id))
+        $('#xname').val(urldecode(name))
         $('#modal_edit').modal('show')
     }
 
-    function destroy(id, nama_akun) {
+    function destroy(id, name) {
         Swal.fire({
             icon: 'question',
-            title: `Delete ${urldecode(nama_akun)}`,
+            title: `Delete ${urldecode(name)}`,
             showDenyButton: false,
             showCancelButton: true,
             confirmButtonText: 'Delete',
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `<?= base_url(); ?>account/destroy/${id}`,
+                    url: `<?= base_url(); ?>account_group/destroy/${id}`,
                     type: 'delete',
                     dataType: 'json',
                     data: {
@@ -41,7 +39,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('account/index'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('account_group/index'); ?>'))
                     } else if (e.code == 200) {
                         Swal.fire({
                             position: 'top-end',
@@ -50,7 +48,7 @@
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
-                        }).then(() => window.location.replace('<?= base_url('account/index'); ?>'))
+                        }).then(() => window.location.replace('<?= base_url('account_group/index'); ?>'))
                     }
                 })
             }

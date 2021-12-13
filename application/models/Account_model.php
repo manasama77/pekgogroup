@@ -14,7 +14,8 @@ class Account_model extends CI_Model
             'accounts.id',
             'accounts.no_akun',
             'accounts.nama_akun',
-            'accounts.kelompok_akun',
+            'accounts.account_group_id',
+            'account_groups.name as kelompok_akun',
         );
     }
 
@@ -22,6 +23,7 @@ class Account_model extends CI_Model
     {
         $this->db->select($this->select);
         $this->db->from('accounts');
+        $this->db->join('account_groups', 'account_groups.id = accounts.account_group_id', 'left');
         $this->db->where('accounts.deleted_at', null);
         $this->db->order_by('accounts.no_akun', 'asc');
         $exec = $this->db->get();
@@ -32,7 +34,7 @@ class Account_model extends CI_Model
     {
         $this->db->select($this->select);
         $this->db->from('accounts');
-        $this->db->join('units', 'units.id = accounts.unit_id', 'left');
+        $this->db->join('account_groups', 'account_groups.id = accounts.account_group_id', 'left');
         $this->db->where($field, $keyword);
         $this->db->where('accounts.deleted_at', null);
         $this->db->order_by('accounts.id', 'asc');

@@ -13,6 +13,7 @@ class Account extends CI_Controller
         $this->load->library('Admin_template', null, 'theme');
         $this->auth->check_session();
         $this->load->model('Account_model');
+        $this->load->model('Account_group_model');
         $this->load->model('Satuan_model');
         $this->cur_datetime = new DateTime('now');
         if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
@@ -24,21 +25,23 @@ class Account extends CI_Controller
     {
         $this->form_validation->set_rules('no_akun', 'NO AKUN', 'required');
         $this->form_validation->set_rules('nama_akun', 'NAMA AKUN', 'required');
-        $this->form_validation->set_rules('kelompok_akun', 'KELOMPOK AKUN', 'required');
+        $this->form_validation->set_rules('account_group_id', 'KELOMPOK AKUN', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $csrf = array(
                 'name' => $this->security->get_csrf_token_name(),
                 'hash' => $this->security->get_csrf_hash()
             );
-            $list  = $this->Account_model->get_all_data();
+            $account_groups = $this->Account_group_model->get_all_data();
+            $list           = $this->Account_model->get_all_data();
             $data = array(
-                'title'   => 'AKUN',
-                'page'    => 'account/main',
-                'vitamin' => 'account/main_vitamin',
-                'csrf'    => $csrf,
-                'list'    => $list,
-                'error'   => null,
+                'title'          => 'AKUN',
+                'page'           => 'account/main',
+                'vitamin'        => 'account/main_vitamin',
+                'csrf'           => $csrf,
+                'account_groups' => $account_groups,
+                'list'           => $list,
+                'error'          => null,
             );
             $this->theme->render($data);
         } else {
@@ -48,18 +51,18 @@ class Account extends CI_Controller
 
     protected function store()
     {
-        $no_akun       = $this->input->post('no_akun');
-        $nama_akun     = $this->input->post('nama_akun');
-        $kelompok_akun = $this->input->post('kelompok_akun');
+        $no_akun          = $this->input->post('no_akun');
+        $nama_akun        = $this->input->post('nama_akun');
+        $account_group_id = $this->input->post('account_group_id');
 
         $data = array(
-            'no_akun'       => $no_akun,
-            'nama_akun'     => $nama_akun,
-            'kelompok_akun' => $kelompok_akun,
-            'created_at'    => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_at'    => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'created_by'    => $this->session->userdata(SESS_ADM . 'id'),
-            'updated_by'    => $this->session->userdata(SESS_ADM . 'id'),
+            'no_akun'          => $no_akun,
+            'nama_akun'        => $nama_akun,
+            'account_group_id' => $account_group_id,
+            'created_at'       => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_at'       => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'created_by'       => $this->session->userdata(SESS_ADM . 'id'),
+            'updated_by'       => $this->session->userdata(SESS_ADM . 'id'),
         );
         $exec = $this->Account_model->store($data);
 
@@ -74,17 +77,17 @@ class Account extends CI_Controller
 
     public function update()
     {
-        $id            = $this->input->post('xid');
-        $no_akun       = $this->input->post('xno_akun');
-        $nama_akun     = $this->input->post('xnama_akun');
-        $kelompok_akun = $this->input->post('xkelompok_akun');
+        $id               = $this->input->post('xid');
+        $no_akun          = $this->input->post('xno_akun');
+        $nama_akun        = $this->input->post('xnama_akun');
+        $account_group_id = $this->input->post('xaccount_group_id');
 
         $data = array(
-            'no_akun'       => $no_akun,
-            'nama_akun'     => $nama_akun,
-            'kelompok_akun' => $kelompok_akun,
-            'updated_at'    => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'    => $this->session->userdata(SESS_ADM . 'id'),
+            'no_akun'          => $no_akun,
+            'nama_akun'        => $nama_akun,
+            'account_group_id' => $account_group_id,
+            'updated_at'       => $this->cur_datetime->format('Y-m-d H:i:s'),
+            'updated_by'       => $this->session->userdata(SESS_ADM . 'id'),
         );
         $where = array('id' => $id);
         $exec = $this->Account_model->update($data, $where);

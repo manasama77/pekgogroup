@@ -166,6 +166,10 @@ $route['account/index']                    = 'account/index';
 $route['account/update']                   = 'account/update';
 $route['account/destroy/(:num)']['delete'] = 'account/destroy/$1';
 
+$route['account_group/index']                    = 'account_group/index';
+$route['account_group/update']                   = 'account_group/update';
+$route['account_group/destroy/(:num)']['delete'] = 'account_group/destroy/$1';
+
 // setup
 $route['setup/project']                    = 'project/index';
 $route['project/update']                   = 'project/update';

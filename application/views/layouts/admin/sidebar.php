@@ -179,8 +179,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item <?= (in_array($this->uri->segment(1), ['accounting'])) ? "menu-open" : null; ?>">
-                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['accounting'])) ? "active" : null; ?>">
+            <li class="nav-item <?= (in_array($this->uri->segment(1), ['account', 'account_group'])) ? "menu-open" : null; ?>">
+                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['account', 'account_group'])) ? "active" : null; ?>">
                     <i class="nav-icon fas fa-balance-scale"></i>
                     <p>
                         Accounting
@@ -192,6 +192,12 @@
                         <a href="<?= base_url('account/index'); ?>" class="nav-link <?= (uri_string() == "account/index") ? "active" : null; ?>">
                             <i class="fas fa-list nav-icon"></i>
                             <p>Akun</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('account_group/index'); ?>" class="nav-link <?= (uri_string() == "account_group/index") ? "active" : null; ?>">
+                            <i class="fas fa-list nav-icon"></i>
+                            <p>Kelompok Akun</p>
                         </a>
                     </li>
                 </ul>
