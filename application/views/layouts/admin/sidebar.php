@@ -179,8 +179,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item <?= (in_array($this->uri->segment(1), ['account', 'account_group', 'cashflow_kas_cash', 'cashflow_bca', 'cashflow_mandiri'])) ? "menu-open" : null; ?>">
-                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['account', 'account_group', 'cashflow_kas_cash', 'cashflow_bca', 'cashflow_mandiri'])) ? "active" : null; ?>">
+            <li class="nav-item <?= (in_array($this->uri->segment(1), ['account', 'account_group', 'cashflow_kas_cash', 'cashflow_bca', 'cashflow_mandiri', 'rekap_cashflow'])) ? "menu-open" : null; ?>">
+                <a href="#" class="nav-link <?= (in_array($this->uri->segment(1), ['account', 'account_group', 'cashflow_kas_cash', 'cashflow_bca', 'cashflow_mandiri', 'rekap_cashflow'])) ? "active" : null; ?>">
                     <i class="nav-icon fas fa-balance-scale"></i>
                     <p>
                         Accounting
@@ -196,26 +196,32 @@
                     </li>
                     <li class="nav-item">
                         <a href="<?= base_url('account_group/index'); ?>" class="nav-link <?= (uri_string() == "account_group/index") ? "active" : null; ?>">
-                            <i class="fas fa-list nav-icon"></i>
+                            <i class="fas fa-tags nav-icon"></i>
                             <p>Kelompok Akun</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="<?= base_url('cashflow_kas_cash/index'); ?>" class="nav-link <?= (uri_string() == "cashflow_kas_cash/index") ? "active" : null; ?>">
-                            <i class="fas fa-square-full nav-icon"></i>
+                            <i class="fas fa-book nav-icon"></i>
                             <p>Cash Flow Kas Cash</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="<?= base_url('cashflow_bca/index'); ?>" class="nav-link <?= (uri_string() == "cashflow_bca/index") ? "active" : null; ?>">
-                            <i class="fas fa-square-full nav-icon"></i>
+                            <i class="fas fa-book nav-icon"></i>
                             <p>Cash Flow Bank BCA</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="<?= base_url('cashflow_mandiri/index'); ?>" class="nav-link <?= (uri_string() == "cashflow_mandiri/index") ? "active" : null; ?>">
-                            <i class="fas fa-square-full nav-icon"></i>
+                            <i class="fas fa-book nav-icon"></i>
                             <p>Cash Flow Bank Mandiri</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('rekap_cashflow/index'); ?>" class="nav-link <?= (uri_string() == "rekap_cashflow/index") ? "active" : null; ?>">
+                            <i class="fas fa-book nav-icon"></i>
+                            <p>Rekap Cash Flow</p>
                         </a>
                     </li>
                 </ul>
