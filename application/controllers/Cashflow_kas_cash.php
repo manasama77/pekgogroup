@@ -27,7 +27,7 @@ class Cashflow_kas_cash extends CI_Controller
 
         $list = $this->Cashflow_model->get_all_data($from, $to, $jenis_cashflow);
         $data = array(
-            'title'   => 'CASHFLOW KAS CASH',
+            'title'   => 'CASHFLOW KAS CASH ' . $from . ' ' . $to,
             'page'    => 'cashflow_kas_cash/main',
             'vitamin' => 'cashflow_kas_cash/main_vitamin',
             'from'    => $from,
@@ -82,31 +82,6 @@ class Cashflow_kas_cash extends CI_Controller
         }
 
         echo json_encode(['code' => $code]);
-    }
-
-    public function update()
-    {
-        $id               = $this->input->post('xid');
-        $no_akun          = $this->input->post('xno_akun');
-        $nama_akun        = $this->input->post('xnama_akun');
-        $account_group_id = $this->input->post('xaccount_group_id');
-
-        $data = array(
-            'no_akun'          => $no_akun,
-            'nama_akun'        => $nama_akun,
-            'account_group_id' => $account_group_id,
-            'updated_at'       => $this->cur_datetime->format('Y-m-d H:i:s'),
-            'updated_by'       => $this->session->userdata(SESS_ADM . 'id'),
-        );
-        $where = array('id' => $id);
-        $exec = $this->Account_model->update($data, $where);
-
-        if (!$exec) {
-            echo "Update data gagal, silahkan coba kembali!";
-        }
-
-        $this->session->set_flashdata('success', 'Update Account Berhasil');
-        redirect(base_url() . 'account/index', 'location');
     }
 
     public function destroy($id)
