@@ -1,7 +1,8 @@
 <script>
     $(document).ready(() => {
         $('.select2').select2({
-            allowClear: true
+            theme: 'bootstrap4',
+            allowClear: true,
         })
 
         $('#tanggal').on('change', () => {

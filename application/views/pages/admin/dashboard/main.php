@@ -71,31 +71,35 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Sales Invoice</th>
-                                <th>Tanggal & Jam Order</th>
-                                <th>Estimasi Selesai</th>
-                                <th>Order Via</th>
-                                <th>Customer</th>
-                                <th>Whatsapp</th>
-                                <th>Produk</th>
-                                <th>Warna</th>
-                                <th>Ukuran</th>
-                                <th>Jahitan</th>
-                                <th>Status Order</th>
-                                <th>Status Pembayaran</th>
-                                <th>Grand Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="v_track">
-                            <tr>
-                                <th class="text-center" colspan="13">Data Tidak Ditemukan</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Sales Invoice</th>
+                                        <th>Tanggal & Jam Order</th>
+                                        <th>Estimasi Selesai</th>
+                                        <th>Order Via</th>
+                                        <th>Customer</th>
+                                        <th>Whatsapp</th>
+                                        <th>Produk</th>
+                                        <th>Warna</th>
+                                        <th>Ukuran</th>
+                                        <th>Jahitan</th>
+                                        <th>Status Order</th>
+                                        <th>Status Pembayaran</th>
+                                        <th>Grand Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="v_track">
+                                    <tr>
+                                        <th class="text-center" colspan="13">Data Tidak Ditemukan</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

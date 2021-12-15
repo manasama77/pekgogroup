@@ -2,7 +2,8 @@
     let new_count = 0;
     $(document).ready(() => {
         $('.select2').select2({
-            allowClear: true
+            theme: 'bootstrap4',
+            allowClear: true,
         })
 
         $('#tambah').on('click', e => {

@@ -239,7 +239,7 @@
                     <hr />
                 </div>
                 <div class="col-sm-12 col-md-6 offset-md-3">
-                    <table class="table table-bordered table-stripped table-sm">
+                    <table class="table table-bordered table-stripped">
                         <thead class="bg-dark">
                             <tr>
                                 <th class="text-center" colspan="2">DETAIL ORDER</th>

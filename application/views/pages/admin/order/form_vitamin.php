@@ -43,7 +43,9 @@
     let dPersenLunas = 0
 
     $(document).ready(() => {
-        $('.select2').select2()
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
 
         durasiBatasTransfer.on('change', () => gantiBatasTransfer())
         pilihJahitan.on('change', () => gantiEstimasi())

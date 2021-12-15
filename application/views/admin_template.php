@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.min.css">
     <!-- select2 -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Bootstrap Color Picker -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
     <!-- datatables -->

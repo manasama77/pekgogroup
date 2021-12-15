@@ -1,6 +1,8 @@
 <script>
     $(document).ready(() => {
-        $('.select2').select2()
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
         $('#form_history').on('submit', e => {
             e.preventDefault()
             storeHistory()
