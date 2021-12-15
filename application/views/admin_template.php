@@ -23,14 +23,14 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/sweetalert2/sweetalert2.min.css">
     <!-- select2 -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/select2/css/select2.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/adminlte.min.css">
     <!-- Bootstrap Color Picker -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
     <!-- datatables -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/adminlte.min.css">
     <style>
         .pagination>li>a {
             background-color: white;

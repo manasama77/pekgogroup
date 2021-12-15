@@ -176,6 +176,20 @@ $route['cashflow_kas_cash/store']                    = 'cashflow_kas_cash/store'
 $route['cashflow_kas_cash/render']                   = 'cashflow_kas_cash/render';
 $route['cashflow_kas_cash/destroy/(:num)']['delete'] = 'cashflow_kas_cash/destroy/$1';
 
+$route['cashflow_bca/index']                    = 'cashflow_bca/index';
+$route['cashflow_bca/add']                      = 'cashflow_bca/add';
+$route['cashflow_bca/store']                    = 'cashflow_bca/store';
+$route['cashflow_bca/render']                   = 'cashflow_bca/render';
+$route['cashflow_bca/destroy/(:num)']['delete'] = 'cashflow_bca/destroy/$1';
+
+$route['cashflow_mandiri/index']                    = 'cashflow_mandiri/index';
+$route['cashflow_mandiri/add']                      = 'cashflow_mandiri/add';
+$route['cashflow_mandiri/store']                    = 'cashflow_mandiri/store';
+$route['cashflow_mandiri/render']                   = 'cashflow_mandiri/render';
+$route['cashflow_mandiri/destroy/(:num)']['delete'] = 'cashflow_mandiri/destroy/$1';
+
+$route['rekap_cashflow/index'] = 'rekap_cashflow/index';
+
 // setup
 $route['setup/project']                    = 'project/index';
 $route['project/update']                   = 'project/update';

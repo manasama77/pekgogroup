@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">CASHFLOW KAS CASH</h1>
+                <h1 class="m-0">CASHFLOW BANK MANDIRI</h1>
             </div>
         </div>
         <div class="row">
@@ -39,7 +39,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-lg-4">
-                <form action="<?= base_url('cashflow_kas_cash/index'); ?>" method="get">
+                <form action="<?= base_url('cashflow_mandiri/index'); ?>" method="get">
                     <div class="card card-dark">
                         <div class="card-header">
                             <h3 class="card-title">Cashflow Filter</h3>
@@ -61,8 +61,8 @@
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary btn-block btn-flat"><i class="fas fa-search fa-fw"></i> Filter Data</button>
-                            <a href="<?= base_url('cashflow_kas_cash/index'); ?>" class="btn btn-secondary btn-block btn-flat">Reset Filter Data</a>
-                            <a href="<?= base_url('cashflow_kas_cash/add'); ?>" class="btn btn-success btn-block btn-flat"><i class="fas fa-plus fa-fw"></i> Tambah Data Cashflow</a>
+                            <a href="<?= base_url('cashflow_mandiri/index'); ?>" class="btn btn-secondary btn-block btn-flat">Reset Filter Data</a>
+                            <a href="<?= base_url('cashflow_mandiri/add'); ?>" class="btn btn-success btn-block btn-flat"><i class="fas fa-plus fa-fw"></i> Tambah Data Cashflow</a>
                         </div>
                     </div>
                 </form>
@@ -92,7 +92,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="table1" class="table table-bordered table-striped table-sm bg-light">
-                                <caption>Data Cashflow Kas Cash <?= $from; ?> - <?= $to; ?></caption>
+                                <caption>Data Cashflow Bank Mandiri <?= $from; ?> - <?= $to; ?></caption>
                                 <thead class="bg-gradient-dark">
                                     <tr>
                                         <th>Tanggal</th>
