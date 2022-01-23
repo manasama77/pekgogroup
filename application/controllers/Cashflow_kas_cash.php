@@ -13,6 +13,7 @@ class Cashflow_kas_cash extends CI_Controller
         $this->load->library('Admin_template', null, 'theme');
         $this->auth->check_session();
         $this->load->model('Cashflow_model');
+        $this->load->model('Supplier_model');
         $this->cur_datetime = new DateTime('now');
         if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris')) === false) {
             redirect('logout', 'location');
@@ -40,11 +41,13 @@ class Cashflow_kas_cash extends CI_Controller
     public function add()
     {
         $accounts = $this->Cashflow_model->render_account_list();
+        $suppliers = $this->Supplier_model->get_all_data();
         $data = array(
             'title'    => 'TAMBAH CASHFLOW KAS CASH',
             'page'     => 'cashflow_kas_cash/form',
             'vitamin'  => 'cashflow_kas_cash/form_vitamin',
             'accounts' => $accounts,
+            'suppliers' => $suppliers,
         );
         $this->theme->render($data);
     }

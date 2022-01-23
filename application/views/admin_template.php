@@ -4,11 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Pekgo Group">
+    <meta name="author" content="@adampm">
     <title>Pekgo Apparel | <?= $title; ?></title>
-    <link rel="icon" href="<?= base_url('favicon.ico'); ?>" sizes="any"><!-- 32×32 -->
-    <link rel="icon" href="<?= base_url('icon.svg'); ?>" type="image/svg+xml">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('favicon.ico'); ?>" sizes="any"><!-- 32×32 -->
     <link rel="apple-touch-icon" href="<?= base_url('apple-touch-icon.png'); ?>"><!-- 180×180 -->
     <link rel="manifest" href="<?= base_url('manifest.webmanifest'); ?>">
+    <meta name="theme-color" content="#6F42C1">
 
 
     <!-- Google Font: Source Sans Pro -->
@@ -33,6 +35,13 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/adminlte.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+        html,
+        body {
+            font-family: 'Sarabun', sans-serif, "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+        }
+
         .pagination>li>a {
             background-color: white;
             color: #5A4181 !important;
@@ -57,6 +66,18 @@
             background-color: #522d97 !Important;
             border: solid 1px #522d97;
             color: white !important;
+        }
+
+        .card-primary:not(.card-outline)>.card-header {
+            background-color: #6F42C1 !important;
+        }
+
+        .form-check-input {
+            accent-color: #6F42C1 !important;
+        }
+
+        .select2-selection__rendered {
+            font-size: 13px !important;
         }
     </style>
 </head>

@@ -25,7 +25,6 @@ class Order extends CI_Controller
         $this->cur_datetime = new DateTime('now');
         if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'order', 'produksi', 'finance', 'cs')) === false) {
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
-            // redirect('logout', 'location');
         }
     }
 
@@ -104,8 +103,8 @@ class Order extends CI_Controller
     {
         if (in_array($this->session->userdata(SESS_ADM . 'role'), array('owner', 'developer', 'komisaris', 'order')) === false) {
             show_error('Kamu tidak memiliki akses', 403, 'Akses ditolak');
-            // redirect('logout', 'location');
         }
+
         $this->form_validation->set_rules('admin_order', 'ADMIN ORDER', 'required');
         $this->form_validation->set_rules('project_id', 'PROJECT', 'required');
         $this->form_validation->set_rules('order_via', 'ORDER VIA', 'required');

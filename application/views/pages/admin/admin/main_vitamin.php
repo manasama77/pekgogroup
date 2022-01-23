@@ -1,5 +1,12 @@
 <script>
     $(document).ready(() => {
+        $('.datatables').DataTable({
+            columnDefs: [{
+                orderable: false,
+                targets: 5
+            }],
+        })
+
         $('#form_reset').on('submit', e => {
             e.preventDefault();
             $.ajax({

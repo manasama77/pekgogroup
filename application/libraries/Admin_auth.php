@@ -16,8 +16,10 @@ class Admin_auth
 
         if (!$this->CI->session->userdata()) {
             redirect('logout');
+            exit;
         } elseif ($this->CI->session->userdata(SESS_ADM . 'id') == null && $this->CI->session->userdata(SESS_ADM . 'whatsapp') == null && $this->CI->session->userdata(SESS_ADM . 'role') == null) {
             redirect('logout');
+            exit;
         } else {
             $whatsapp = $this->CI->session->userdata(SESS_ADM . 'whatsapp');
             $exec     = $this->CI->Admin_model->get_single_data($whatsapp);

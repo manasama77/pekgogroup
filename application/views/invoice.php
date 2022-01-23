@@ -1,13 +1,61 @@
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
 <!-- Theme style -->
 <link rel="stylesheet" media="screen" href="<?= base_url(); ?>assets/css/adminlte.min.css">
 <link rel="stylesheet" media="print" href="<?= base_url(); ?>assets/css/adminlte.css">
+<style type="text/css">
+    html,
+    body {
+        font-family: 'Sarabun', sans-serif !important;
+        color: black !important;
+    }
 
-<style media="print" type="text/css">
     .table-bordered td,
     th {
         border: 1px solid #000 !important;
+    }
+
+    .table-bordered>thead>td,
+    th {
+        border: 1px solid #000 !important;
+    }
+
+    @media print {
+
+        html,
+        body {
+            font-family: 'Sarabun', sans-serif !important;
+            color: black !important;
+        }
+
+        .table thead tr td,
+        .table tbody tr td {
+            border-width: 1px !important;
+            border-style: solid !important;
+            border-color: black !important;
+            -webkit-print-color-adjust: exact;
+            color: black !important;
+        }
+
+        .table thead tr th,
+        .table tbody tr th {
+            border-width: 1px !important;
+            border-style: solid !important;
+            border-color: black !important;
+            font-size: 18px !important;
+            -webkit-print-color-adjust: exact;
+            color: white !important;
+        }
+
+        .table tfoot tr th {
+            border-width: 1px !important;
+            border-style: solid !important;
+            border-color: black !important;
+            font-size: 18px !important;
+            -webkit-print-color-adjust: exact;
+            color: white !important;
+        }
     }
 </style>
 

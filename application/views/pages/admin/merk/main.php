@@ -46,7 +46,6 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">MERK List</h3>
-
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -57,30 +56,34 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th>NAMA MERK</th>
-                                    <th class="text-center"><i class="fas fa-cogs"></i></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $itteration = 1;
-                                foreach ($list->result() as $key) {
-                                ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered datatables">
+                                <thead>
                                     <tr>
-                                        <td><?= $itteration++; ?></td>
-                                        <td><?= $key->name; ?></td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">EDIT</button>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">DELETE</button>
-                                        </td>
+                                        <th class="text-center">#</th>
+                                        <th>NAMA MERK</th>
+                                        <th class="text-center"><i class="fas fa-cogs"></i></th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $itteration = 1;
+                                    foreach ($list->result() as $key) {
+                                    ?>
+                                        <tr>
+                                            <td><?= $itteration++; ?></td>
+                                            <td><?= $key->name; ?></td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">EDIT</button>
+                                                    <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">DELETE</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

@@ -1,4 +1,13 @@
 <script>
+    $(document).ready(() => {
+        $('.datatables').DataTable({
+            columnDefs: [{
+                orderable: false,
+                targets: 2
+            }],
+        })
+    })
+
     function modalEdit(id, name) {
         $('#xid').val(id)
         $('#xname').val(urldecode(name))

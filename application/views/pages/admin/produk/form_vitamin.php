@@ -1,11 +1,4 @@
 <script>
-    $(document).ready(() => {
-        $('.select2').select2({
-            theme: 'bootstrap4',
-            allowClear: true,
-        })
-    })
-
     let formProduk = $('#form_produk')
     let id_product = $('#id_product')
     let id_hpp = $('#id_hpp')
@@ -14,9 +7,20 @@
     let vHPP = $('#v_hpp')
     let grandTotal = $('#grand_total')
     let count_hpp = $('#count_hpp')
-    let counter = 0;
+    let counter = 0
+    let path_image = document.getElementById('path_image')
+    let preview1 = document.getElementById('preview1')
+    let path_image_2 = document.getElementById('path_image_2')
+    let preview2 = document.getElementById('preview2')
+    let path_image_3 = document.getElementById('path_image_3')
+    let preview3 = document.getElementById('preview3')
 
     $(document).ready(() => {
+        $('.select2').select2({
+            theme: 'bootstrap4',
+            allowClear: true,
+        })
+
         renderHppTable()
 
         btn_tambah_hpp.on('click', e => {
@@ -66,6 +70,45 @@
             } else {
                 e.currentTarget.submit();
             }
+        })
+
+        path_image.onchange = evn => {
+            const [file] = path_image.files
+
+            if (file) {
+                preview1.src = URL.createObjectURL(file)
+            }
+        }
+
+        path_image_2.onchange = evn => {
+            const [file] = path_image_2.files
+
+            if (file) {
+                preview2.src = URL.createObjectURL(file)
+            }
+        }
+
+        path_image_3.onchange = evn => {
+            const [file] = path_image_3.files
+
+            if (file) {
+                preview3.src = URL.createObjectURL(file)
+            }
+        }
+
+        $('#remove1').on('click', e => {
+            $("#path_image").val("")
+            $('#preview1').attr('src', '<?= base_url('assets/img/products/default.jpg'); ?>')
+        })
+
+        $('#remove2').on('click', e => {
+            $("#path_image_2").val("")
+            $('#preview2').attr('src', '<?= base_url('assets/img/products/default.jpg'); ?>')
+        })
+
+        $('#remove3').on('click', e => {
+            $("#path_image_3").val("")
+            $('#preview3').attr('src', '<?= base_url('assets/img/products/default.jpg'); ?>')
         })
     })
 </script>

@@ -57,36 +57,40 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th>NAMA HPP</th>
-                                    <th>HPP</th>
-                                    <th>SATUAN</th>
-                                    <th>SUPPLIER</th>
-                                    <th class="text-center"><i class="fas fa-cogs"></i></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $itteration = 1;
-                                foreach ($list->result() as $key) {
-                                ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered datatables">
+                                <thead>
                                     <tr>
-                                        <td><?= $itteration++; ?></td>
-                                        <td><?= $key->name; ?></td>
-                                        <td>Rp.<?= number_format($key->cost, 0); ?></td>
-                                        <td><?= $key->unit_name; ?></td>
-                                        <td><?= $key->supplier_name; ?></td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->name); ?>', <?= $key->cost; ?>, '<?= $key->unit_id; ?>', '<?= $key->supplier_id; ?>')">EDIT</button>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">DELETE</button>
-                                        </td>
+                                        <th class="text-center">#</th>
+                                        <th>NAMA HPP</th>
+                                        <th>HPP</th>
+                                        <th>SATUAN</th>
+                                        <th>SUPPLIER</th>
+                                        <th class="text-center"><i class="fas fa-cogs"></i></th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $itteration = 1;
+                                    foreach ($list->result() as $key) {
+                                    ?>
+                                        <tr>
+                                            <td><?= $itteration++; ?></td>
+                                            <td><?= $key->name; ?></td>
+                                            <td>Rp.<?= number_format($key->cost, 0); ?></td>
+                                            <td><?= $key->unit_name; ?></td>
+                                            <td><?= $key->supplier_name; ?></td>
+                                            <td class="text-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->name); ?>', <?= $key->cost; ?>, '<?= $key->unit_id; ?>', '<?= $key->supplier_id; ?>')">EDIT</button>
+                                                    <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->name); ?>')">DELETE</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

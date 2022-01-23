@@ -309,7 +309,7 @@
                 </ul>
             </li>
         <?php } ?>
-        <li class="nav-item bg-danger">
+        <li class="nav-item bg-danger mb-5">
             <a href="<?= base_url(); ?>logout" class="nav-link">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p class="font-weight-bold">

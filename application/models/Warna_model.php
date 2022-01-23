@@ -22,7 +22,7 @@ class Warna_model extends CI_Model
         $this->db->select($this->select);
         $this->db->from('colors');
         $this->db->where('colors.deleted_at', null);
-        $this->db->order_by('colors.id', 'asc');
+        $this->db->order_by('colors.name', 'asc');
         $exec = $this->db->get();
         return $exec;
     }

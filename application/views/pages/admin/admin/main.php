@@ -60,52 +60,54 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>NAMA</th>
-                                        <th>NO WA</th>
-                                        <th>ROLE</th>
-                                        <th class="text-center">STATUS</th>
-                                        <th class="text-center" style="width: 350px;"><i class="fas fa-cogs"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $itteration = 1;
-                                    foreach ($list->result() as $key) {
-                                    ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered datatables">
+                                    <thead>
                                         <tr>
-                                            <td class="text-center"><?= $itteration++; ?></td>
-                                            <td><?= $key->name; ?></td>
-                                            <td><?= $key->whatsapp; ?></td>
-                                            <td><?= strtoupper($key->role); ?></td>
-                                            <td class="text-center">
-                                                <?php if ($key->status == 'aktif') { ?>
-                                                    <span class="badge badge-pill badge-success"><?= ucwords($key->status); ?></span>
-                                                <?php } else { ?>
-                                                    <span class="badge badge-pill badge-danger"><?= ucwords($key->status); ?></span>
-                                                <?php } ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a href="<?= base_url('admin/edit/' . $key->id); ?>" class="btn btn-info btn-sm">EDIT</a>
-                                                    <?php if ($key->id != 1) { ?>
-                                                        <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">DELETE</button>
-                                                    <?php } ?>
-                                                    <?php if ($key->status == "aktif") { ?>
-                                                        <button type="button" class="btn btn-warning btn-sm" onclick="nonAktifKan(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">Non Aktifkan</button>
-                                                    <?php } else { ?>
-                                                        <button type="button" class="btn btn-success btn-sm" onclick="aktifKan(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">AKTIFKAN</button>
-                                                    <?php } ?>
-                                                    <button type="button" class="btn btn-dark btn-sm" onclick="modalResetPassword(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">RESET PASSWORD</button>
-                                                </div>
-                                            </td>
+                                            <th class="text-center">#</th>
+                                            <th>NAMA</th>
+                                            <th>NO WA</th>
+                                            <th>ROLE</th>
+                                            <th class="text-center">STATUS</th>
+                                            <th class="text-center" style="width: 350px;"><i class="fas fa-cogs"></i></th>
                                         </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $itteration = 1;
+                                        foreach ($list->result() as $key) {
+                                        ?>
+                                            <tr>
+                                                <td class="text-center"><?= $itteration++; ?></td>
+                                                <td><?= $key->name; ?></td>
+                                                <td><?= $key->whatsapp; ?></td>
+                                                <td><?= strtoupper($key->role); ?></td>
+                                                <td class="text-center">
+                                                    <?php if ($key->status == 'aktif') { ?>
+                                                        <span class="badge badge-pill badge-success"><?= ucwords($key->status); ?></span>
+                                                    <?php } else { ?>
+                                                        <span class="badge badge-pill badge-danger"><?= ucwords($key->status); ?></span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <a href="<?= base_url('admin/edit/' . $key->id); ?>" class="btn btn-info btn-sm">EDIT</a>
+                                                        <?php if ($key->id != 1) { ?>
+                                                            <button type="button" class="btn btn-danger btn-sm" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">DELETE</button>
+                                                        <?php } ?>
+                                                        <?php if ($key->status == "aktif") { ?>
+                                                            <button type="button" class="btn btn-warning btn-sm" onclick="nonAktifKan(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">Non Aktifkan</button>
+                                                        <?php } else { ?>
+                                                            <button type="button" class="btn btn-success btn-sm" onclick="aktifKan(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">AKTIFKAN</button>
+                                                        <?php } ?>
+                                                        <button type="button" class="btn btn-dark btn-sm" onclick="modalResetPassword(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">RESET PASSWORD</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

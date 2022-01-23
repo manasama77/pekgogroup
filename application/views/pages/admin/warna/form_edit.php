@@ -16,7 +16,6 @@
                     <div class="card card-danger">
                         <div class="card-header">
                             <h3 class="card-title">Edit Warna</h3>
-
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
@@ -31,18 +30,20 @@
                             </div>
                             <div class="form-group">
                                 <label for="hex">HEX WARNA</label>
-                                <div class="input-group my-colorpicker2">
+                                <input type="color" class="form-control" id="hex" name="hex" value="<?= (set_value('hex')) ? set_value('hex') : $list->row()->hex; ?>" required />
+                                <!-- <div class="input-group my-colorpicker2">
                                     <input type="text" id="hex" name="hex" class="form-control" value="<?= (set_value('hex')) ? set_value('hex') : $list->row()->hex; ?>" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fas fa-square"></i></span>
                                     </div>
-                                </div>
+                                </div> -->
                                 <?= form_error('hex'); ?>
                             </div>
                         </div>
                         <div class="card-footer">
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                            <a href="<?= base_url('setup/parameter/warna'); ?>" class="btn btn-secondary btn-block btn-flat">Kembali Ke List Warna</a>
                         </div>
                     </div>
                 </form>

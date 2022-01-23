@@ -7,6 +7,13 @@
         $('.my-colorpicker2').on('colorpickerChange', function(event) {
             $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
         })
+
+        $('.datatables').DataTable({
+            columnDefs: [{
+                orderable: false,
+                targets: 3
+            }],
+        })
     })
 </script>
 
