@@ -128,7 +128,7 @@
                             <div class="form-group">
                                 <label for="customer_id">CUSTOMER</label>
                                 <div class="input-group">
-                                    <select class="form-control form-control-lg select2" id="customer_id" name="customer_id" data-placeholder="Pilih Customer" autocomplete="off" required>
+                                    <select class="form-control form-control-lg select2" id="customer_id" name="customer_id" data-placeholder="Pilih Customer" autocomplete="off" style="width: 100%;" required>
                                         <option value=""></option>
                                         <?php foreach ($customers->result() as $customer) { ?>
                                             <option value="<?= $customer->id; ?>"><?= $customer->name; ?></option>
@@ -176,7 +176,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="product_id">PRODUK</label>
-                                <select class="form-control select2" id="product_id" name="product_id" data-placeholder="Pilih Produk" autocomplete="off" required>
+                                <select class="form-control select2" id="product_id" name="product_id" data-placeholder="Pilih Produk" autocomplete="off" style="width: 100%;" required>
                                     <option value=""></option>
                                     <?php for ($i = 0; $i < $products['num_rows']; $i++) { ?>
                                         <option value="<?= $products['data'][$i]['id']; ?>"><?= $products['data'][$i]['name']; ?> - Rp.<?= number_format($products['data'][$i]['price'], 0); ?></option>
@@ -225,7 +225,7 @@
                         <div class="card-body bg-gradient-orange">
                             <div class="form-group">
                                 <label for="request_id">JENIS REQUEST</label>
-                                <select class="form-control  select2" id="request_id" name="request_id" autocomplete="off" data-placeholder="Pilih Request">
+                                <select class="form-control  select2" id="request_id" name="request_id" autocomplete="off" data-placeholder="Pilih Request" style="width: 100%;">
                                     <option value=""></option>
                                 </select>
                             </div>
