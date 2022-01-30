@@ -23,8 +23,12 @@ class Account extends CI_Controller
 
     public function index()
     {
-        $this->form_validation->set_rules('no_akun', 'NO AKUN', 'required');
-        $this->form_validation->set_rules('nama_akun', 'NAMA AKUN', 'required');
+        $this->form_validation->set_rules('no_akun', 'NO AKUN', 'required|is_unique[accounts.no_akun]', [
+            'is_unique' => 'No Akun telah digunakan, silahkan gunakan No Akun lain'
+        ]);
+        $this->form_validation->set_rules('nama_akun', 'NAMA AKUN', 'required|is_unique[accounts.nama_akun]', [
+            'is_unique' => 'Nama Akun telah digunakan, silahkan gunakan Nama Akun lain'
+        ]);
         $this->form_validation->set_rules('account_group_id', 'KELOMPOK AKUN', 'required');
 
         if ($this->form_validation->run() == FALSE) {

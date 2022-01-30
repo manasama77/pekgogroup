@@ -76,8 +76,10 @@
                                         <td><?= $key->name; ?></td>
                                         <td class="text-right">Rp.<?= number_format($key->cost, 0); ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('setup/parameter/ukuran/' . $key->id); ?>" class="btn btn-info">EDIT</a>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
+                                            <div class="btn-group">
+                                                <a href="<?= base_url('setup/parameter/ukuran/' . $key->id); ?>" class="btn btn-info">EDIT</a>
+                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php } ?>

@@ -46,7 +46,6 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Satuan List</h3>
-
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="maximize">
                                 <i class="fas fa-expand"></i>
@@ -74,8 +73,10 @@
                                         <td class="text-center"><?= $itteration++; ?></td>
                                         <td><?= $key->name; ?></td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('setup/parameter/satuan/' . $key->id); ?>" class="btn btn-info">EDIT</a>
-                                            <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
+                                            <div class="btn-group">
+                                                <a href="<?= base_url('setup/parameter/satuan/' . $key->id); ?>" class="btn btn-info">EDIT</a>
+                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= $key->name; ?>');">DELETE</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php } ?>

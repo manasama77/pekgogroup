@@ -25,7 +25,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <form id="form_produk" action="<?= base_url('produk/add'); ?>" method="post" enctype="multipart/form-data">
+        <form id="form_produk" action="<?= base_url('produk/add'); ?>" method="post" enctype="multipart/form-data" runat="server">
             <div class="row">
                 <div class="col-4">
                     <div class="card card-primary">
@@ -62,10 +62,16 @@
                                 <label>WARNA</label>
                                 <div class="row">
                                     <?php foreach ($colors->result() as $color) { ?>
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" name="color_id[]" id="color_<?= $color->id; ?>" value="<?= $color->id; ?>" <?= set_value('color_id[]'); ?>>
-                                                <label class="form-check-label" for="color_<?= $color->id; ?>">
+                                                <?php
+                                                $color_hex = $color->hex;
+                                                if (in_array($color->hex, ['#F5F3F4', '#ffffff', '#fff', '#F7F7F7'])) {
+                                                    $color_hex = '#000';
+                                                }
+                                                ?>
+                                                <label class="form-check-label" for="color_<?= $color->id; ?>" style="color: <?= $color_hex; ?>">
                                                     <?= $color->name; ?>
                                                 </label>
                                             </div>
@@ -146,21 +152,24 @@
                             <div class="form-group">
                                 <label for="path_image">GAMBAR PRODUK 1</label>
                                 <input type="file" class="form-control" id="path_image" name="path_image" placeholder="GAMBAR PRODUK" accept=".jpg, .png, .jpeg" files required>
+                                <img id="preview1" src="<?= base_url('assets/img/products/default.jpg'); ?>" alt="your image" class="img-thumbnail" />
+                                <button type="button" class="btn btn-danger btn-sm btn-block" id="remove1">Remove Image</button>
+                                <hr />
                             </div>
                             <div class="form-group">
                                 <label for="path_image_2">GAMBAR PRODUK 2</label>
                                 <input type="file" class="form-control" id="path_image_2" name="path_image_2" placeholder="GAMBAR PRODUK" accept=".jpg, .png, .jpeg" files>
+                                <img id="preview2" src="<?= base_url('assets/img/products/default.jpg'); ?>" alt="your image" class="img-thumbnail" />
+                                <button type="button" class="btn btn-danger btn-sm btn-block" id="remove2">Remove Image</button>
+                                <hr />
                             </div>
                             <div class="form-group">
                                 <label for="path_image_3">GAMBAR PRODUK 3</label>
                                 <input type="file" class="form-control" id="path_image_3" name="path_image_3" placeholder="GAMBAR PRODUK" accept=".jpg, .png, .jpeg" files>
+                                <img id="preview3" src="<?= base_url('assets/img/products/default.jpg'); ?>" alt="your image" class="img-thumbnail" />
+                                <button type="button" class="btn btn-danger btn-sm btn-block" id="remove3">Remove Image</button>
+                                <hr />
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
-                            <input type="hidden" id="id_product" name="id_product" value="<?= $id_product; ?>" />
-                            <input type="hidden" id="count_hpp" name="count_hpp" value="0" />
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -198,31 +207,43 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-11">
-                            <table class="table table-bordered table-striped table-sm">
-                                <thead class="bg-dark">
-                                    <tr>
-                                        <th class="text-center"><i class="fas fa-cog"></i></th>
-                                        <th>JENIS HPP</th>
-                                        <th class="text-right">QTY HPP</th>
-                                        <th class="text-right">HARGA</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="v_hpp">
-                                    <tr>
-                                        <td class="text-center"></td>
-                                        <td></td>
-                                        <td class="text-right"></td>
-                                        <td class="text-right"></td>
-                                    </tr>
-                                </tbody>
-                                <tfoot class="bg-dark">
-                                    <tr>
-                                        <th class="text-right" colspan="3">GRAND TOTAL</th>
-                                        <th class="text-right" id="grand_total">0</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                        <div class="col-12">
+                            <div class="card text-left">
+                                <div class="card-body p-1">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-sm">
+                                            <thead class="bg-dark">
+                                                <tr>
+                                                    <th class="text-center"><i class="fas fa-cog"></i></th>
+                                                    <th>JENIS HPP</th>
+                                                    <th class="text-right">QTY HPP</th>
+                                                    <th class="text-right">HARGA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="v_hpp">
+                                                <tr>
+                                                    <td class="text-center"></td>
+                                                    <td></td>
+                                                    <td class="text-right"></td>
+                                                    <td class="text-right"></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot class="bg-dark">
+                                                <tr>
+                                                    <th class="text-right" colspan="3">GRAND TOTAL</th>
+                                                    <th class="text-right" id="grand_total">0</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" required />
+                                    <input type="hidden" id="id_product" name="id_product" value="<?= $id_product; ?>" />
+                                    <input type="hidden" id="count_hpp" name="count_hpp" value="0" />
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Tambah Produk</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

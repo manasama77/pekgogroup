@@ -22,6 +22,9 @@
                                     <a href="<?= base_url('customer/login'); ?>" title="Customer Login">
                                         <i class="fas fa-user fa-fw"></i> Login
                                     </a>
+                                    <a href="<?= base_url('customer/register'); ?>" title="Customer Register">
+                                        <i class="fas fa-pencil-alt fa-fw"></i> Register
+                                    </a>
                                 <?php } ?>
                             </li>
                             <li class="d-inline-block d-md-none ml-md-0"><a href="<?= base_url(); ?>assets/shoppers/#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>

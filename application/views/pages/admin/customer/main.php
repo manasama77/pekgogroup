@@ -103,70 +103,74 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-sm bg-light">
-                        <thead class="bg-gradient-dark">
-                            <tr>
-                                <th>Whatsapp</th>
-                                <th>Nama</th>
-                                <th>ID Tokped</th>
-                                <th>ID Shopee</th>
-                                <th>ID Instagram</th>
-                                <th class="text-center">Status</th>
-                                <th>Jumlah Order</th>
-                                <th>Grand Total Order</th>
-                                <th>Pembatalan Order</th>
-                                <th class="text-center"><i class="fas fa-cogs"></i></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if ($list->num_rows() == 0) { ?>
-                                <tr>
-                                    <td colspan="10" class="text-center">Tidak ada data</td>
-                                </tr>
-                            <?php } else { ?>
-                                <?php foreach ($list->result() as $key) { ?>
+                <div class="card elevation-2 mb-5">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-sm bg-light">
+                                <thead class="bg-dark">
                                     <tr>
-                                        <td><?= $key->whatsapp; ?></td>
-                                        <td><?= $key->name; ?></td>
-                                        <td><?= $key->id_tokped; ?></td>
-                                        <td><?= $key->id_shopee; ?></td>
-                                        <td><?= $key->id_instagram; ?></td>
-                                        <td class="text-center text-uppercase">
-                                            <?php if ($key->status == "aktif") { ?>
-                                                <span class="badge badge-success">Aktif</span>
-                                            <?php } else { ?>
-                                                <span class="badge badge-danger">Tidak Aktif</span>
-                                            <?php } ?>
-                                            <?php if ($key->status == 'tidak aktif') { ?>
-                                                <br />
-                                                (<?= $key->reason_inactive; ?>)
-                                            <?php } ?>
-                                        </td>
-                                        <td>
-                                            <?= number_format($key->order_created, 0); ?>
-                                        </td>
-                                        <td>
-                                            Rp.<?= number_format($key->order_total, 0); ?>
-                                        </td>
-                                        <td><?= number_format($key->order_canceled, 0); ?></td>
-                                        <td class="text-center">
-                                            <div class="btn-group">
-                                                <a href="<?= base_url('customer/edit/' . $key->id); ?>" class="btn btn-info btn-xs">EDIT</a>
-                                                <button type="button" class="btn btn-danger btn-xs" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">HAPUS</button>
-                                                <?php if ($key->status == "aktif") { ?>
-                                                    <button type="button" class="btn btn-warning btn-xs" onclick="modalBlokir(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">BLOKIR</button>
-                                                <?php } else { ?>
-                                                    <a href="<?= base_url('customer/status/aktifkan/' . $key->id); ?>" class="btn btn-success btn-xs">AKTIFKAN</a>
-                                                <?php } ?>
-                                                <button type="button" class="btn btn-secondary btn-xs" onclick="modalReset(<?= $key->id; ?>, '<?= $key->whatsapp; ?>')">RESET PASSWORD</button>
-                                            </div>
-                                        </td>
+                                        <th>Whatsapp</th>
+                                        <th>Nama</th>
+                                        <th>ID Tokped</th>
+                                        <th>ID Shopee</th>
+                                        <th>ID Instagram</th>
+                                        <th class="text-center">Status</th>
+                                        <th>Jumlah Order</th>
+                                        <th>Grand Total Order</th>
+                                        <th>Pembatalan Order</th>
+                                        <th class="text-center"><i class="fas fa-cogs"></i></th>
                                     </tr>
-                                <?php } ?>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                    <?php if ($list->num_rows() == 0) { ?>
+                                        <tr>
+                                            <td colspan="10" class="text-center">Tidak ada data</td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <?php foreach ($list->result() as $key) { ?>
+                                            <tr>
+                                                <td><?= $key->whatsapp; ?></td>
+                                                <td><?= $key->name; ?></td>
+                                                <td><?= $key->id_tokped; ?></td>
+                                                <td><?= $key->id_shopee; ?></td>
+                                                <td><?= $key->id_instagram; ?></td>
+                                                <td class="text-center text-uppercase">
+                                                    <?php if ($key->status == "aktif") { ?>
+                                                        <span class="badge badge-success">Aktif</span>
+                                                    <?php } else { ?>
+                                                        <span class="badge badge-danger">Tidak Aktif</span>
+                                                    <?php } ?>
+                                                    <?php if ($key->status == 'tidak aktif') { ?>
+                                                        <br />
+                                                        (<?= $key->reason_inactive; ?>)
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <?= number_format($key->order_created, 0); ?>
+                                                </td>
+                                                <td>
+                                                    Rp.<?= number_format($key->order_total, 0); ?>
+                                                </td>
+                                                <td><?= number_format($key->order_canceled, 0); ?></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group">
+                                                        <a href="<?= base_url('customer/edit/' . $key->id); ?>" class="btn btn-info btn-xs">EDIT</a>
+                                                        <button type="button" class="btn btn-danger btn-xs" onclick="destroy(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">HAPUS</button>
+                                                        <?php if ($key->status == "aktif") { ?>
+                                                            <button type="button" class="btn btn-warning btn-xs" onclick="modalBlokir(<?= $key->id; ?>, '<?= $key->whatsapp; ?>');">BLOKIR</button>
+                                                        <?php } else { ?>
+                                                            <a href="<?= base_url('customer/status/aktifkan/' . $key->id); ?>" class="btn btn-success btn-xs">AKTIFKAN</a>
+                                                        <?php } ?>
+                                                        <button type="button" class="btn btn-secondary btn-xs" onclick="modalReset(<?= $key->id; ?>, '<?= $key->whatsapp; ?>')">RESET PASSWORD</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

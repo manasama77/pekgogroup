@@ -141,8 +141,10 @@
                                                 ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="<?= base_url('inventory/edit/' . $data[$i]['id']); ?>" class="btn btn-info">EDIT</a>
-                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $data[$i]['id']; ?>, '<?= urlencode($data[$i]['name']); ?>')">DELETE</button>
+                                                <div class="btn-group">
+                                                    <a href="<?= base_url('inventory/edit/' . $data[$i]['id']); ?>" class="btn btn-info">EDIT</a>
+                                                    <button type="button" class="btn btn-danger" onclick="destroy(<?= $data[$i]['id']; ?>, '<?= urlencode($data[$i]['name']); ?>')">DELETE</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php } ?>

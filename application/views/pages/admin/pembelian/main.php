@@ -81,8 +81,10 @@
                                             <td><?= $data[$i]['nama_supplier']; ?></td>
                                             <td><?= $data[$i]['total']; ?></td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-warning" onclick="detail(<?= $data[$i]['id']; ?>);">DETAIL</button>
-                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $data[$i]['id']; ?>, '<?= urlencode($data[$i]['no_invoice']); ?>');">DELETE</button>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-warning" onclick="detail(<?= $data[$i]['id']; ?>);">DETAIL</button>
+                                                    <button type="button" class="btn btn-danger" onclick="destroy(<?= $data[$i]['id']; ?>, '<?= urlencode($data[$i]['no_invoice']); ?>');">DELETE</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php } ?>

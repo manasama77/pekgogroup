@@ -1,13 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+// reserved
 $route['default_controller']   = 'landing';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = FALSE;
 
-//customer
-$route['about/index']  = 'cabout/index';
+// landing
+$route['about/index']   = 'cabout/index';
+$route['contact/index'] = 'ccontact/index';
 
+// customer
 $route['shop/index']                      = 'cshop/index';
 $route['shop/index/(:num)']               = 'cshop/index/$1';
 $route['shop/checkout/(:num)']            = 'cshop/checkout/$1';
@@ -26,41 +29,21 @@ $route['shop/check_pembayaran_pelunasan'] = 'cshop/check_pembayaran_pelunasan';
 $route['shop/store_pelunasan']            = 'cshop/store_pelunasan';
 $route['shop/order_track']                = 'cshop/order_track';
 $route['products/(:num)']                 = 'cshop/show/$1';
+$route['customer/login']    = 'clogin/index';
+$route['customer/logout']   = 'clogin/logout';
+$route['customer/register'] = 'clogin/register';
 
-$route['contact/index']  = 'ccontact/index';
+///////////////////////////////////////////// GRAND LINE /////////////////////////////////////////////
 
-
-
-$route['customer/login']  = 'clogin/index';
-$route['customer/logout'] = 'clogin/logout';
-
-// $route['cdashboard'] = 'cdashboard/index';
-
-// $route['corder/index']                      = 'corder/index';
-// $route['corder/add']                        = 'corder/add';
-// $route['corder/store_request']['post']      = 'corder/store_request';
-// $route['corder/render_detail']              = 'corder/render_detail';
-// $route['corder/remove_request']             = 'corder/remove_request';
-// $route['corder/copy_order']                 = 'corder/copy_order';
-// $route['corder/show_request']               = 'corder/show_request';
-// $route['corder/check_pembayaran_dp']        = 'corder/check_pembayaran_dp';
-// $route['corder/store_dp']                   = 'corder/store_dp';
-// $route['corder/check_pembayaran_pelunasan'] = 'corder/check_pembayaran_pelunasan';
-// $route['corder/store_pelunasan']            = 'corder/store_pelunasan';
-// $route['corder/invoice/(:num)']             = 'corder/invoice/$1';
-
-// $route['cproduk/show/(:num)'] = 'cproduk/show/$1';
-
-// admin
+// admin auth
 $route['login'] = 'login/index';
 $route['logout'] = 'login/logout';
 
-$route['test'] = 'test/index';
-$route['upload'] = 'test/upload';
-
+// dashboard
 $route['dashboard']            = 'dashboard/index';
 $route['dashboard/show_track'] = 'dashboard/show_track';
 
+// order
 $route['order/index']                    = 'order/index';
 $route['order/add']                      = 'order/add';
 $route['order/store_request']['post']    = 'order/store_request';
@@ -72,7 +55,7 @@ $route['order/invoice/(:num)']           = 'order/invoice/$1';
 $route['order/show_detail']              = 'order/show_detail';
 $route['order/destroy/(:num)']['delete'] = 'order/destroy/$1';
 
-
+// pembayaran
 $route['pembayaran/index']                    = 'pembayaran/index';
 $route['pembayaran/verifikasi_dp']            = 'pembayaran/verifikasi_dp';
 $route['pembayaran/approve_dp']               = 'pembayaran/approve_dp';
@@ -84,16 +67,19 @@ $route['pembayaran/store_tambah_dp']          = 'pembayaran/store_tambah_dp';
 $route['pembayaran/cek_pembayaran_pelunasan'] = 'pembayaran/cek_pembayaran_pelunasan';
 $route['pembayaran/store_tambah_pelunasan']   = 'pembayaran/store_tambah_pelunasan';
 
+// produksi
 $route['produksi/index']         = 'produksi/index';
 $route['produksi/print/(:num)']  = 'produksi/print/$1';
 $route['produksi/store_history'] = 'produksi/store_history';
 
+// pengiriman
 $route['pengiriman/index']               = 'pengiriman/index';
 $route['pengiriman/cek_data_pengiriman'] = 'pengiriman/cek_data_pengiriman';
 $route['pengiriman/store']               = 'pengiriman/store';
 $route['pengiriman/track']               = 'pengiriman/track';
 $route['pengiriman/selesai']             = 'pengiriman/selesai';
 
+// customer
 $route['customer/index/(:num)']             = 'customer/index/$1';
 $route['customer/index']                    = 'customer/index';
 $route['customer/show/(:num)']              = 'customer/show/$1';
@@ -105,6 +91,7 @@ $route['customer/status/(:any)/(:num)']     = 'customer/status/$1/$2';
 $route['customer/blokir']                   = 'customer/blokir';
 $route['customer/reset']                    = 'customer/reset';
 
+// admin management
 $route['admin/index']                    = 'admin/index';
 $route['admin/add']                      = 'admin/add';
 $route['admin/destroy/(:num)']['delete'] = 'admin/destroy/$1';
@@ -114,6 +101,7 @@ $route['admin/disable']                  = 'admin/disable';
 $route['admin/active']                   = 'admin/active';
 $route['admin/reset']                    = 'admin/reset';
 
+// produk management
 $route['produk/index']                        = 'produk/index';
 $route['produk/show/(:num)']                  = 'produk/show/$1';
 $route['produk/add']                          = 'produk/add';
@@ -125,7 +113,8 @@ $route['produk/edit/(:num)']['post']          = 'produk/edit/$1';
 $route['produk/edit/(:num)']['get']           = 'produk/edit/$1';
 $route['produk/hpp/render_active']['get']     = 'produk/render_hpp_active';
 
-$route['inventory/index']                      = 'inventory/index';
+// inventory management
+$route['inventory/index']                    = 'inventory/index';
 $route['inventory/add']                      = 'inventory/add';
 $route['inventory/store']                    = 'inventory/store';
 $route['inventory/store_supplier']           = 'inventory/store_supplier';
@@ -137,6 +126,7 @@ $route['inventory/store_supplier_fix']       = 'inventory/store_supplier_fix';
 $route['inventory/update']                   = 'inventory/update';
 $route['inventory/destroy/(:num)']['delete'] = 'inventory/destroy/$1';
 
+// pembelian
 $route['pembelian/index']                    = 'pembelian/index';
 $route['pembelian/add']                      = 'pembelian/add';
 $route['pembelian/get_barang_list']          = 'pembelian/get_barang_list';
@@ -148,6 +138,7 @@ $route['pembelian/store']                    = 'pembelian/store';
 $route['pembelian/detail']                   = 'pembelian/detail';
 $route['pembelian/destroy/(:num)']['delete'] = 'pembelian/destroy/$1';
 
+// pengurangan
 $route['pengurangan/index']                    = 'pengurangan/index';
 $route['pengurangan/add']                      = 'pengurangan/add';
 $route['pengurangan/get_barang_list']          = 'pengurangan/get_barang_list';
@@ -155,6 +146,7 @@ $route['pengurangan/get_kode_list']            = 'pengurangan/get_kode_list';
 $route['pengurangan/store']                    = 'pengurangan/store';
 $route['pengurangan/destroy/(:num)']['delete'] = 'pengurangan/destroy/$1';
 
+// permintaan
 $route['permintaan/index']                    = 'permintaan/index';
 $route['permintaan/get_kode_list']            = 'permintaan/get_kode_list';
 $route['permintaan/store']                    = 'permintaan/store';
@@ -162,66 +154,80 @@ $route['permintaan/pending_to_order']         = 'permintaan/pending_to_order';
 $route['permintaan/order_to_selesai']         = 'permintaan/order_to_selesai';
 $route['permintaan/destroy/(:num)']['delete'] = 'permintaan/destroy/$1';
 
+// akun
 $route['account/index']                    = 'account/index';
 $route['account/update']                   = 'account/update';
 $route['account/destroy/(:num)']['delete'] = 'account/destroy/$1';
 
+// akun grup
 $route['account_group/index']                    = 'account_group/index';
 $route['account_group/update']                   = 'account_group/update';
 $route['account_group/destroy/(:num)']['delete'] = 'account_group/destroy/$1';
 
+// cashflow kas cash
 $route['cashflow_kas_cash/index']                    = 'cashflow_kas_cash/index';
 $route['cashflow_kas_cash/add']                      = 'cashflow_kas_cash/add';
 $route['cashflow_kas_cash/store']                    = 'cashflow_kas_cash/store';
 $route['cashflow_kas_cash/render']                   = 'cashflow_kas_cash/render';
 $route['cashflow_kas_cash/destroy/(:num)']['delete'] = 'cashflow_kas_cash/destroy/$1';
 
+// cashflow bca
 $route['cashflow_bca/index']                    = 'cashflow_bca/index';
 $route['cashflow_bca/add']                      = 'cashflow_bca/add';
 $route['cashflow_bca/store']                    = 'cashflow_bca/store';
 $route['cashflow_bca/render']                   = 'cashflow_bca/render';
 $route['cashflow_bca/destroy/(:num)']['delete'] = 'cashflow_bca/destroy/$1';
 
+// cashflow mandiri
 $route['cashflow_mandiri/index']                    = 'cashflow_mandiri/index';
 $route['cashflow_mandiri/add']                      = 'cashflow_mandiri/add';
 $route['cashflow_mandiri/store']                    = 'cashflow_mandiri/store';
 $route['cashflow_mandiri/render']                   = 'cashflow_mandiri/render';
 $route['cashflow_mandiri/destroy/(:num)']['delete'] = 'cashflow_mandiri/destroy/$1';
 
+// rekap cashflow
 $route['rekap_cashflow/index'] = 'rekap_cashflow/index';
 
-// setup
+//// setup
+// setup project
 $route['setup/project']                    = 'project/index';
 $route['project/update']                   = 'project/update';
 $route['project/destroy/(:num)']['delete'] = 'project/destroy/$1';
 
+// setup karyawan
 $route['setup/karyawan']                    = 'karyawan/index';
 $route['karyawan/update']                   = 'karyawan/update';
 $route['karyawan/destroy/(:num)']['delete'] = 'karyawan/destroy/$1';
 
+// setup hpp
 $route['setup/hpp']                    = 'hpp/index';
 $route['hpp/update']                   = 'hpp/update';
 $route['hpp/destroy/(:num)']['delete'] = 'hpp/destroy/$1';
 
+// setup supplier
 $route['setup/supplier']                    = 'supplier/index';
 $route['supplier/update']                   = 'supplier/update';
 $route['supplier/destroy/(:num)']['delete'] = 'supplier/destroy/$1';
 
+// setup parameter satuan
 $route['setup/parameter/satuan']                  = 'satuan/index';
 $route['setup/parameter/satuan/(:num)']['delete'] = 'satuan/destroy/$1';
 $route['setup/parameter/satuan/(:num)']['post']   = 'satuan/edit/$1';
 $route['setup/parameter/satuan/(:num)']['get']    = 'satuan/edit/$1';
 
+// setup parameter warna
 $route['setup/parameter/warna']                  = 'warna/index';
 $route['setup/parameter/warna/(:num)']['delete'] = 'warna/destroy/$1';
 $route['setup/parameter/warna/(:num)']['post']   = 'warna/edit/$1';
 $route['setup/parameter/warna/(:num)']['get']    = 'warna/edit/$1';
 
+// setup parameter ukuran
 $route['setup/parameter/ukuran']                  = 'ukuran/index';
 $route['setup/parameter/ukuran/(:num)']['delete'] = 'ukuran/destroy/$1';
 $route['setup/parameter/ukuran/(:num)']['post']   = 'ukuran/edit/$1';
 $route['setup/parameter/ukuran/(:num)']['get']    = 'ukuran/edit/$1';
 
+// setup parameter request
 $route['setup/parameter/request']                  = 'request/index';
 $route['setup/parameter/request/(:num)']['delete'] = 'request/destroy/$1';
 $route['setup/parameter/request/(:num)']['post']   = 'request/edit/$1';
@@ -242,3 +248,7 @@ $route['init/admin'] = 'init/admin';
 // cli
 $route['cli/check_expired'] = 'cli/check_expired';
 $route['cli/check_resi']    = 'cli/check_resi';
+
+// test
+$route['test']   = 'test/index';
+$route['upload'] = 'test/upload';

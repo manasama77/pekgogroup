@@ -32,7 +32,7 @@
 
                 <form action="<?= base_url('customer/login'); ?>" method="post">
                     <div class="input-group">
-                        <input type="tel" class="form-control" id="whatsapp" name="whatsapp" placeholder="Whatsapp" minlength="4" maxlength="16" autocomplete="mobile" value="<?= set_value('whatsapp'); ?>" required>
+                        <input type="tel" class="form-control" id="whatsapp" name="whatsapp" placeholder="Whatsapp" minlength="4" maxlength="16" autocomplete="mobile" value="<?= set_value('whatsapp'); ?>" inputmode="tel" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fab fa-whatsapp"></span>
@@ -73,7 +73,7 @@
     <script src="<?= base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url(); ?>assets/js/adminlte.min.js"></script>
-    <script src="<?= base_url(); ?>assets/js/adam_helper.js"></script>
+    <script src="<?= base_url(); ?>assets/js/adam_helpers.js"></script>
 </body>
 
 </html>

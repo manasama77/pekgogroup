@@ -79,8 +79,10 @@
                                             <td><?= $key->nama_akun; ?></td>
                                             <td class="text-uppercase"><?= $key->kelompok_akun; ?></td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->no_akun); ?>', '<?= urlencode($key->nama_akun); ?>', '<?= urlencode($key->account_group_id); ?>')">EDIT</button>
-                                                <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->nama_akun); ?>')">DELETE</button>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" onclick="modalEdit(<?= $key->id; ?>, '<?= urlencode($key->no_akun); ?>', '<?= urlencode($key->nama_akun); ?>', '<?= urlencode($key->account_group_id); ?>')">EDIT</button>
+                                                    <button type="button" class="btn btn-danger" onclick="destroy(<?= $key->id; ?>, '<?= urlencode($key->nama_akun); ?>')">DELETE</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php } ?>
